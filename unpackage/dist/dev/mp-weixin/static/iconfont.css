@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4280736 */
+  src: url('iconfont.ttf?t=1696941677592') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-huoche:before {
+  content: "\e607";
+}
+

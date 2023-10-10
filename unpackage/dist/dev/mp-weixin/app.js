@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
+const uni_modules_uniIdPages_init = require("./uni_modules/uni-id-pages/init.js");
+require("./uni_modules/uni-id-pages/config.js");
 if (!Math) {
   "./pages/index/index.js";
   "./uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate.js";
@@ -23,6 +25,7 @@ if (!Math) {
 const _sfc_main = {
   onLaunch: async function() {
     console.log("App Launch");
+    await uni_modules_uniIdPages_init.uniIdPageInit();
   },
   onShow: function() {
     console.log("App Show123");
