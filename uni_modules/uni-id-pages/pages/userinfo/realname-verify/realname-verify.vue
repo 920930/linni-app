@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import checkIdCard from '@/uni_modules/uni-id-pages/common/check-id-card.js';
+// import checkIdCard from '@/uni_modules/uni-id-pages/common/check-id-card.js';
 import mixin from '@/uni_modules/uni-id-pages/common/login-page.mixin.js';
 
 import {
@@ -95,13 +95,13 @@ export default {
       })
       // #endif
 
-      if (!checkIdCard(this.idCard)) {
-        uni.showToast({
-          title: "身份证不合法",
-          icon: "none"
-        })
-        return
-      }
+      // if (!checkIdCard(this.idCard)) {
+      //   uni.showToast({
+      //     title: "身份证不合法",
+      //     icon: "none"
+      //   })
+      //   return
+      // }
 
       if (
           typeof this.realName !== 'string' ||
