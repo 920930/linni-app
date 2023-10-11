@@ -11,6 +11,16 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    const loginBtn = () => {
+      common_vendor.index.navigateTo({
+        "url": "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+      });
+    };
+    const registerBtn = () => {
+      common_vendor.index.navigateTo({
+        "url": "/uni_modules/uni-id-pages/pages/register/register"
+      });
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({
@@ -25,30 +35,32 @@ const _sfc_main = {
           color: "white",
           size: "50"
         }),
-        c: common_vendor.p({
-          ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
-          size: "50"
-        }),
+        c: common_vendor.o(loginBtn),
         d: common_vendor.p({
-          ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
-          size: "50"
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
         }),
-        e: common_vendor.p({
-          ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
-          size: "50"
-        }),
+        e: common_vendor.o(registerBtn),
         f: common_vendor.p({
-          ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
-          size: "50"
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
         }),
         g: common_vendor.p({
-          ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
-          size: "50"
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
+        }),
+        h: common_vendor.p({
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
+        }),
+        i: common_vendor.p({
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
         })
       };
     };

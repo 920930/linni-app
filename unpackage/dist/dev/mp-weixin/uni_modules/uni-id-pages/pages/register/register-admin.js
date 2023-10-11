@@ -36,6 +36,14 @@ const _sfc_main = {
      */
     submit() {
       this.$refs.form.validate().then((res) => {
+        if (this.formData.captcha.length != 4) {
+          this.$refs.captcha.focusCaptchaInput = true;
+          return common_vendor.index.showToast({
+            title: "请输入验证码",
+            icon: "none",
+            duration: 3e3
+          });
+        }
         if (this.needAgreements && !this.agree) {
           return this.$refs.agreements.popup(() => {
             this.submitForm(res);

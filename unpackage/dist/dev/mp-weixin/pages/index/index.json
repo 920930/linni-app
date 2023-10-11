@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "uni-app",
   "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
   "usingComponents": {
     "uni-icons": "../../uni_modules/uni-icons/components/uni-icons/uni-icons"
   }

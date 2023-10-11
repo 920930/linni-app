@@ -16,9 +16,9 @@ const _sfc_main = {
       "username": "",
       "captcha": "",
       "needCaptcha": false,
-      "focusMobile": false,
+      "focusUsername": false,
       "focusPassword": false,
-      "logo": "/static/logo.png"
+      "logo": "../../../static/logo.png"
     };
   },
   onShow() {
@@ -118,16 +118,16 @@ if (!Math) {
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
     a: $data.logo,
-    b: common_vendor.o(($event) => $data.focusMobile = false),
-    c: common_vendor.o(($event) => _ctx.mobile = $event),
+    b: common_vendor.o(($event) => $data.focusUsername = false),
+    c: common_vendor.o(($event) => $data.username = $event),
     d: common_vendor.p({
-      focus: $data.focusMobile,
+      focus: $data.focusUsername,
       inputBorder: false,
       placeholder: "请输入手机号/用户名/邮箱",
-      modelValue: _ctx.mobile
+      modelValue: $data.username
     }),
     e: common_vendor.p({
-      name: "mobile"
+      name: "username"
     }),
     f: common_vendor.o(($event) => $data.focusPassword = false),
     g: common_vendor.o(($event) => $data.password = $event),

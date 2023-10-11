@@ -85,14 +85,14 @@
 			 */
 			submit() {
 				this.$refs.form.validate().then((res) => {
-					// if(this.formData.captcha.length != 4){
-					// 	this.$refs.captcha.focusCaptchaInput = true
-					// 	return uni.showToast({
-					// 		title: '请输入验证码',
-					// 		icon: 'none',
-					// 		duration: 3000
-					// 	});
-					// }
+					if(this.formData.captcha.length != 4){
+						this.$refs.captcha.focusCaptchaInput = true
+						return uni.showToast({
+							title: '请输入验证码',
+							icon: 'none',
+							duration: 3000
+						});
+					}
 					if (this.needAgreements && !this.agree) {
 						return this.$refs.agreements.popup(()=>{
 							this.submitForm(res)

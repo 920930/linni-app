@@ -7,9 +7,9 @@
 		<!-- 顶部文字 -->
 		<text class="title title-box">账号密码登录</text>
 		<uni-forms>
-			<uni-forms-item name="mobile">
-				<uni-easyinput :focus="focusMobile" @blur="focusMobile = false" class="input-box"
-					:inputBorder="false" v-model="mobile" placeholder="请输入手机号/用户名/邮箱" />
+			<uni-forms-item name="username">
+				<uni-easyinput :focus="focusUsername" @blur="focusUsername = false" class="input-box"
+					:inputBorder="false" v-model="username" placeholder="请输入手机号/用户名/邮箱" />
 			</uni-forms-item>
 			<uni-forms-item name="password">
 				<uni-easyinput :focus="focusPassword" @blur="focusPassword = false" class="input-box" clearable
@@ -49,9 +49,9 @@
 				"username": "",
 				"captcha": "",
 				"needCaptcha": false,
-				"focusMobile": false,
+				"focusUsername": false,
 				"focusPassword": false,
-				"logo": "/static/logo.png"
+				"logo": "../../../static/logo.png"
 			}
 		},
 		onShow() {
