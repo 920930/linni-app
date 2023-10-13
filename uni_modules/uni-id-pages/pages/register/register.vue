@@ -9,13 +9,13 @@
 			<text class="title title-box">用户名密码注册</text>
 		</match-media>
 		<uni-forms ref="form" :value="formData" :rules="rules" validate-trigger="submit" err-show-type="toast">
-			<uni-forms-item name="username" required>
-				<uni-easyinput :inputBorder="false" :focus="focusUsername" @blur="focusUsername = false"
-					class="input-box" placeholder="请输入用户名" v-model="formData.username" trim="both" />
+			<uni-forms-item name="mobile" required>
+				<uni-easyinput :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
+					class="input-box" placeholder="请输入手机号" v-model="formData.mobile" trim="both" />
 			</uni-forms-item>
-			<uni-forms-item name="nickname">
+			<uni-forms-item name="nickname" required>
 				<uni-easyinput :inputBorder="false" :focus="focusNickname" @blur="focusNickname = false"
-					class="input-box" placeholder="请输入用户昵称" v-model="formData.nickname" trim="both" />
+					class="input-box" placeholder="请输入用户姓名" v-model="formData.nickname" trim="both" />
 			</uni-forms-item>
 			<uni-forms-item name="password" v-model="formData.password" required>
 				<uni-easyinput :inputBorder="false" :focus="focusPassword" @blur="focusPassword = false"
@@ -59,14 +59,14 @@
 		data() {
 			return {
 				formData: {
-					username: "",
+					mobile: "",
 					nickname: "",
 					password: "",
 					password2: "",
 					captcha: ""
 				},
 				rules,
-				focusUsername: false,
+				focusMobile: false,
 				focusNickname: false,
 				focusPassword: false,
 				focusPassword2: false,

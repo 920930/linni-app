@@ -18,7 +18,12 @@ const _sfc_main = {
     };
     const registerBtn = () => {
       common_vendor.index.navigateTo({
-        "url": "/uni_modules/uni-id-pages/pages/register/register"
+        url: "/pages/login/register"
+      });
+    };
+    const mobileFn = () => {
+      common_vendor.index.navigateTo({
+        url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
       });
     };
     return (_ctx, _cache) => {
@@ -61,7 +66,8 @@ const _sfc_main = {
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
-        })
+        }),
+        j: common_vendor.o(mobileFn)
       };
     };
   }

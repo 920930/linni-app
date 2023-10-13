@@ -52,7 +52,7 @@
 				</view>
 				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 			</view>
-			<view class="main-ul-li">
+			<view class="main-ul-li" @tap="mobileFn">
 				<image src="../../static/index/index-email.png" class="main-ul-li-left" />
 				<view class="main-ul-li-center">
 					<text class="main-ul-li-center-t">投诉与建议</text>
@@ -77,7 +77,12 @@
 	}
 	const registerBtn = () => {
 		uni.navigateTo({
-			"url":"/uni_modules/uni-id-pages/pages/register/register"
+			url: "/pages/login/register"
+		})
+	}
+	const mobileFn = () => {
+		uni.navigateTo({
+			url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
 		})
 	}
 </script>

@@ -8,6 +8,11 @@
 				"navigationBarTextStyle": "white"
 			}
 		}, {
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}, {
 			"path": "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
 			"style": {
 				"navigationBarTitleText": "注销账号"

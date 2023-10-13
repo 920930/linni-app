@@ -11,14 +11,14 @@ const _sfc_main = {
   data() {
     return {
       formData: {
-        username: "",
+        mobile: "",
         nickname: "",
         password: "",
         password2: "",
         captcha: ""
       },
       rules: uni_modules_uniIdPages_pages_register_validator.rules,
-      focusUsername: false,
+      focusMobile: false,
       focusNickname: false,
       focusPassword: false,
       focusPassword2: false,
@@ -98,17 +98,17 @@ if (!Math) {
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: $data.logo,
-    b: common_vendor.o(($event) => $data.focusUsername = false),
-    c: common_vendor.o(($event) => $data.formData.username = $event),
+    b: common_vendor.o(($event) => $data.focusMobile = false),
+    c: common_vendor.o(($event) => $data.formData.mobile = $event),
     d: common_vendor.p({
       inputBorder: false,
-      focus: $data.focusUsername,
-      placeholder: "请输入用户名",
+      focus: $data.focusMobile,
+      placeholder: "请输入手机号",
       trim: "both",
-      modelValue: $data.formData.username
+      modelValue: $data.formData.mobile
     }),
     e: common_vendor.p({
-      name: "username",
+      name: "mobile",
       required: true
     }),
     f: common_vendor.o(($event) => $data.focusNickname = false),
@@ -116,12 +116,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     h: common_vendor.p({
       inputBorder: false,
       focus: $data.focusNickname,
-      placeholder: "请输入用户昵称",
+      placeholder: "请输入用户姓名",
       trim: "both",
       modelValue: $data.formData.nickname
     }),
     i: common_vendor.p({
-      name: "nickname"
+      name: "nickname",
+      required: true
     }),
     j: common_vendor.o(($event) => $data.focusPassword = false),
     k: common_vendor.o(($event) => $data.formData.password = $event),
