@@ -1,7 +1,9 @@
 // 云对象教程: https://uniapp.dcloud.net.cn/uniCloud/cloud-obj
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
 // const { sendSmsCode } = require('../../lib/utils/sms')
-import { sendSmsCode } from '../uni-id-co/lib/utils/sms'
+// import { sendSmsCode } from '../uni-id-co/lib/utils/sms'
+const db = uniCloud.database()
+
 module.exports = {
 	_before: function () { // 通用预处理器
 
@@ -14,12 +16,11 @@ module.exports = {
 	 * @param {String} params.scene     短信验证码使用场景
 	 * @returns
 	 */
-	sendSms({mobile, scene}){
-		const {mobile, scene} = params;
-		return {
-			mobile, scene
-		}
-	}
+	sendRole(){
+		const dbjql = uniCloud.databaseForJQL({clientInfo: this.getClientInfo()})
+		return dbjql.collection('uni-id-roles').where('role_id == "member"').get({getOne: true})
+		return db.collection('uni-id-roles').where({role_id: 'member'}).get({getOne: true})
+	},
 	/**
 	 * method1方法描述
 	 * @param {string} param1 参数1描述

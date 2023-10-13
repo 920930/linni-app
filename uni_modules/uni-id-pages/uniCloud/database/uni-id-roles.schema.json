@@ -2,7 +2,7 @@
 	"bsonType": "object",
 	"required": ["role_id", "role_name"],
 	"permission": {
-		"read": "'READ_UNI_ID_ROLES' in auth.permission",
+		"read": true,
 		"create": "'CREATE_UNI_ID_ROLES' in auth.permission",
 		"update": "'UPDATE_UNI_ID_ROLES' in auth.permission",
 		"delete": "'DELETE_UNI_ID_ROLES' in auth.permission"

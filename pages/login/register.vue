@@ -46,6 +46,7 @@
 			<text @tap="changeTitle(t.role)" class="other-item">{{t.name}}</text>
 		</view>
 	</view>
+	<button @click="getRole">butto123n</button>
 </template>
 
 <script>
@@ -58,6 +59,7 @@
 	} from '@/uni_modules/uni-id-pages/common/store.js'
 
 	const uniIdCo = uniCloud.importObject("uni-id-co")
+	const db = uniCloud.importObject('register')
 	export default {
 		mixins: [mixin],
 		data() {
@@ -98,6 +100,10 @@
 			}
 		},
 		methods: {
+			async getRole(){
+				const data = await db.sendRole();
+				console.log(data)
+			},
 			changeTitle(name = 'supplier'){
 				this.formData.role = name;
 				uni.setNavigationBarTitle({

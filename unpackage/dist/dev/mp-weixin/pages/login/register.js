@@ -6,6 +6,7 @@ require("../../uni_modules/uni-id-pages/common/store.js");
 require("../../uni_modules/uni-id-pages/common/password.js");
 require("../../uni_modules/uni-id-pages/config.js");
 const uniIdCo = common_vendor.Ds.importObject("uni-id-co");
+const db = common_vendor.Ds.importObject("register");
 const _sfc_main = {
   mixins: [uni_modules_uniIdPages_common_loginPage_mixin.mixin],
   data() {
@@ -38,6 +39,10 @@ const _sfc_main = {
     }
   },
   methods: {
+    async getRole() {
+      const data = await db.sendRole();
+      console.log(data);
+    },
     changeTitle(name = "supplier") {
       this.formData.role = name;
       common_vendor.index.setNavigationBarTitle({
@@ -218,7 +223,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         b: common_vendor.o(($event) => $options.changeTitle(t.role), t.role),
         c: t.role
       };
-    })
+    }),
+    L: common_vendor.o((...args) => $options.getRole && $options.getRole(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/pages/login/register.vue"]]);

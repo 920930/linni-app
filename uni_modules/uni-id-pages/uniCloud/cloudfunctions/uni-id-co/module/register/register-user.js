@@ -1,5 +1,3 @@
-const db = uniCloud.database()
-
 const {
   postRegister,
   preRegisterWithPassword
@@ -49,21 +47,10 @@ module.exports = async function (params = {}) {
     inviteCode,
 		role: role_id
   } = params
-	console.log(role_id)
-	const role = await db.collection('uni-id-roles').where({role_id: 'supplier'}).get({
-		getOne: true
-	})
-	
-	if(!role.data.length || role_id === 'admin'){
-		return {
-		  errCode: 'uni-id-roles not find',
-		  errMsg: '非法操作',
-			data: role
-		}
-	}
-	db.collection('uni-id-roles').where({role_id: 'member1'}).get({getOne: true}).then(res => console.log(res))
-	
-	console.log(role.data[0])
+	const db = uniCloud.database();
+	const role = await db.collection('uni-id-roles').limit(1).where({role_id: 'supplier'}).get({ getOne: true });
+
+	db.collection('uni-id-users').where('mobile == "18081990075"').field('_id,mobile').get({getOne: true}).then(res => console.log(res))
 	
 	return {
 	  errCode: ERROR.ADMIN_EXISTS,
