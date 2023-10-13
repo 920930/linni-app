@@ -21,8 +21,8 @@ const _sfc_main = {
       focusMobile: false,
       focusNickname: false,
       focusPassword: false,
-      focusPassword2: false,
-      logo: "/static/logo.png"
+      focusPassword2: false
+      // logo: "/static/logo.png"
     };
   },
   onReady() {
@@ -97,36 +97,35 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: $data.logo,
-    b: common_vendor.o(($event) => $data.focusMobile = false),
-    c: common_vendor.o(($event) => $data.formData.mobile = $event),
-    d: common_vendor.p({
+    a: common_vendor.o(($event) => $data.focusMobile = false),
+    b: common_vendor.o(($event) => $data.formData.mobile = $event),
+    c: common_vendor.p({
       inputBorder: false,
       focus: $data.focusMobile,
       placeholder: "请输入手机号",
       trim: "both",
       modelValue: $data.formData.mobile
     }),
-    e: common_vendor.p({
+    d: common_vendor.p({
       name: "mobile",
       required: true
     }),
-    f: common_vendor.o(($event) => $data.focusNickname = false),
-    g: common_vendor.o(($event) => $data.formData.nickname = $event),
-    h: common_vendor.p({
+    e: common_vendor.o(($event) => $data.focusNickname = false),
+    f: common_vendor.o(($event) => $data.formData.nickname = $event),
+    g: common_vendor.p({
       inputBorder: false,
       focus: $data.focusNickname,
       placeholder: "请输入用户姓名",
       trim: "both",
       modelValue: $data.formData.nickname
     }),
-    i: common_vendor.p({
+    h: common_vendor.p({
       name: "nickname",
       required: true
     }),
-    j: common_vendor.o(($event) => $data.focusPassword = false),
-    k: common_vendor.o(($event) => $data.formData.password = $event),
-    l: common_vendor.p({
+    i: common_vendor.o(($event) => $data.focusPassword = false),
+    j: common_vendor.o(($event) => $data.formData.password = $event),
+    k: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword,
       maxlength: "20",
@@ -135,15 +134,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password
     }),
-    m: common_vendor.o(($event) => $data.formData.password = $event),
-    n: common_vendor.p({
+    l: common_vendor.o(($event) => $data.formData.password = $event),
+    m: common_vendor.p({
       name: "password",
       required: true,
       modelValue: $data.formData.password
     }),
-    o: common_vendor.o(($event) => $data.focusPassword2 = false),
-    p: common_vendor.o(($event) => $data.formData.password2 = $event),
-    q: common_vendor.p({
+    n: common_vendor.o(($event) => $data.focusPassword2 = false),
+    o: common_vendor.o(($event) => $data.formData.password2 = $event),
+    p: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword2,
       placeholder: "再次输入密码",
@@ -152,28 +151,28 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password2
     }),
-    r: common_vendor.o(($event) => $data.formData.password2 = $event),
-    s: common_vendor.p({
+    q: common_vendor.o(($event) => $data.formData.password2 = $event),
+    r: common_vendor.p({
       name: "password2",
       required: true,
       modelValue: $data.formData.password2
     }),
-    t: common_vendor.sr("captcha", "8e92dede-10,8e92dede-9"),
-    v: common_vendor.o(($event) => $data.formData.captcha = $event),
-    w: common_vendor.p({
+    s: common_vendor.sr("captcha", "8e92dede-10,8e92dede-9"),
+    t: common_vendor.o(($event) => $data.formData.captcha = $event),
+    v: common_vendor.p({
       scene: "register",
       modelValue: $data.formData.captcha
     }),
-    x: common_vendor.sr("agreements", "8e92dede-11,8e92dede-0"),
-    y: common_vendor.p({
+    w: common_vendor.sr("agreements", "8e92dede-11,8e92dede-0"),
+    x: common_vendor.p({
       scope: "register"
     }),
-    z: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    A: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
-    B: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
-    C: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    D: common_vendor.sr("form", "8e92dede-0"),
-    E: common_vendor.p({
+    y: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
+    z: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
+    A: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
+    B: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
+    C: common_vendor.sr("form", "8e92dede-0"),
+    D: common_vendor.p({
       value: $data.formData,
       rules: $data.rules,
       ["validate-trigger"]: "submit",

@@ -13,20 +13,18 @@ const _sfc_main = {
       formData: {
         mobile: "",
         nickname: "",
-        code: "",
+        address: "",
         password: "",
         password2: "",
-        captcha: ""
+        captcha: "",
+        role: "supplier"
       },
       rules: pages_login_validator.rules,
       focusMobile: false,
       focusNickname: false,
       focusPassword: false,
       focusPassword2: false,
-      codeShow: false,
-      logo: "/static/logo.png",
-      num: 30,
-      timer: 0
+      userType: [{ role: "supplier", name: "供货商" }, { role: "member", name: "员工" }, { role: "user", name: "客户" }]
     };
   },
   onReady() {
@@ -34,7 +32,18 @@ const _sfc_main = {
   },
   onShow() {
   },
+  computed: {
+    name() {
+      return this.userType.find((item) => item.role === this.formData.role).name;
+    }
+  },
   methods: {
+    changeTitle(name = "supplier") {
+      this.formData.role = name;
+      common_vendor.index.setNavigationBarTitle({
+        title: this.name + "注册"
+      });
+    },
     /**
      * 触发表单提交
      */
@@ -81,13 +90,12 @@ const _sfc_main = {
         url: "/uni_modules/uni-id-pages/pages/register/register-by-email"
       });
     },
-    phoneInput(e) {
-      if (/^1[3-9]\d{9}$/.test(e)) {
-        this.codeShow = true;
-      }
-    },
-    onGetPhoneNumber(e) {
-      console.log(e);
+    manBtn(e) {
+      common_vendor.index.chooseLocation({
+        success: (res) => {
+          this.formData.address = res.address;
+        }
+      });
     }
   }
 };
@@ -109,13 +117,13 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: $data.logo,
+    a: common_vendor.t($options.name),
     b: common_vendor.o(($event) => $data.focusNickname = false),
     c: common_vendor.o(($event) => $data.formData.nickname = $event),
     d: common_vendor.p({
       inputBorder: false,
       focus: $data.focusNickname,
-      placeholder: "请输入供货商名称",
+      placeholder: `请输入${$options.name}名称`,
       trim: "both",
       modelValue: $data.formData.nickname
     }),
@@ -123,9 +131,35 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       name: "nickname",
       required: true
     }),
-    f: common_vendor.o(($event) => $data.focusPassword = false),
-    g: common_vendor.o(($event) => $data.formData.password = $event),
+    f: common_vendor.o((...args) => $options.manBtn && $options.manBtn(...args)),
+    g: common_vendor.o(($event) => $data.formData.address = $event),
     h: common_vendor.p({
+      placeholder: `${$options.name}地址选择`,
+      trim: "both",
+      inputBorder: false,
+      modelValue: $data.formData.address
+    }),
+    i: common_vendor.p({
+      name: "nickname",
+      required: true
+    }),
+    j: common_vendor.t($options.name),
+    k: common_vendor.o(($event) => $data.focusMobile = false),
+    l: common_vendor.o(($event) => $data.formData.mobile = $event),
+    m: common_vendor.p({
+      inputBorder: false,
+      focus: $data.focusMobile,
+      placeholder: `请输入${$options.name}手机号`,
+      trim: "both",
+      modelValue: $data.formData.mobile
+    }),
+    n: common_vendor.p({
+      name: "mobile",
+      required: true
+    }),
+    o: common_vendor.o(($event) => $data.focusPassword = false),
+    p: common_vendor.o(($event) => $data.formData.password = $event),
+    q: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword,
       maxlength: "20",
@@ -134,15 +168,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password
     }),
-    i: common_vendor.o(($event) => $data.formData.password = $event),
-    j: common_vendor.p({
+    r: common_vendor.o(($event) => $data.formData.password = $event),
+    s: common_vendor.p({
       name: "password",
       required: true,
       modelValue: $data.formData.password
     }),
-    k: common_vendor.o(($event) => $data.focusPassword2 = false),
-    l: common_vendor.o(($event) => $data.formData.password2 = $event),
-    m: common_vendor.p({
+    t: common_vendor.o(($event) => $data.focusPassword2 = false),
+    v: common_vendor.o(($event) => $data.formData.password2 = $event),
+    w: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword2,
       placeholder: "再次输入密码",
@@ -151,48 +185,39 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password2
     }),
-    n: common_vendor.o(($event) => $data.formData.password2 = $event),
-    o: common_vendor.p({
+    x: common_vendor.o(($event) => $data.formData.password2 = $event),
+    y: common_vendor.p({
       name: "password2",
       required: true,
       modelValue: $data.formData.password2
     }),
-    p: common_vendor.o(($event) => $data.focusMobile = false),
-    q: common_vendor.o($options.phoneInput),
-    r: common_vendor.o(($event) => $data.formData.mobile = $event),
-    s: common_vendor.p({
-      type: "number",
-      maxlength: 11,
-      inputBorder: false,
-      focus: $data.focusMobile,
-      placeholder: "请输入手机号",
-      trim: "both",
-      modelValue: $data.formData.mobile
-    }),
-    t: common_vendor.p({
-      name: "mobile",
-      required: true
-    }),
-    v: common_vendor.sr("captcha", "748ca9ec-10,748ca9ec-9"),
-    w: common_vendor.o(($event) => $data.formData.captcha = $event),
-    x: common_vendor.p({
+    z: common_vendor.sr("captcha", "748ca9ec-12,748ca9ec-11"),
+    A: common_vendor.o(($event) => $data.formData.captcha = $event),
+    B: common_vendor.p({
       scene: "register",
       modelValue: $data.formData.captcha
     }),
-    y: common_vendor.sr("agreements", "748ca9ec-11,748ca9ec-0"),
-    z: common_vendor.p({
+    C: common_vendor.sr("agreements", "748ca9ec-13,748ca9ec-0"),
+    D: common_vendor.p({
       scope: "register"
     }),
-    A: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    B: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
-    C: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
-    D: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    E: common_vendor.sr("form", "748ca9ec-0"),
-    F: common_vendor.p({
+    E: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
+    F: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
+    G: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
+    H: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
+    I: common_vendor.sr("form", "748ca9ec-0"),
+    J: common_vendor.p({
       value: $data.formData,
       rules: $data.rules,
       ["validate-trigger"]: "submit",
       ["err-show-type"]: "toast"
+    }),
+    K: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
+      return {
+        a: common_vendor.t(t.name),
+        b: common_vendor.o(($event) => $options.changeTitle(t.role), t.role),
+        c: t.role
+      };
     })
   };
 }

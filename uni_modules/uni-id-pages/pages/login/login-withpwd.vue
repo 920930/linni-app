@@ -2,7 +2,7 @@
 <template>
 	<view class="uni-content">
 		<view class="login-logo">
-			<image :src="logo"></image>
+			<!-- <image :src="logo"></image> -->
 		</view>
 		<!-- 顶部文字 -->
 		<text class="title title-box">账号密码登录</text>
@@ -51,7 +51,7 @@
 				"needCaptcha": false,
 				"focusUsername": false,
 				"focusPassword": false,
-				"logo": "../../../static/logo.png"
+				// "logo": "../../../static/logo.png"
 			}
 		},
 		onShow() {
@@ -137,7 +137,7 @@
 			toRegister() {
 				uni.navigateTo({
 					url: this.config.isAdmin ? '/uni_modules/uni-id-pages/pages/register/register-admin' :
-						'/uni_modules/uni-id-pages/pages/register/register',
+						'/pages/login/register',
 					fail(e) {
 						console.error(e);
 					}

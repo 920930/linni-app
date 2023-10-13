@@ -108,13 +108,15 @@
 button {
   margin-top: 15px;
 }
-.sms {
-  position: absolute;
-  z-index: 10;
-  right: 0;
-  height: 100%;
-  width: 100rpx;
+.other {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 20%;
+  margin: 80rpx 0;
+}
+.other-item {
+  width: 40rpx;
+  border-bottom: 2rpx solid black;
+  padding-bottom: 4rpx;
 }

@@ -20,11 +20,11 @@ export default {
     // #ifdef APP
     // 'univerify',
     // #endif
-    'weixin',
+    // 'weixin',
     // #ifdef APP
     // 'apple',
     // #endif
-    'smsCode'
+    // 'smsCode'
   ],
   // 政策协议
   agreements: {

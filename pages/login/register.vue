@@ -1,18 +1,20 @@
 <!-- 账号注册页 -->
 <template>
 	<view class="uni-content">
-		<match-media :min-width="690">
-			<view class="login-logo">
-				<image :src="logo"></image>
-			</view>
-			<!-- 顶部文字 -->
-			<text class="title title-box">用户名密码注册</text>
-		</match-media>
-
 		<uni-forms ref="form" :value="formData" :rules="rules" validate-trigger="submit" err-show-type="toast">
+			<view style="margin-bottom: 15rpx; color: rgba(0, 0, 0, 0.7);">{{name}}基本信息</view>
 			<uni-forms-item name="nickname" required>
 				<uni-easyinput :inputBorder="false" :focus="focusNickname" @blur="focusNickname = false"
-					class="input-box" placeholder="请输入供货商名称" v-model="formData.nickname" trim="both" />
+					class="input-box" :placeholder="`请输入${name}名称`" v-model="formData.nickname" trim="both" />
+			</uni-forms-item>
+			<uni-forms-item name="nickname" required style="position: relative;">
+				<view style="position: absolute; z-index: 10; left: 0; top: 0; bottom: 0; width: 89%;" @tap="manBtn"></view>
+				<uni-easyinput :placeholder="`${name}地址选择`" v-model="formData.address" trim="both" :inputBorder="false" class="input-box" />
+			</uni-forms-item>
+			<view style="margin-bottom: 15rpx; color: rgba(0, 0, 0, 0.7);">{{name}}业务信息</view>
+			<uni-forms-item name="mobile" required>
+				<uni-easyinput :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
+					class="input-box" :placeholder="`请输入${name}手机号`" v-model="formData.mobile" trim="both" />
 			</uni-forms-item>
 			<uni-forms-item name="password" v-model="formData.password" required>
 				<uni-easyinput :inputBorder="false" :focus="focusPassword" @blur="focusPassword = false"
@@ -25,20 +27,6 @@
 					class="input-box" placeholder="再次输入密码" maxlength="20" type="password" v-model="formData.password2"
 					trim="both" />
 			</uni-forms-item>
-			<uni-forms-item name="mobile" required>
-				<uni-easyinput type="number" :maxlength="11" :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
-					@input="phoneInput" class="input-box" placeholder="请输入手机号" v-model="formData.mobile" trim="both" />
-			</uni-forms-item>
-			<!-- <uni-forms-item name="code" required>
-				<view style="display: flex; align-items: center; position: relative;">
-					<uni-easyinput :inputBorder="false"
-						class="input-box" placeholder="请输入验证码" v-model="formData.code" trim="both" />
-					<view @click="sendSms" :disabled="num !== 30" class="sms">
-						<text v-if="num === 30">发送</text>
-						<text v-else>{{num}}</text>
-					</view>
-				</view>
-			</uni-forms-item> -->
 			<uni-forms-item>
 				<uni-captcha ref="captcha" scene="register" v-model="formData.captcha" />
 			</uni-forms-item>
@@ -53,15 +41,23 @@
 			</match-media>
 		</uni-forms>
 	</view>
+	<view class="other">
+		<view v-for="t in userType.filter(item => item.role != formData.role)" :key="t.role">
+			<text @tap="changeTitle(t.role)" class="other-item">{{t.name}}</text>
+		</view>
+	</view>
 </template>
 
 <script>
 	import rules from './validator.js';
 	import mixin from '@/uni_modules/uni-id-pages/common/login-page.mixin.js';
-	import config from '@/uni_modules/uni-id-pages/config.js';
-	import { store, mutations } from '@/uni_modules/uni-id-pages/common/store.js';
+	import config from '@/uni_modules/uni-id-pages/config.js'
+	import {
+		store,
+		mutations
+	} from '@/uni_modules/uni-id-pages/common/store.js'
 
-	const uniIdCo = uniCloud.importObject('uni-id-co')
+	const uniIdCo = uniCloud.importObject("uni-id-co")
 	export default {
 		mixins: [mixin],
 		data() {
@@ -69,20 +65,18 @@
 				formData: {
 					mobile: "",
 					nickname: "",
-					code: '',
+					address: "",
 					password: "",
 					password2: "",
-					captcha: ""
+					captcha: "",
+					role: 'supplier',
 				},
 				rules,
 				focusMobile: false,
 				focusNickname: false,
 				focusPassword: false,
 				focusPassword2: false,
-				codeShow: false,
-				logo: "/static/logo.png",
-				num: 30,
-				timer: 0,
+				userType: [{role: 'supplier', name: '供货商'}, {role: 'member', name: '员工'}, {role: 'user', name: '客户'}]
 			}
 		},
 		onReady() {
@@ -98,7 +92,18 @@
 			};
 			// #endif
 		},
+		computed: {
+			name(){
+				return this.userType.find(item => item.role === this.formData.role).name
+			}
+		},
 		methods: {
+			changeTitle(name = 'supplier'){
+				this.formData.role = name;
+				uni.setNavigationBarTitle({
+					title: this.name + '注册'
+				})
+			},
 			/**
 			 * 触发表单提交
 			 */
@@ -147,13 +152,12 @@
 					url: '/uni_modules/uni-id-pages/pages/register/register-by-email'
 				})
 			},
-			phoneInput(e) {
-				if(/^1[3-9]\d{9}$/.test(e)) {
-					this.codeShow = true;
-				}
-			},
-			onGetPhoneNumber(e) {
-				console.log(e)
+			manBtn(e){
+				uni.chooseLocation({
+					success:(res) => {
+						this.formData.address = res.address
+					}
+				});
 			}
 		}
 	}
@@ -198,14 +202,17 @@
 	button {
 		margin-top: 15px;
 	}
-	.sms{
-		position: absolute;
-		z-index: 10;
-		right: 0;
-		height: 100%;
-		width: 100rpx;
+	
+	.other{
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		gap: 20%;
+		margin: 80rpx 0;
+		&-item{
+			width: 40rpx;
+			border-bottom: 2rpx solid black;
+			padding-bottom: 4rpx;
+		}
 	}
 </style>

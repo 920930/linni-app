@@ -7085,7 +7085,7 @@ const pages = [
   {
     path: "pages/login/register",
     style: {
-      navigationBarTitleText: "注册"
+      navigationBarTitleText: "供货商注册"
     }
   },
   {

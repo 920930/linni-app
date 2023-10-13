@@ -25,5 +25,14 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
+  "requiredPrivateInfos": [
+    "chooseLocation",
+    "getLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置将用于区域选择"
+    }
+  },
   "usingComponents": {}
 }

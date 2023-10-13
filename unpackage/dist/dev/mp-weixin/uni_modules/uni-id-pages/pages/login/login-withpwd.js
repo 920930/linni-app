@@ -17,8 +17,8 @@ const _sfc_main = {
       "captcha": "",
       "needCaptcha": false,
       "focusUsername": false,
-      "focusPassword": false,
-      "logo": "../../../static/logo.png"
+      "focusPassword": false
+      // "logo": "../../../static/logo.png"
     };
   },
   onShow() {
@@ -89,7 +89,7 @@ const _sfc_main = {
     /* 前往注册 */
     toRegister() {
       common_vendor.index.navigateTo({
-        url: this.config.isAdmin ? "/uni_modules/uni-id-pages/pages/register/register-admin" : "/uni_modules/uni-id-pages/pages/register/register",
+        url: this.config.isAdmin ? "/uni_modules/uni-id-pages/pages/register/register-admin" : "/pages/login/register",
         fail(e) {
           console.error(e);
         }
@@ -117,21 +117,20 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: $data.logo,
-    b: common_vendor.o(($event) => $data.focusUsername = false),
-    c: common_vendor.o(($event) => $data.username = $event),
-    d: common_vendor.p({
+    a: common_vendor.o(($event) => $data.focusUsername = false),
+    b: common_vendor.o(($event) => $data.username = $event),
+    c: common_vendor.p({
       focus: $data.focusUsername,
       inputBorder: false,
       placeholder: "请输入手机号/用户名/邮箱",
       modelValue: $data.username
     }),
-    e: common_vendor.p({
+    d: common_vendor.p({
       name: "username"
     }),
-    f: common_vendor.o(($event) => $data.focusPassword = false),
-    g: common_vendor.o(($event) => $data.password = $event),
-    h: common_vendor.p({
+    e: common_vendor.o(($event) => $data.focusPassword = false),
+    f: common_vendor.o(($event) => $data.password = $event),
+    g: common_vendor.p({
       focus: $data.focusPassword,
       clearable: true,
       type: "password",
@@ -139,31 +138,31 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       placeholder: "请输入密码",
       modelValue: $data.password
     }),
-    i: common_vendor.p({
+    h: common_vendor.p({
       name: "password"
     }),
-    j: $data.needCaptcha
+    i: $data.needCaptcha
   }, $data.needCaptcha ? {
-    k: common_vendor.sr("captcha", "58ed63b0-5"),
-    l: common_vendor.o(($event) => $data.captcha = $event),
-    m: common_vendor.p({
+    j: common_vendor.sr("captcha", "58ed63b0-5"),
+    k: common_vendor.o(($event) => $data.captcha = $event),
+    l: common_vendor.p({
       focus: true,
       scene: "login-by-pwd",
       modelValue: $data.captcha
     })
   } : {}, {
-    n: common_vendor.sr("agreements", "58ed63b0-6"),
-    o: common_vendor.p({
+    m: common_vendor.sr("agreements", "58ed63b0-6"),
+    n: common_vendor.p({
       scope: "login"
     }),
-    p: common_vendor.o((...args) => $options.pwdLogin && $options.pwdLogin(...args)),
-    q: !_ctx.config.isAdmin
+    o: common_vendor.o((...args) => $options.pwdLogin && $options.pwdLogin(...args)),
+    p: !_ctx.config.isAdmin
   }, !_ctx.config.isAdmin ? {
-    r: common_vendor.o((...args) => $options.toRetrievePwd && $options.toRetrievePwd(...args))
+    q: common_vendor.o((...args) => $options.toRetrievePwd && $options.toRetrievePwd(...args))
   } : {}, {
-    s: common_vendor.t(_ctx.config.isAdmin ? "注册管理员账号" : "注册账号"),
-    t: common_vendor.o((...args) => $options.toRegister && $options.toRegister(...args)),
-    v: common_vendor.sr("uniFabLogin", "58ed63b0-7")
+    r: common_vendor.t(_ctx.config.isAdmin ? "注册管理员账号" : "注册账号"),
+    s: common_vendor.o((...args) => $options.toRegister && $options.toRegister(...args)),
+    t: common_vendor.sr("uniFabLogin", "58ed63b0-7")
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-58ed63b0"], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/login/login-withpwd.vue"]]);

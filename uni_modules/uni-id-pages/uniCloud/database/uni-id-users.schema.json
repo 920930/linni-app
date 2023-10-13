@@ -10,22 +10,6 @@
 		"_id": {
 			"description": "存储文档 ID（用户 ID），系统自动生成"
 		},
-		"ali_openid": {
-			"bsonType": "string",
-			"description": "支付宝平台openid",
-			"permission": {
-				"read": "'READ_UNI_ID_USERS' in auth.permission",
-				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
-			}
-		},
-		"apple_openid": {
-			"bsonType": "string",
-			"description": "苹果登录openid",
-			"permission": {
-				"read": "'READ_UNI_ID_USERS' in auth.permission",
-				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
-			}
-		},
 		"avatar": {
 			"bsonType": "string",
 			"description": "头像地址",
@@ -160,6 +144,16 @@
 		"last_login_ip": {
 			"bsonType": "string",
 			"description": "最后登录时 IP 地址",
+			"permission": {
+				"read": "doc._id == auth.uid || 'READ_UNI_ID_USERS' in auth.permission",
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"username": {
+			"bsonType": "string",
+			"description": "用户名，不允许重复",
+			"title": "用户名",
+			"trim": "both",
 			"permission": {
 				"read": "doc._id == auth.uid || 'READ_UNI_ID_USERS' in auth.permission",
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
@@ -382,13 +376,19 @@
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},
-		"username": {
+		"ali_openid": {
 			"bsonType": "string",
-			"description": "用户名，不允许重复",
-			"title": "用户名",
-			"trim": "both",
+			"description": "支付宝平台openid",
 			"permission": {
-				"read": "doc._id == auth.uid || 'READ_UNI_ID_USERS' in auth.permission",
+				"read": "'READ_UNI_ID_USERS' in auth.permission",
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"apple_openid": {
+			"bsonType": "string",
+			"description": "苹果登录openid",
+			"permission": {
+				"read": "'READ_UNI_ID_USERS' in auth.permission",
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},

@@ -3,7 +3,7 @@
 	<view class="uni-content">
 		<match-media :min-width="690">
 			<view class="login-logo">
-				<image :src="logo"></image>
+				<!-- <image :src="logo"></image> -->
 			</view>
 			<!-- 顶部文字 -->
 			<text class="title title-box">用户名密码注册</text>
@@ -70,7 +70,7 @@
 				focusNickname: false,
 				focusPassword: false,
 				focusPassword2: false,
-				logo: "/static/logo.png"
+				// logo: "/static/logo.png"
 			}
 		},
 		onReady() {

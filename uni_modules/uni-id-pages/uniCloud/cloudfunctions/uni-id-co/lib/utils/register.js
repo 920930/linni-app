@@ -48,10 +48,8 @@ async function preRegister (params = {}) {
 }
 
 async function preRegisterWithPassword (params = {}) {
-  const {
-    user,
-    password
-  } = params
+  const { user, password} = params;
+	console.log(params)
   await preRegister.call(this, {
     user
   })
@@ -138,6 +136,7 @@ async function postRegister (params = {}) {
 
   // 如果用户注册默认角色配置存在且不为空数组
   if (userRegisterDefaultRole && userRegisterDefaultRole.length) {
+		console.log(user)
     // 将用户已有的角色和配置的默认角色合并成一个数组，并去重
     user.role = Array.from(new Set([...(user.role || []), ...userRegisterDefaultRole]))
   }
