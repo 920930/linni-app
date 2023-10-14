@@ -166,7 +166,7 @@
 			"title": "手机号码",
 			"trim": "both",
 			"permission": {
-				"read": "doc._id == auth.uid || 'READ_UNI_ID_USERS' in auth.permission",
+				"read": true,
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},
@@ -204,6 +204,21 @@
 			"trim": "both",
 			"permission": {
 				"read": true,
+				"write": "doc._id == auth.uid || 'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"address": {
+			"bsonType": "string",
+			"description": "地址",
+			"trim": "both"
+		},
+		"cars": {
+			"bsonType": "array",
+			"description": "汽车车牌",
+			"title": "车牌",
+			"trim": "both",
+			"permission": {
+				"read": "doc._id == auth.uid || 'READ_UNI_ID_USERS' in auth.permission",
 				"write": "doc._id == auth.uid || 'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},

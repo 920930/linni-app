@@ -19,7 +19,7 @@
   "realNameCertifyLimit": 5,
   "sensitiveInfoEncryptSecret": "",
   "frvNeedAlivePhoto": false,
-  "userRegisterDefaultRole": ["user"],
+  "userRegisterDefaultRole": [],
   "app": {
     "tokenExpiresIn": 2592000,
     "tokenExpiresThreshold": 864000,

@@ -7,9 +7,15 @@
 				<uni-easyinput :inputBorder="false" :focus="focusNickname" @blur="focusNickname = false"
 					class="input-box" :placeholder="`请输入${name}名称`" v-model="formData.nickname" trim="both" />
 			</uni-forms-item>
-			<uni-forms-item name="nickname" required style="position: relative;">
+			<uni-forms-item name="address" required style="position: relative;">
 				<view style="position: absolute; z-index: 10; left: 0; top: 0; bottom: 0; width: 89%;" @tap="manBtn"></view>
 				<uni-easyinput :placeholder="`${name}地址选择`" v-model="formData.address" trim="both" :inputBorder="false" class="input-box" />
+			</uni-forms-item>
+			<uni-forms-item name="cars" required>
+					<view  style="display: flex; gap: 20rpx;">
+						<uni-tag :text="car + ' ×'" v-for="car in formData.cars" :key="car" @click="removeCar(car)" />
+						<uni-tag text="新增车牌" type="primary" @click="$refs.inputDialog.open()" />
+					</view>
 			</uni-forms-item>
 			<view style="margin-bottom: 15rpx; color: rgba(0, 0, 0, 0.7);">{{name}}业务信息</view>
 			<uni-forms-item name="mobile" required>
@@ -41,12 +47,14 @@
 			</match-media>
 		</uni-forms>
 	</view>
+	<uni-popup ref="inputDialog" type="dialog">
+		<uni-popup-dialog ref="inputClose"  mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm" />
+	</uni-popup>
 	<view class="other">
 		<view v-for="t in userType.filter(item => item.role != formData.role)" :key="t.role">
 			<text @tap="changeTitle(t.role)" class="other-item">{{t.name}}</text>
 		</view>
 	</view>
-	<button @click="getRole">butto123n</button>
 </template>
 
 <script>
@@ -59,7 +67,6 @@
 	} from '@/uni_modules/uni-id-pages/common/store.js'
 
 	const uniIdCo = uniCloud.importObject("uni-id-co")
-	const db = uniCloud.importObject('register')
 	export default {
 		mixins: [mixin],
 		data() {
@@ -72,13 +79,15 @@
 					password2: "",
 					captcha: "",
 					role: 'supplier',
+					cars: [],
 				},
 				rules,
 				focusMobile: false,
 				focusNickname: false,
 				focusPassword: false,
 				focusPassword2: false,
-				userType: [{role: 'supplier', name: '供货商'}, {role: 'member', name: '员工'}, {role: 'user', name: '客户'}]
+				// supplier供货商 - member员工 - user客户
+				userType: [{role: 'supplier', name: '供货商'}, {role: 'member', name: '员工'}],
 			}
 		},
 		onReady() {
@@ -100,10 +109,6 @@
 			}
 		},
 		methods: {
-			async getRole(){
-				const data = await db.sendRole();
-				console.log(data)
-			},
 			changeTitle(name = 'supplier'){
 				this.formData.role = name;
 				uni.setNavigationBarTitle({
@@ -115,6 +120,31 @@
 			 */
 			submit() {
 				this.$refs.form.validate().then((res) => {
+					if(res.address.length < 5){
+						return uni.showToast({
+							title: '请输入地址',
+							icon: 'none',
+							duration: 3000
+						});
+					}
+					if(this.formData.role !== 'member'){
+						if(!res.cars.length){
+							return uni.showToast({
+								title: '请增加车牌号',
+								icon: 'none',
+								duration: 3000
+							});
+						}
+						const bool = res.cars.some(car => !/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1,3}$/.test(car))
+						if(bool){
+							return uni.showToast({
+								title: '车牌号错误',
+								icon: 'none',
+								duration: 3000
+							});
+						}
+					}
+					
 					if (this.formData.captcha.length != 4) {
 						this.$refs.captcha.focusCaptchaInput = true
 						return uni.showToast({
@@ -164,6 +194,15 @@
 						this.formData.address = res.address
 					}
 				});
+			},
+			removeCar(item){
+				this.formData.cars = this.formData.cars.filter(car => car != item)
+			},
+			dialogInputConfirm(e){
+				const set = new Set(this.formData.cars)
+				set.add(e)
+				this.formData.cars = [...set]
+				this.$refs.inputClose.val = '';
 			}
 		}
 	}

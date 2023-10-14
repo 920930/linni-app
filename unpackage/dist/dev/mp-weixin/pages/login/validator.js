@@ -46,29 +46,29 @@ const rules = {
     "rules": [
       {
         required: true,
-        errorMessage: "请输入手机号"
+        errorMessage: "请输入名称"
       },
       {
         minLength: 2,
         maxLength: 10,
-        errorMessage: "姓名长度在 {minLength} 到 {maxLength} 个字符"
+        errorMessage: "名称长度在 {minLength} 到 {maxLength} 个字符"
       },
       {
         validateFunction: function(rule, value, data, callback) {
           if (/^1\d{10}$/.test(value) || /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(value)) {
-            callback("姓名不能是：手机号或邮箱");
+            callback("名称不能是：手机号或邮箱");
           }
           if (/^\d+$/.test(value)) {
-            callback("姓名不能为纯数字");
+            callback("名称不能为纯数字");
           }
           if (!/[\u4E00-\u9FA5\uF900-\uFA2D]{1,}/.test(value)) {
-            callback("姓名只能是中文");
+            callback("名称只能是中文");
           }
           return true;
         }
       }
     ],
-    "label": "姓名"
+    "label": "名称"
   },
   ...uni_modules_uniIdPages_common_password.passwordMod.getPwdRules()
 };

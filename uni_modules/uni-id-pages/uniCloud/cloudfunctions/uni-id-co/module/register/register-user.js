@@ -25,6 +25,8 @@ const {
  * @returns
  */
 module.exports = async function (params = {}) {
+	const db = uniCloud.databaseForJQL({ clientInfo: this.getClientInfo() })
+	
   const schema = {
     mobile: 'mobile',
     password: 'password',
@@ -38,37 +40,73 @@ module.exports = async function (params = {}) {
       type: 'string'
     }
   }
-  this.middleware.validate(params, schema)
+	
+  this.middleware.validate(params, schema);
+	
   const {
     mobile,
     password,
     nickname,
     captcha,
     inviteCode,
-		role: role_id
-  } = params
-	const db = uniCloud.database();
-	const role = await db.collection('uni-id-roles').limit(1).where({role_id: 'supplier'}).get({ getOne: true });
+		role: role_id,
+		address,
+		cars,
+  } = params;
+	const data = {
+		role: [role_id],
+		address,
+		cars,
+		nickname,
+	}
 
-	db.collection('uni-id-users').where('mobile == "18081990075"').field('_id,mobile').get({getOne: true}).then(res => console.log(res))
-	
-	return {
-	  errCode: ERROR.ADMIN_EXISTS,
-	  errMsg: this.t('uni-id-admin-exists'),
-		data: role
+	if(!cars.length){
+		return {
+			errCode: ERROR.ADMIN_EXISTS,
+			errMsg: '请填写车牌'
+		}
+	}
+	const bool = cars.some(car => !/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1,3}$/.test(car))
+	if(bool){
+		return {
+			errCode: ERROR.ADMIN_EXISTS,
+			errMsg: '请填写正确的车牌'
+		}
+	}
+	console.log('bool', bool)
+	if(address.length < 5){
+		return {
+			errCode: ERROR.ADMIN_EXISTS,
+			errMsg: '请选择地址'
+		}
 	}
 	
-	console.log(getAdminRes)
+	if(role_id == 'admin'){
+		return {
+			errCode: ERROR.ADMIN_EXISTS,
+			errMsg: '非法操作'
+		}
+	}
+	const roles = await db.collection('uni-id-roles').where(`role_id == "${role_id}"`).get({getOne: true});
+	if(!roles.data){
+		return {
+			errCode: ERROR.ADMIN_EXISTS,
+			errMsg: '非法操作'
+		}
+	}
+	// 查询手机号如果存在，提醒手机号已经存在
+	const oneUser = await db.collection('uni-id-users').where(`mobile == "${mobile}"`).field('mobile').get({getOne: true});
+	if(oneUser.data){
+		return {
+			errCode: ERROR.ADMIN_EXISTS,
+			errMsg: '手机号已经存在'
+		}
+	}
 	
-	await abc();
-
   await verifyCaptcha.call(this, {
     captcha,
     scene: CAPTCHA_SCENE.REGISTER
   })
-	
-
-
   const {
     user,
     extraData
@@ -78,11 +116,12 @@ module.exports = async function (params = {}) {
     },
     password
   })
+	
   return postRegister.call(this, {
     user,
     extraData: {
       ...extraData,
-      nickname
+      ...data
     },
     inviteCode
   })

@@ -6,7 +6,6 @@ require("../../uni_modules/uni-id-pages/common/store.js");
 require("../../uni_modules/uni-id-pages/common/password.js");
 require("../../uni_modules/uni-id-pages/config.js");
 const uniIdCo = common_vendor.Ds.importObject("uni-id-co");
-const db = common_vendor.Ds.importObject("register");
 const _sfc_main = {
   mixins: [uni_modules_uniIdPages_common_loginPage_mixin.mixin],
   data() {
@@ -18,14 +17,16 @@ const _sfc_main = {
         password: "",
         password2: "",
         captcha: "",
-        role: "supplier"
+        role: "supplier",
+        cars: []
       },
       rules: pages_login_validator.rules,
       focusMobile: false,
       focusNickname: false,
       focusPassword: false,
       focusPassword2: false,
-      userType: [{ role: "supplier", name: "供货商" }, { role: "member", name: "员工" }, { role: "user", name: "客户" }]
+      // supplier供货商 - member员工 - user客户
+      userType: [{ role: "supplier", name: "供货商" }, { role: "member", name: "员工" }]
     };
   },
   onReady() {
@@ -39,10 +40,6 @@ const _sfc_main = {
     }
   },
   methods: {
-    async getRole() {
-      const data = await db.sendRole();
-      console.log(data);
-    },
     changeTitle(name = "supplier") {
       this.formData.role = name;
       common_vendor.index.setNavigationBarTitle({
@@ -54,6 +51,30 @@ const _sfc_main = {
      */
     submit() {
       this.$refs.form.validate().then((res) => {
+        if (res.address.length < 5) {
+          return common_vendor.index.showToast({
+            title: "请输入地址",
+            icon: "none",
+            duration: 3e3
+          });
+        }
+        if (this.formData.role !== "member") {
+          if (!res.cars.length) {
+            return common_vendor.index.showToast({
+              title: "请增加车牌号",
+              icon: "none",
+              duration: 3e3
+            });
+          }
+          const bool = res.cars.some((car) => !/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1,3}$/.test(car));
+          if (bool) {
+            return common_vendor.index.showToast({
+              title: "车牌号错误",
+              icon: "none",
+              duration: 3e3
+            });
+          }
+        }
         if (this.formData.captcha.length != 4) {
           this.$refs.captcha.focusCaptchaInput = true;
           return common_vendor.index.showToast({
@@ -101,24 +122,39 @@ const _sfc_main = {
           this.formData.address = res.address;
         }
       });
+    },
+    removeCar(item) {
+      this.formData.cars = this.formData.cars.filter((car) => car != item);
+    },
+    dialogInputConfirm(e) {
+      const set = new Set(this.formData.cars);
+      set.add(e);
+      this.formData.cars = [...set];
+      this.$refs.inputClose.val = "";
     }
   }
 };
 if (!Array) {
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
+  const _easycom_uni_tag2 = common_vendor.resolveComponent("uni-tag");
   const _easycom_uni_captcha2 = common_vendor.resolveComponent("uni-captcha");
   const _easycom_uni_id_pages_agreements2 = common_vendor.resolveComponent("uni-id-pages-agreements");
   const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
-  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_captcha2 + _easycom_uni_id_pages_agreements2 + _easycom_uni_forms2)();
+  const _easycom_uni_popup_dialog2 = common_vendor.resolveComponent("uni-popup-dialog");
+  const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
+  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_tag2 + _easycom_uni_captcha2 + _easycom_uni_id_pages_agreements2 + _easycom_uni_forms2 + _easycom_uni_popup_dialog2 + _easycom_uni_popup2)();
 }
 const _easycom_uni_easyinput = () => "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 const _easycom_uni_forms_item = () => "../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
+const _easycom_uni_tag = () => "../../uni_modules/uni-tag/components/uni-tag/uni-tag.js";
 const _easycom_uni_captcha = () => "../../uni_modules/uni-captcha/components/uni-captcha/uni-captcha.js";
 const _easycom_uni_id_pages_agreements = () => "../../uni_modules/uni-id-pages/components/uni-id-pages-agreements/uni-id-pages-agreements.js";
 const _easycom_uni_forms = () => "../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
+const _easycom_uni_popup_dialog = () => "../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.js";
+const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
 if (!Math) {
-  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_captcha + _easycom_uni_id_pages_agreements + _easycom_uni_forms)();
+  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_tag + _easycom_uni_captcha + _easycom_uni_id_pages_agreements + _easycom_uni_forms + _easycom_uni_popup_dialog + _easycom_uni_popup)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
@@ -145,26 +181,45 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.formData.address
     }),
     i: common_vendor.p({
-      name: "nickname",
+      name: "address",
       required: true
     }),
-    j: common_vendor.t($options.name),
-    k: common_vendor.o(($event) => $data.focusMobile = false),
-    l: common_vendor.o(($event) => $data.formData.mobile = $event),
+    j: common_vendor.f($data.formData.cars, (car, k0, i0) => {
+      return {
+        a: car,
+        b: common_vendor.o(($event) => $options.removeCar(car), car),
+        c: "748ca9ec-6-" + i0 + ",748ca9ec-5",
+        d: common_vendor.p({
+          text: car + " ×"
+        })
+      };
+    }),
+    k: common_vendor.o(($event) => _ctx.$refs.inputDialog.open()),
+    l: common_vendor.p({
+      text: "新增车牌",
+      type: "primary"
+    }),
     m: common_vendor.p({
+      name: "cars",
+      required: true
+    }),
+    n: common_vendor.t($options.name),
+    o: common_vendor.o(($event) => $data.focusMobile = false),
+    p: common_vendor.o(($event) => $data.formData.mobile = $event),
+    q: common_vendor.p({
       inputBorder: false,
       focus: $data.focusMobile,
       placeholder: `请输入${$options.name}手机号`,
       trim: "both",
       modelValue: $data.formData.mobile
     }),
-    n: common_vendor.p({
+    r: common_vendor.p({
       name: "mobile",
       required: true
     }),
-    o: common_vendor.o(($event) => $data.focusPassword = false),
-    p: common_vendor.o(($event) => $data.formData.password = $event),
-    q: common_vendor.p({
+    s: common_vendor.o(($event) => $data.focusPassword = false),
+    t: common_vendor.o(($event) => $data.formData.password = $event),
+    v: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword,
       maxlength: "20",
@@ -173,15 +228,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password
     }),
-    r: common_vendor.o(($event) => $data.formData.password = $event),
-    s: common_vendor.p({
+    w: common_vendor.o(($event) => $data.formData.password = $event),
+    x: common_vendor.p({
       name: "password",
       required: true,
       modelValue: $data.formData.password
     }),
-    t: common_vendor.o(($event) => $data.focusPassword2 = false),
-    v: common_vendor.o(($event) => $data.formData.password2 = $event),
-    w: common_vendor.p({
+    y: common_vendor.o(($event) => $data.focusPassword2 = false),
+    z: common_vendor.o(($event) => $data.formData.password2 = $event),
+    A: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword2,
       placeholder: "再次输入密码",
@@ -190,41 +245,51 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password2
     }),
-    x: common_vendor.o(($event) => $data.formData.password2 = $event),
-    y: common_vendor.p({
+    B: common_vendor.o(($event) => $data.formData.password2 = $event),
+    C: common_vendor.p({
       name: "password2",
       required: true,
       modelValue: $data.formData.password2
     }),
-    z: common_vendor.sr("captcha", "748ca9ec-12,748ca9ec-11"),
-    A: common_vendor.o(($event) => $data.formData.captcha = $event),
-    B: common_vendor.p({
+    D: common_vendor.sr("captcha", "748ca9ec-15,748ca9ec-14"),
+    E: common_vendor.o(($event) => $data.formData.captcha = $event),
+    F: common_vendor.p({
       scene: "register",
       modelValue: $data.formData.captcha
     }),
-    C: common_vendor.sr("agreements", "748ca9ec-13,748ca9ec-0"),
-    D: common_vendor.p({
+    G: common_vendor.sr("agreements", "748ca9ec-16,748ca9ec-0"),
+    H: common_vendor.p({
       scope: "register"
     }),
-    E: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    F: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
-    G: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
-    H: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    I: common_vendor.sr("form", "748ca9ec-0"),
-    J: common_vendor.p({
+    I: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
+    J: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
+    K: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
+    L: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
+    M: common_vendor.sr("form", "748ca9ec-0"),
+    N: common_vendor.p({
       value: $data.formData,
       rules: $data.rules,
       ["validate-trigger"]: "submit",
       ["err-show-type"]: "toast"
     }),
-    K: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
+    O: common_vendor.sr("inputClose", "748ca9ec-18,748ca9ec-17"),
+    P: common_vendor.o($options.dialogInputConfirm),
+    Q: common_vendor.p({
+      mode: "input",
+      title: "车牌号",
+      placeholder: "请输入车牌号"
+    }),
+    R: common_vendor.sr("inputDialog", "748ca9ec-17"),
+    S: common_vendor.p({
+      type: "dialog"
+    }),
+    T: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
       return {
         a: common_vendor.t(t.name),
         b: common_vendor.o(($event) => $options.changeTitle(t.role), t.role),
         c: t.role
       };
-    }),
-    L: common_vendor.o((...args) => $options.getRole && $options.getRole(...args))
+    })
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/pages/login/register.vue"]]);
