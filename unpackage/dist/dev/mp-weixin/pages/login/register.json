@@ -8,6 +8,7 @@
     "uni-id-pages-agreements": "../../uni_modules/uni-id-pages/components/uni-id-pages-agreements/uni-id-pages-agreements",
     "uni-forms": "../../uni_modules/uni-forms/components/uni-forms/uni-forms",
     "uni-popup-dialog": "../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog",
-    "uni-popup": "../../uni_modules/uni-popup/components/uni-popup/uni-popup"
+    "uni-popup": "../../uni_modules/uni-popup/components/uni-popup/uni-popup",
+    "uni-id-pages-sms-form": "../../uni_modules/uni-id-pages/components/uni-id-pages-sms-form/uni-id-pages-sms-form"
   }
 }

@@ -32,6 +32,7 @@ async function getNeedCaptcha ({
     }
   }
 
+
   if (deleteKey === totalKey) {
     throw new Error('System error') // 正常情况下不会进入此条件，但是考虑到后续会有其他开发者修改此云对象，在此处做一个判断
   }
@@ -46,7 +47,8 @@ async function getNeedCaptcha ({
   })
     .orderBy('create_date', 'desc')
     .limit(limitTimes)
-    .get()
+    .get();
+		
   return recentRecord.length === limitTimes && recentRecord.every(item => item.state === 0)
 }
 

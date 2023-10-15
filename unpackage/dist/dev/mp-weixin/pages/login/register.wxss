@@ -108,6 +108,15 @@
 button {
   margin-top: 15px;
 }
+.smsbtn {
+  font-size: 32rpx;
+  height: 44px;
+  line-height: 44px;
+  padding: 0 15rpx;
+  border-radius: 10rpx;
+  background-color: #2979ff;
+  color: white;
+}
 .other {
   display: flex;
   align-items: center;
@@ -119,4 +128,17 @@ button {
   width: 40rpx;
   border-bottom: 2rpx solid black;
   padding-bottom: 4rpx;
+}
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+  width: 100%;
+}
+.dialog .dialog-input {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0 20rpx;
+  height: 40px;
+  font-size: 26rpx;
+  border-radius: 10rpx;
 }

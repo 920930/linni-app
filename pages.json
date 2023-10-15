@@ -35,12 +35,12 @@
 		}, {
 			"path": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "手机登录"
 			}
 		}, {
 			"path": "uni_modules/uni-id-pages/pages/login/login-withpwd",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "密码登录"
 			}
 		}, {
 			"path": "uni_modules/uni-id-pages/pages/login/login-smscode",

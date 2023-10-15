@@ -7115,13 +7115,13 @@ const pages = [
   {
     path: "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
     style: {
-      navigationBarTitleText: ""
+      navigationBarTitleText: "手机登录"
     }
   },
   {
     path: "uni_modules/uni-id-pages/pages/login/login-withpwd",
     style: {
-      navigationBarTitleText: ""
+      navigationBarTitleText: "密码登录"
     }
   },
   {
@@ -7490,7 +7490,7 @@ class I {
 function S(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const b = true, k = "mp-weixin", T = S([]), P = k, A = S('{\n    "address": [\n        "127.0.0.1",\n        "10.10.10.200"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/920930/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = S('[{"provider":"aliyun","spaceName":"linni","spaceId":"mp-b5ff49b2-63b7-4902-a120-670403299a25","clientSecret":"PEmVayh0h23aZuuaqoG7TQ==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const b = true, k = "mp-weixin", T = S([]), P = k, A = S('{\n    "address": [\n        "127.0.0.1",\n        "192.168.1.9"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/92030/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = S('[{"provider":"aliyun","spaceName":"linni","spaceId":"mp-b5ff49b2-63b7-4902-a120-670403299a25","clientSecret":"PEmVayh0h23aZuuaqoG7TQ==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let x = "";
 try {
   x = "__UNI__C7BD554";
@@ -9717,6 +9717,7 @@ let Ns = new class {
 var Ds = Ns;
 exports.Ds = Ds;
 exports._export_sfc = _export_sfc;
+exports.computed = computed;
 exports.createSSRApp = createSSRApp;
 exports.e = e;
 exports.f = f$1;

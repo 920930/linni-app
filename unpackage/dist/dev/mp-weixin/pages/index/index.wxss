@@ -33,9 +33,15 @@
   z-index: -2;
 }
 .top.data-v-1cf27b2a {
-  margin-top: 100rpx;
+  margin-top: 40rpx;
   padding-top: 100rpx;
   position: relative;
+}
+@media screen and (max-width: 375px) {
+.top.data-v-1cf27b2a {
+    margin-top: 70rpx;
+    padding-top: 80rpx;
+}
 }
 .top-bg.data-v-1cf27b2a {
   position: absolute;
@@ -91,8 +97,13 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  gap: 40rpx;
+  gap: 50rpx;
   box-sizing: border-box;
+}
+@media screen and (max-width: 375px) {
+.main-ul.data-v-1cf27b2a {
+    gap: 40rpx;
+}
 }
 .main-ul-li.data-v-1cf27b2a {
   display: flex;

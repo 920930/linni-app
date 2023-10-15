@@ -25,6 +25,7 @@ async function realPreLogin (params = {}) {
     userQuery: user,
     authorizedApp: appId
   })
+	console.log(userMatched)
   if (userMatched.length === 0) {
     if (total > 0) {
       throw {
@@ -65,9 +66,11 @@ async function preLoginWithPassword (params = {}) {
   const {
     user,
     password
-  } = params
+  } = params;
+	console.log(user)
   try {
     const userRecord = await realPreLogin.call(this, params)
+		console.log(userRecord)
     const {
       passwordErrorLimit,
       passwordErrorRetryTime
