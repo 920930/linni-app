@@ -16,9 +16,10 @@ const _sfc_main = {
         address: "",
         password: "",
         password2: "",
-        captcha: "",
+        // captcha: "",
         role: "supplier",
-        cars: []
+        cars: [],
+        code: ""
       },
       rules: pages_login_validator.rules,
       focusMobile: false,
@@ -37,6 +38,9 @@ const _sfc_main = {
   computed: {
     name() {
       return this.userType.find((item) => item.role === this.formData.role).name;
+    },
+    smsbool() {
+      return /^1[3-9]{1}\d{9}$/.test(this.formData.mobile);
     }
   },
   methods: {
@@ -74,14 +78,6 @@ const _sfc_main = {
               duration: 3e3
             });
           }
-        }
-        if (this.formData.captcha.length != 4) {
-          this.$refs.captcha.focusCaptchaInput = true;
-          return common_vendor.index.showToast({
-            title: "请输入验证码",
-            icon: "none",
-            duration: 3e3
-          });
         }
         if (this.needAgreements && !this.agree) {
           return this.$refs.agreements.popup(() => {
@@ -131,6 +127,9 @@ const _sfc_main = {
       set.add(e);
       this.formData.cars = [...set];
       this.$refs.inputClose.val = "";
+    },
+    smsBtn(e) {
+      console.log(this.formData.code);
     }
   }
 };
@@ -138,26 +137,26 @@ if (!Array) {
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
   const _easycom_uni_tag2 = common_vendor.resolveComponent("uni-tag");
-  const _easycom_uni_captcha2 = common_vendor.resolveComponent("uni-captcha");
   const _easycom_uni_id_pages_agreements2 = common_vendor.resolveComponent("uni-id-pages-agreements");
   const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
   const _easycom_uni_popup_dialog2 = common_vendor.resolveComponent("uni-popup-dialog");
   const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
-  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_tag2 + _easycom_uni_captcha2 + _easycom_uni_id_pages_agreements2 + _easycom_uni_forms2 + _easycom_uni_popup_dialog2 + _easycom_uni_popup2)();
+  const _easycom_uni_id_pages_sms_form2 = common_vendor.resolveComponent("uni-id-pages-sms-form");
+  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_tag2 + _easycom_uni_id_pages_agreements2 + _easycom_uni_forms2 + _easycom_uni_popup_dialog2 + _easycom_uni_popup2 + _easycom_uni_id_pages_sms_form2)();
 }
 const _easycom_uni_easyinput = () => "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 const _easycom_uni_forms_item = () => "../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
 const _easycom_uni_tag = () => "../../uni_modules/uni-tag/components/uni-tag/uni-tag.js";
-const _easycom_uni_captcha = () => "../../uni_modules/uni-captcha/components/uni-captcha/uni-captcha.js";
 const _easycom_uni_id_pages_agreements = () => "../../uni_modules/uni-id-pages/components/uni-id-pages-agreements/uni-id-pages-agreements.js";
 const _easycom_uni_forms = () => "../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
 const _easycom_uni_popup_dialog = () => "../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.js";
 const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
+const _easycom_uni_id_pages_sms_form = () => "../../uni_modules/uni-id-pages/components/uni-id-pages-sms-form/uni-id-pages-sms-form.js";
 if (!Math) {
-  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_tag + _easycom_uni_captcha + _easycom_uni_id_pages_agreements + _easycom_uni_forms + _easycom_uni_popup_dialog + _easycom_uni_popup)();
+  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_tag + _easycom_uni_id_pages_agreements + _easycom_uni_forms + _easycom_uni_popup_dialog + _easycom_uni_popup + _easycom_uni_id_pages_sms_form)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {
+  return common_vendor.e({
     a: common_vendor.t($options.name),
     b: common_vendor.o(($event) => $data.focusNickname = false),
     c: common_vendor.o(($event) => $data.formData.nickname = $event),
@@ -213,13 +212,17 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.mobile
     }),
-    r: common_vendor.p({
+    r: $options.smsbool
+  }, $options.smsbool ? {
+    s: common_vendor.o(($event) => _ctx.$refs.smsDialog.open())
+  } : {}, {
+    t: common_vendor.p({
       name: "mobile",
       required: true
     }),
-    s: common_vendor.o(($event) => $data.focusPassword = false),
-    t: common_vendor.o(($event) => $data.formData.password = $event),
-    v: common_vendor.p({
+    v: common_vendor.o(($event) => $data.focusPassword = false),
+    w: common_vendor.o(($event) => $data.formData.password = $event),
+    x: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword,
       maxlength: "20",
@@ -228,15 +231,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password
     }),
-    w: common_vendor.o(($event) => $data.formData.password = $event),
-    x: common_vendor.p({
+    y: common_vendor.o(($event) => $data.formData.password = $event),
+    z: common_vendor.p({
       name: "password",
       required: true,
       modelValue: $data.formData.password
     }),
-    y: common_vendor.o(($event) => $data.focusPassword2 = false),
-    z: common_vendor.o(($event) => $data.formData.password2 = $event),
-    A: common_vendor.p({
+    A: common_vendor.o(($event) => $data.focusPassword2 = false),
+    B: common_vendor.o(($event) => $data.formData.password2 = $event),
+    C: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword2,
       placeholder: "再次输入密码",
@@ -245,52 +248,62 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password2
     }),
-    B: common_vendor.o(($event) => $data.formData.password2 = $event),
-    C: common_vendor.p({
+    D: common_vendor.o(($event) => $data.formData.password2 = $event),
+    E: common_vendor.p({
       name: "password2",
       required: true,
       modelValue: $data.formData.password2
     }),
-    D: common_vendor.sr("captcha", "748ca9ec-15,748ca9ec-14"),
-    E: common_vendor.o(($event) => $data.formData.captcha = $event),
-    F: common_vendor.p({
-      scene: "register",
-      modelValue: $data.formData.captcha
-    }),
-    G: common_vendor.sr("agreements", "748ca9ec-16,748ca9ec-0"),
-    H: common_vendor.p({
+    F: common_vendor.sr("agreements", "748ca9ec-14,748ca9ec-0"),
+    G: common_vendor.p({
       scope: "register"
     }),
-    I: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    J: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
-    K: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
-    L: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    M: common_vendor.sr("form", "748ca9ec-0"),
-    N: common_vendor.p({
+    H: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
+    I: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
+    J: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
+    K: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
+    L: common_vendor.sr("form", "748ca9ec-0"),
+    M: common_vendor.p({
       value: $data.formData,
       rules: $data.rules,
       ["validate-trigger"]: "submit",
       ["err-show-type"]: "toast"
     }),
-    O: common_vendor.sr("inputClose", "748ca9ec-18,748ca9ec-17"),
-    P: common_vendor.o($options.dialogInputConfirm),
-    Q: common_vendor.p({
+    N: common_vendor.sr("inputClose", "748ca9ec-16,748ca9ec-15"),
+    O: common_vendor.o($options.dialogInputConfirm),
+    P: common_vendor.p({
       mode: "input",
       title: "车牌号",
       placeholder: "请输入车牌号"
     }),
-    R: common_vendor.sr("inputDialog", "748ca9ec-17"),
-    S: common_vendor.p({
+    Q: common_vendor.sr("inputDialog", "748ca9ec-15"),
+    R: common_vendor.p({
       type: "dialog"
     }),
-    T: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
+    S: common_vendor.sr("smsCode", "748ca9ec-19,748ca9ec-18"),
+    T: common_vendor.o(($event) => $data.formData.code = $event),
+    U: common_vendor.p({
+      focusCaptchaInput: true,
+      type: "login-by-sms",
+      phone: $data.formData.mobile,
+      modelValue: $data.formData.code
+    }),
+    V: common_vendor.o($options.smsBtn),
+    W: common_vendor.p({
+      title: "输入内容"
+    }),
+    X: common_vendor.sr("smsDialog", "748ca9ec-17"),
+    Y: common_vendor.p({
+      type: "dialog"
+    }),
+    Z: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
       return {
         a: common_vendor.t(t.name),
         b: common_vendor.o(($event) => $options.changeTitle(t.role), t.role),
         c: t.role
       };
     })
-  };
+  });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/pages/login/register.vue"]]);
 wx.createPage(MiniProgramPage);

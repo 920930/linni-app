@@ -7115,13 +7115,13 @@ const pages = [
   {
     path: "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
     style: {
-      navigationBarTitleText: ""
+      navigationBarTitleText: "手机登录"
     }
   },
   {
     path: "uni_modules/uni-id-pages/pages/login/login-withpwd",
     style: {
-      navigationBarTitleText: ""
+      navigationBarTitleText: "密码登录"
     }
   },
   {
@@ -9717,6 +9717,7 @@ let Ns = new class {
 var Ds = Ns;
 exports.Ds = Ds;
 exports._export_sfc = _export_sfc;
+exports.computed = computed;
 exports.createSSRApp = createSSRApp;
 exports.e = e;
 exports.f = f$1;

@@ -1,5 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const uni_modules_uniIdPages_common_store = require("../../uni_modules/uni-id-pages/common/store.js");
+require("../../uni_modules/uni-id-pages/config.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   _easycom_uni_icons2();
@@ -11,9 +13,10 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    const hasLogin = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.hasLogin);
     const loginBtn = () => {
       common_vendor.index.navigateTo({
-        "url": "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+        url: hasLogin.value ? "/uni_modules/uni-id-pages/pages/userinfo/userinfo" : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
       });
     };
     const registerBtn = () => {
@@ -26,48 +29,60 @@ const _sfc_main = {
         url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
       });
     };
+    const smsBtn = () => {
+      common_vendor.index.navigateTo({
+        url: "/uni_modules/uni-id-pages/pages/login/login-withoutpwd"
+      });
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({
           ["custom-prefix"]: "iconfont",
           type: "icon-huoche",
           color: "white",
-          size: "200"
+          size: "160"
         }),
         b: common_vendor.p({
           ["custom-prefix"]: "iconfont",
           type: "icon-huoche",
           color: "white",
+          size: "200"
+        }),
+        c: common_vendor.p({
+          ["custom-prefix"]: "iconfont",
+          type: "icon-huoche",
+          color: "white",
           size: "50"
         }),
-        c: common_vendor.o(loginBtn),
-        d: common_vendor.p({
+        d: common_vendor.o(loginBtn),
+        e: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        e: common_vendor.o(registerBtn),
-        f: common_vendor.p({
-          type: "right",
-          size: "20",
-          color: "rgba(0, 0, 0, 0.4)"
-        }),
+        f: common_vendor.o(registerBtn),
         g: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        h: common_vendor.p({
-          type: "right",
-          size: "20",
-          color: "rgba(0, 0, 0, 0.4)"
-        }),
+        h: common_vendor.o(smsBtn),
         i: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        j: common_vendor.o(mobileFn)
+        j: common_vendor.p({
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
+        }),
+        k: common_vendor.p({
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
+        }),
+        l: common_vendor.o(mobileFn)
       };
     };
   }

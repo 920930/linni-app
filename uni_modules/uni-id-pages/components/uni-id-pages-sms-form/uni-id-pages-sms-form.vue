@@ -5,7 +5,7 @@
 			<uni-easyinput :focus="focusSmsCodeInput" @blur="focusSmsCodeInput = false" type="number" class="input-box" :inputBorder="false" v-model="modelValue" maxlength="6" :clearable="false"
 				placeholder="请输入短信验证码">
 			</uni-easyinput>
-			<view class="short-code-btn" hover-class="hover" @click="start">
+			<view class="short-code-btn" hover-class="hover" @tap="start">
 				<text class="inner-text" :class="reverseNumber==0?'inner-text-active':''">{{innerText}}</text>
 			</view>
 		</view>
@@ -128,11 +128,13 @@
 					});
 				}
 				let reg_phone = /^1\d{10}$/;
-				if (!reg_phone.test(this.phone)) return uni.showToast({
-					title: "手机号格式错误",
-					icon: 'none',
-					duration: 3000
-				});
+				if (!reg_phone.test(this.phone)) {
+					return uni.showToast({
+						title: "手机号格式错误",
+						icon: 'none',
+						duration: 3000
+					});
+				}
 				const uniIdCo = uniCloud.importObject("uni-id-co", {
 					customUI: true
 				})
@@ -161,6 +163,8 @@
 							icon: 'none',
 							duration: 3000
 						});
+						this.reverseNumber = Number(this.count);
+						this.getCode();
 						console.warn(e.message);
 					} else {
 						this.getImageCaptcha()
@@ -202,6 +206,7 @@
 		width: 260rpx;
 		max-width: 100px;
 		height: 44px;
+		z-index: 10;
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */

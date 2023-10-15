@@ -51,7 +51,8 @@ module.exports = async function (params = {}) {
     email,
     password,
     captcha
-  } = params
+  } = params;
+
   if (!username && !mobile && !email) {
     throw {
       errCode: ERROR.INVALID_USERNAME
@@ -65,6 +66,7 @@ module.exports = async function (params = {}) {
       errCode: ERROR.INVALID_PARAM
     }
   }
+
   const needCaptcha = await getNeedCaptcha.call(this, {
     username,
     mobile,
@@ -87,6 +89,7 @@ module.exports = async function (params = {}) {
     },
     password
   })
+
   return postLogin.call(this, {
     user,
     extraData

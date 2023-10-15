@@ -108,12 +108,13 @@ const _sfc_main = {
         });
       }
       let reg_phone = /^1\d{10}$/;
-      if (!reg_phone.test(this.phone))
+      if (!reg_phone.test(this.phone)) {
         return common_vendor.index.showToast({
           title: "手机号格式错误",
           icon: "none",
           duration: 3e3
         });
+      }
       const uniIdCo = common_vendor.Ds.importObject("uni-id-co", {
         customUI: true
       });
@@ -142,6 +143,8 @@ const _sfc_main = {
             icon: "none",
             duration: 3e3
           });
+          this.reverseNumber = Number(this.count);
+          this.getCode();
           console.warn(e.message);
         } else {
           this.getImageCaptcha();

@@ -19,9 +19,15 @@
 			</uni-forms-item>
 			<view style="margin-bottom: 15rpx; color: rgba(0, 0, 0, 0.7);">{{name}}业务信息</view>
 			<uni-forms-item name="mobile" required>
-				<uni-easyinput :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
-					class="input-box" :placeholder="`请输入${name}手机号`" v-model="formData.mobile" trim="both" />
+				<view style="display: flex; gap: 10rpx;">
+					<uni-easyinput :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
+						 :placeholder="`请输入${name}手机号`" v-model="formData.mobile" trim="both" />
+					<view class="smsbtn" v-if="smsbool" @click="$refs.smsDialog.open()">获取验证码</view>
+				</view>
 			</uni-forms-item>
+			<!-- <uni-forms-item name="code" required>
+				<uni-easyinput :inputBorder="false" class="input-box" :placeholder="`请输入手机验证码`" v-model="formData.code" trim="both" />
+			</uni-forms-item> -->
 			<uni-forms-item name="password" v-model="formData.password" required>
 				<uni-easyinput :inputBorder="false" :focus="focusPassword" @blur="focusPassword = false"
 					class="input-box" maxlength="20"
@@ -33,11 +39,11 @@
 					class="input-box" placeholder="再次输入密码" maxlength="20" type="password" v-model="formData.password2"
 					trim="both" />
 			</uni-forms-item>
-			<uni-forms-item>
+			<!-- <uni-forms-item>
 				<uni-captcha ref="captcha" scene="register" v-model="formData.captcha" />
-			</uni-forms-item>
+			</uni-forms-item> -->
 			<uni-id-pages-agreements scope="register" ref="agreements"></uni-id-pages-agreements>
-			<button class="uni-btn" type="primary" @click="submit">注册</button>
+			<button class="uni-btn" style="background-color: #2979ff;" @click="submit">注册</button>
 			<button @click="navigateBack" class="register-back">返回</button>
 			<match-media :min-width="690">
 				<view class="link-box">
@@ -48,7 +54,16 @@
 		</uni-forms>
 	</view>
 	<uni-popup ref="inputDialog" type="dialog">
-		<uni-popup-dialog ref="inputClose"  mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm" />
+		<uni-popup-dialog ref="inputClose" mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm" />
+	</uni-popup>
+	<uni-popup ref="smsDialog" type="dialog">
+		<uni-popup-dialog title="输入内容" @confirm="smsBtn">
+			<uni-id-pages-sms-form focusCaptchaInput v-model="formData.code" type="login-by-sms" ref="smsCode" :phone="formData.mobile" />
+			<!-- <view class="dialog">
+				<input class="dialog-input" placeholder="自动获得焦点" />
+				<input class="dialog-input" placeholder="自动获得焦点" />
+			</view> -->
+		</uni-popup-dialog>
 	</uni-popup>
 	<view class="other">
 		<view v-for="t in userType.filter(item => item.role != formData.role)" :key="t.role">
@@ -77,9 +92,10 @@
 					address: "",
 					password: "",
 					password2: "",
-					captcha: "",
+					// captcha: "",
 					role: 'supplier',
 					cars: [],
+					code: '',
 				},
 				rules,
 				focusMobile: false,
@@ -106,6 +122,9 @@
 		computed: {
 			name(){
 				return this.userType.find(item => item.role === this.formData.role).name
+			},
+			smsbool(){
+				return /^1[3-9]{1}\d{9}$/.test(this.formData.mobile)
 			}
 		},
 		methods: {
@@ -145,14 +164,14 @@
 						}
 					}
 					
-					if (this.formData.captcha.length != 4) {
-						this.$refs.captcha.focusCaptchaInput = true
-						return uni.showToast({
-							title: '请输入验证码',
-							icon: 'none',
-							duration: 3000
-						});
-					}
+					// if (this.formData.captcha.length != 4) {
+					// 	this.$refs.captcha.focusCaptchaInput = true
+					// 	return uni.showToast({
+					// 		title: '请输入验证码',
+					// 		icon: 'none',
+					// 		duration: 3000
+					// 	});
+					// }
 					if (this.needAgreements && !this.agree) {
 						return this.$refs.agreements.popup(() => {
 							this.submitForm(res)
@@ -203,6 +222,9 @@
 				set.add(e)
 				this.formData.cars = [...set]
 				this.$refs.inputClose.val = '';
+			},
+			smsBtn(e) {
+				console.log(this.formData.code)
 			}
 		}
 	}
@@ -247,7 +269,15 @@
 	button {
 		margin-top: 15px;
 	}
-	
+	.smsbtn{
+		font-size: 32rpx;
+		height: 44px;
+		line-height: 44px;
+		padding:0 15rpx;
+		border-radius: 10rpx;
+		background-color: #2979ff;
+		color: white;
+	}
 	.other{
 		display: flex;
 		align-items: center;
@@ -258,6 +288,20 @@
 			width: 40rpx;
 			border-bottom: 2rpx solid black;
 			padding-bottom: 4rpx;
+		}
+	}
+	
+	.dialog{
+		display: flex;
+		flex-direction: column;
+		gap: 30rpx;
+		width: 100%;
+		.dialog-input{
+			background-color: rgba(0, 0, 0, 0.05);
+			padding: 0 20rpx;
+			height: 40px;
+			font-size: 26rpx;
+			border-radius: 10rpx;
 		}
 	}
 </style>

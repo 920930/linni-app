@@ -39,7 +39,9 @@ async function findUser (params = {}) {
   } else {
     finalQuery = dbCmd.or(condition)
   }
-  const userQueryRes = await userCollection.where(finalQuery).get()
+	console.log(finalQuery)
+  const userQueryRes = await userCollection.where(finalQuery).get();
+	console.log(userQueryRes)
   return {
     total: userQueryRes.data.length,
     userMatched: userQueryRes.data.filter(item => {
@@ -55,6 +57,7 @@ function getUserIdentifier (userRecord = {}) {
 
 function getUserQueryCondition (userRecord = {}) {
   const userIdentifier = getUserIdentifier(userRecord)
+	
   const condition = []
   for (const key in userIdentifier) {
     const value = userIdentifier[key]

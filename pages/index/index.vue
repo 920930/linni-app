@@ -2,7 +2,12 @@
 	<view class="bg"></view>
 	<view class="top">
 		<view class="top-bg">
-			<uni-icons custom-prefix="iconfont" type="icon-huoche" color='white' size="200" />
+			<match-media :max-width="375" >
+				<uni-icons custom-prefix="iconfont" type="icon-huoche" color='white' size="160" />
+			</match-media>
+			<match-media :min-width="375" >
+				<uni-icons custom-prefix="iconfont" type="icon-huoche" color='white' size="200" />
+			</match-media>
 		</view>
 		<view class="top-title">
 			<view class="top-title-left">
@@ -28,7 +33,7 @@
 				</view>
 				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 			</view>
-			<view class="main-ul-li">
+			<view class="main-ul-li" @tap="smsBtn">
 				<image src="../../static/index/index-yy.png" class="main-ul-li-left" />
 				<view class="main-ul-li-center">
 					<text class="main-ul-li-center-t">电子提单</text>
@@ -69,10 +74,12 @@
 </template>
 
 <script setup>
-	// import store from '@/uni_modules/uni-id-pages/common/store.js'
+	import { store } from '@/uni_modules/uni-id-pages/common/store.js';
+	import { computed } from 'vue';
+	const hasLogin = computed(() => store.hasLogin)
 	const loginBtn = () => {
 		uni.navigateTo({
-			"url":"/uni_modules/uni-id-pages/pages/login/login-withpwd"
+			url: hasLogin.value ? '/uni_modules/uni-id-pages/pages/userinfo/userinfo' : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
 		})
 	}
 	const registerBtn = () => {
@@ -83,6 +90,11 @@
 	const mobileFn = () => {
 		uni.navigateTo({
 			url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
+		})
+	}
+	const smsBtn = () => {
+		uni.navigateTo({
+			url: '/uni_modules/uni-id-pages/pages/login/login-withoutpwd'
 		})
 	}
 </script>
@@ -98,8 +110,12 @@
 	z-index: -2;
 }
 .top{
-	margin-top: 100rpx;
+	margin-top: 40rpx;
 	padding-top: 100rpx;
+	@media screen and (max-width: 375px) {
+		margin-top: 70rpx;
+		padding-top: 80rpx;
+	}
 	position: relative;
 	&-bg{
 		position: absolute;
@@ -155,7 +171,10 @@
 		border-radius: $uni-border-radius-base;
 		display: flex;
 		flex-direction: column;
-		gap: 40rpx;
+		@media screen and (max-width: 375px) {
+			gap: 40rpx;
+		}
+		gap: 50rpx;
 		box-sizing: border-box;
 		&-li{
 			// background-color: white;
