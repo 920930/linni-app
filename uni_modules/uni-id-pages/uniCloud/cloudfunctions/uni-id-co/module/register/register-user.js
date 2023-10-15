@@ -52,6 +52,7 @@ module.exports = async function (params = {}) {
 		role: role_id,
 		address,
 		cars,
+		code,
   } = params;
 	const data = {
 		role: [role_id],
