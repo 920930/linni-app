@@ -89,7 +89,7 @@ const _sfc_main = {
     /* 前往注册 */
     toRegister() {
       common_vendor.index.navigateTo({
-        url: this.config.isAdmin ? "/uni_modules/uni-id-pages/pages/register/register-admin" : "/pages/login/register",
+        url: this.config.isAdmin ? "/uni_modules/uni-id-pages/pages/register/register-admin" : "/uni_modules/uni-id-pages/pages/register/register",
         fail(e) {
           console.error(e);
         }

@@ -69,7 +69,7 @@ const _sfc_main = {
       });
     },
     bindMobile() {
-      this.$refs["bind-mobile-by-sms"].open();
+      this.bindMobileBySmsCode();
     },
     univerify() {
       common_vendor.index.login({

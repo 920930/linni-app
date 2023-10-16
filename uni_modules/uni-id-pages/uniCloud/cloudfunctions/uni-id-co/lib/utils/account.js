@@ -24,6 +24,7 @@ async function findUser (params = {}) {
     authorizedApp = []
   } = params
   const condition = getUserQueryCondition(userQuery)
+
   if (condition.length === 0) {
     throw new Error('Invalid user query')
   }
@@ -39,9 +40,8 @@ async function findUser (params = {}) {
   } else {
     finalQuery = dbCmd.or(condition)
   }
-	console.log(finalQuery)
+
   const userQueryRes = await userCollection.where(finalQuery).get();
-	console.log(userQueryRes)
   return {
     total: userQueryRes.data.length,
     userMatched: userQueryRes.data.filter(item => {
@@ -69,7 +69,7 @@ function getUserQueryCondition (userRecord = {}) {
       [key]: value
     }
     // 为兼容用户老数据用户名及邮箱需要同时查小写及原始大小写数据
-    if (key === 'mobile') {
+    if (key === 'mobile') {// 开启将导致注册查询时
       queryItem.mobile_confirmed = 1
     } else if (key === 'email') {
       queryItem.email_confirmed = 1

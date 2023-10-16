@@ -31,7 +31,7 @@ const _sfc_main = {
     };
     const smsBtn = () => {
       common_vendor.index.navigateTo({
-        url: "/uni_modules/uni-id-pages/pages/login/login-withoutpwd"
+        url: "/uni_modules/uni-id-pages/pages/login/login-withpwd"
       });
     };
     return (_ctx, _cache) => {

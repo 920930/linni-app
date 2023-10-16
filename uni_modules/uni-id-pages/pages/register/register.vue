@@ -3,19 +3,19 @@
 	<view class="uni-content">
 		<match-media :min-width="690">
 			<view class="login-logo">
-				<!-- <image :src="logo"></image> -->
+				<image :src="logo"></image>
 			</view>
 			<!-- 顶部文字 -->
 			<text class="title title-box">用户名密码注册</text>
 		</match-media>
 		<uni-forms ref="form" :value="formData" :rules="rules" validate-trigger="submit" err-show-type="toast">
-			<uni-forms-item name="mobile" required>
-				<uni-easyinput :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
-					class="input-box" placeholder="请输入手机号" v-model="formData.mobile" trim="both" />
+			<uni-forms-item name="username" required>
+				<uni-easyinput :inputBorder="false" :focus="focusUsername" @blur="focusUsername = false"
+					class="input-box" placeholder="请输入用户名" v-model="formData.username" trim="both" />
 			</uni-forms-item>
-			<uni-forms-item name="nickname" required>
+			<uni-forms-item name="nickname">
 				<uni-easyinput :inputBorder="false" :focus="focusNickname" @blur="focusNickname = false"
-					class="input-box" placeholder="请输入用户姓名" v-model="formData.nickname" trim="both" />
+					class="input-box" placeholder="请输入用户昵称" v-model="formData.nickname" trim="both" />
 			</uni-forms-item>
 			<uni-forms-item name="password" v-model="formData.password" required>
 				<uni-easyinput :inputBorder="false" :focus="focusPassword" @blur="focusPassword = false"
@@ -59,21 +59,22 @@
 		data() {
 			return {
 				formData: {
-					mobile: "",
+					username: "",
 					nickname: "",
 					password: "",
 					password2: "",
 					captcha: ""
 				},
 				rules,
-				focusMobile: false,
+				focusUsername: false,
 				focusNickname: false,
 				focusPassword: false,
 				focusPassword2: false,
-				// logo: "/static/logo.png"
+				logo: "/static/logo.png"
 			}
 		},
 		onReady() {
+			console.log(this.rules)
 			this.$refs.form.setRules(this.rules)
 		},
 		onShow() {
@@ -91,7 +92,9 @@
 			 * 触发表单提交
 			 */
 			submit() {
+				console.log(123)
 				this.$refs.form.validate().then((res) => {
+					console.log(123)
 					if (this.formData.captcha.length != 4) {
 						this.$refs.captcha.focusCaptchaInput = true
 						return uni.showToast({

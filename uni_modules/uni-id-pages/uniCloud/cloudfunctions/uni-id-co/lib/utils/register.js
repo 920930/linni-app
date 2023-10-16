@@ -19,18 +19,18 @@ const PasswordUtils = require('./password')
 const merge = require('lodash.merge')
 
 async function realPreRegister (params = {}) {
-  const {
-    user
-  } = params
+  const { user } = params;
   const {
     userMatched
   } = await findUser({
     userQuery: user,
     authorizedApp: this.getUniversalClientInfo().appId
   })
+
   if (userMatched.length > 0) {
     throw {
-      errCode: ERROR.ACCOUNT_EXISTS
+      errCode: ERROR.ACCOUNT_EXISTS,
+			errMsg: '账户或手机号已存在'
     }
   }
 }
@@ -163,8 +163,8 @@ async function postRegister (params = {}) {
       await logout.call(this)
     } catch (error) { }
   }
-
   const beforeRegister = this.hooks.beforeRegister
+
   let userRecord = user
   if (beforeRegister) {
     userRecord = await beforeRegister({
@@ -172,7 +172,6 @@ async function postRegister (params = {}) {
       clientInfo: this.getUniversalClientInfo()
     })
   }
-
   const {
     id: uid
   } = await userCollection.add(userRecord)
@@ -180,7 +179,6 @@ async function postRegister (params = {}) {
   const createTokenRes = await this.uniIdCommon.createToken({
     uid
   })
-
   const {
     errCode,
     token,

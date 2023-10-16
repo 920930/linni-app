@@ -7,6 +7,13 @@
 				<uni-easyinput :inputBorder="false" :focus="focusNickname" @blur="focusNickname = false"
 					class="input-box" :placeholder="`请输入${name}名称`" v-model="formData.nickname" trim="both" />
 			</uni-forms-item>
+			<uni-forms-item name="mobile" required>
+				<view style="display: flex; gap: 10rpx;">
+					<uni-easyinput :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
+						placeholder="请输入手机号" v-model="formData.mobile" trim="both" />
+					<view class="smsbtn" v-if="smsbool" @click="$refs.smsDialog.open()">获取验证码</view>
+				</view>
+			</uni-forms-item>
 			<uni-forms-item name="address" required style="position: relative;">
 				<view style="position: absolute; z-index: 10; left: 0; top: 0; bottom: 0; width: 89%;" @tap="manBtn"></view>
 				<uni-easyinput :placeholder="`${name}地址选择`" v-model="formData.address" trim="both" :inputBorder="false" class="input-box" />
@@ -18,16 +25,10 @@
 					</view>
 			</uni-forms-item>
 			<view style="margin-bottom: 15rpx; color: rgba(0, 0, 0, 0.7);">{{name}}业务信息</view>
-			<uni-forms-item name="mobile" required>
-				<view style="display: flex; gap: 10rpx;">
-					<uni-easyinput :inputBorder="false" :focus="focusMobile" @blur="focusMobile = false"
-						 :placeholder="`请输入${name}手机号`" v-model="formData.mobile" trim="both" />
-					<view class="smsbtn" v-if="smsbool" @click="$refs.smsDialog.open()">获取验证码</view>
-				</view>
+			<uni-forms-item name="username" required>
+				<uni-easyinput :inputBorder="false" :focus="focusUsername" @blur="focusUsername = false"
+					class="input-box" placeholder="请输入登录账户" v-model="formData.username" trim="both" />
 			</uni-forms-item>
-			<!-- <uni-forms-item name="code" required>
-				<uni-easyinput :inputBorder="false" class="input-box" :placeholder="`请输入手机验证码`" v-model="formData.code" trim="both" />
-			</uni-forms-item> -->
 			<uni-forms-item name="password" v-model="formData.password" required>
 				<uni-easyinput :inputBorder="false" :focus="focusPassword" @blur="focusPassword = false"
 					class="input-box" maxlength="20"
@@ -59,10 +60,6 @@
 	<uni-popup ref="smsDialog" type="dialog">
 		<uni-popup-dialog title="输入内容" @confirm="smsBtn">
 			<uni-id-pages-sms-form focusCaptchaInput v-model="formData.code" type="login-by-sms" ref="smsCode" :phone="formData.mobile" />
-			<!-- <view class="dialog">
-				<input class="dialog-input" placeholder="自动获得焦点" />
-				<input class="dialog-input" placeholder="自动获得焦点" />
-			</view> -->
 		</uni-popup-dialog>
 	</uni-popup>
 	<view class="other">
@@ -87,6 +84,7 @@
 		data() {
 			return {
 				formData: {
+					username: "",
 					mobile: "",
 					nickname: "",
 					address: "",
@@ -99,6 +97,7 @@
 				},
 				rules,
 				focusMobile: false,
+				focusUsername: false,
 				focusNickname: false,
 				focusPassword: false,
 				focusPassword2: false,
@@ -138,7 +137,14 @@
 			 * 触发表单提交
 			 */
 			submit() {
-				this.$refs.form.validate().then((res) => {
+				this.$refs.form.validate().then(res => {
+					if(this.formData.code.length < 2){
+						return uni.showToast({
+							title: '请输入手机验证码',
+							icon: 'none',
+							duration: 3000
+						});
+					}
 					if(res.address.length < 5){
 						return uni.showToast({
 							title: '请输入地址',
@@ -185,13 +191,13 @@
 				})
 			},
 			submitForm(params) {
-				uniIdCo.registerUser(this.formData).then(e => {
+				uniIdCo.registerAppUser(this.formData).then(e => {
 						this.loginSuccess(e)
 					})
 					.catch(e => {
 						console.log(e.message);
 						//更好的体验：登录错误，直接刷新验证码
-						this.$refs.captcha.getImageCaptcha()
+						// this.$refs.captcha.getImageCaptcha()
 					})
 			},
 			navigateBack() {

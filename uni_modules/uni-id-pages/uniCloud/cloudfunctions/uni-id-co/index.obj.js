@@ -18,6 +18,7 @@ const universal = require('./common/universal')
 
 const {
   registerAdmin,
+	registerAppUser,
   registerUser,
   registerUserByEmail
 } = require('./module/register/index')
@@ -320,17 +321,30 @@ module.exports = {
    */
   setAuthorizedApp,
   /**
-   * 注册普通用户
+   * 自定义注册普通用户
    * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#register-user
    * @param {Object} params
    * @param {String} params.username    用户名
+   * @param {String} params.mobile    手机号
    * @param {String} params.password    密码
-   * @param {String} params.captcha     图形验证码
+   * @param {String} params.code     手机验证码
    * @param {String} params.nickname    昵称
    * @param {String} params.inviteCode  邀请码
    * @returns
    */
-  registerUser,
+  registerAppUser,
+	/**
+	 * 注册普通用户
+	 * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#register-user
+	 * @param {Object} params
+	 * @param {String} params.username    用户名
+	 * @param {String} params.password    密码
+	 * @param {String} params.captcha     图形验证码
+	 * @param {String} params.nickname    昵称
+	 * @param {String} params.inviteCode  邀请码
+	 * @returns
+	 */
+	registerUser,
   /**
    * 通过邮箱+验证码注册用户
    * @param {Object} params

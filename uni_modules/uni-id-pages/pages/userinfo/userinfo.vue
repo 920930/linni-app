@@ -122,11 +122,11 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				})
 				// #endif
 
-				// #ifdef MP-WEIXIN
-				this.$refs['bind-mobile-by-sms'].open()
-				// #endif
+				// // #ifdef MP-WEIXIN
+				// this.$refs['bind-mobile-by-sms'].open()
+				// // #endif
 
-				// #ifdef H5
+				// #ifdef MP-WEIXIN || H5
 				//...去用验证码绑定
 				this.bindMobileBySmsCode()
 				// #endif

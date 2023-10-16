@@ -137,7 +137,7 @@
 			toRegister() {
 				uni.navigateTo({
 					url: this.config.isAdmin ? '/uni_modules/uni-id-pages/pages/register/register-admin' :
-						'/pages/login/register',
+						'/uni_modules/uni-id-pages/pages/register/register',
 					fail(e) {
 						console.error(e);
 					}
