@@ -5,19 +5,14 @@
 			<uni-id-pages-avatar width="260rpx" height="260rpx"></uni-id-pages-avatar>
 		</view>
 		<uni-list>
-			<uni-list-item class="item" @click="setNickname('')" title="昵称" :rightText="userInfo.nickname||'未设置'" link>
-			</uni-list-item>
-			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link>
-			</uni-list-item>
-			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email">
-			</uni-list-item>
+			<uni-list-item class="item" @click="setNickname('')" title="昵称" :rightText="userInfo.nickname||'未设置'" link />
+			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link />
+			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email" />
 			<!-- #ifdef APP -->
       <!-- 如未开通实人认证服务，可以将实名认证入口注释 -->
-			<uni-list-item class="item" @click="realNameVerify" title="实名认证" :rightText="realNameStatus !== 2 ? '未认证': '已认证'" link>
-			</uni-list-item>
+			<uni-list-item class="item" @click="realNameVerify" title="实名认证" :rightText="realNameStatus !== 2 ? '未认证': '已认证'" link />
 			<!-- #endif -->
-			<uni-list-item v-if="hasPwd" class="item" @click="changePassword" title="修改密码" link>
-			</uni-list-item>
+			<uni-list-item v-if="hasPwd" class="item" @click="changePassword" title="修改密码" link />
 		</uni-list>
 		<!-- #ifndef MP -->
 		<uni-list class="mt10">
@@ -29,7 +24,7 @@
 				title="设置昵称" placeholder="请输入要设置的昵称">
 			</uni-popup-dialog>
 		</uni-popup>
-		<uni-id-pages-bind-mobile ref="bind-mobile-by-sms" @success="bindMobileSuccess"></uni-id-pages-bind-mobile>
+		<uni-id-pages-bind-mobile ref="bind-mobile-by-sms" @success="bindMobileSuccess" />
 		<template v-if="showLoginManage">
 			<button v-if="userInfo._id" @click="logout">退出登录</button>
 			<button v-else @click="login">去登录</button>
@@ -70,7 +65,7 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				// 	nickname:''
 				// },
 				hasPwd: false,
-				showLoginManage: false ,//通过页面传参隐藏登录&退出登录按钮
+				showLoginManage: true ,//通过页面传参隐藏登录&退出登录按钮
 				setNicknameIng:false
 			}
 		},

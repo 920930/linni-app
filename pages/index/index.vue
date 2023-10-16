@@ -79,7 +79,7 @@
 	const hasLogin = computed(() => store.hasLogin)
 	const loginBtn = () => {
 		uni.navigateTo({
-			url: hasLogin.value ? '/uni_modules/uni-id-pages/pages/userinfo/userinfo' : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+			url: hasLogin.value ? '/pages/me/index' : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
 		})
 	}
 	const registerBtn = () => {
@@ -110,9 +110,13 @@
 	z-index: -2;
 }
 .top{
-	margin-top: 40rpx;
+	margin-top: 100rpx;
 	padding-top: 100rpx;
-	@media screen and (max-width: 375px) {
+	@media screen and (max-width: 376px) {
+		margin-top: 130rpx;
+		padding-top: 70rpx;
+	}
+	@media screen and (max-width: 321px) {
 		margin-top: 70rpx;
 		padding-top: 80rpx;
 	}

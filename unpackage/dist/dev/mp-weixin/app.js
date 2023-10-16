@@ -6,8 +6,8 @@ require("./uni_modules/uni-id-pages/config.js");
 if (!Math) {
   "./pages/index/index.js";
   "./pages/login/register.js";
+  "./pages/me/index.js";
   "./uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate.js";
-  "./uni_modules/uni-id-pages/pages/userinfo/userinfo.js";
   "./uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile.js";
   "./uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage.js";
   "./uni_modules/uni-id-pages/pages/login/login-withoutpwd.js";

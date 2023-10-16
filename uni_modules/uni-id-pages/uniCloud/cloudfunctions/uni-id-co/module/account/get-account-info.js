@@ -44,9 +44,8 @@ function isAppleBound (userRecord) {
  * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#get-account-info
  */
 module.exports = async function () {
-  const {
-    uid
-  } = this.authInfo
+  const { uid } = this.authInfo;
+	console.log(this.authInfo)
   const getUserRes = await userCollection.doc(uid).get()
   const userRecord = getUserRes && getUserRes.data && getUserRes.data[0]
   if (!userRecord) {

@@ -1,7 +1,7 @@
 "use strict";
-const common_vendor = require("../../../../common/vendor.js");
-const uni_modules_uniIdPages_common_store = require("../../common/store.js");
-require("../../config.js");
+const common_vendor = require("../../common/vendor.js");
+const uni_modules_uniIdPages_common_store = require("../../uni_modules/uni-id-pages/common/store.js");
+require("../../uni_modules/uni-id-pages/config.js");
 const uniIdCo = common_vendor.Ds.importObject("uni-id-co");
 const _sfc_main = {
   computed: {
@@ -31,7 +31,7 @@ const _sfc_main = {
       // 	nickname:''
       // },
       hasPwd: false,
-      showLoginManage: false,
+      showLoginManage: true,
       //通过页面传参隐藏登录&退出登录按钮
       setNicknameIng: false
     };
@@ -163,12 +163,12 @@ if (!Array) {
   const _easycom_uni_id_pages_bind_mobile2 = common_vendor.resolveComponent("uni-id-pages-bind-mobile");
   (_easycom_uni_id_pages_avatar2 + _easycom_uni_list_item2 + _easycom_uni_list2 + _easycom_uni_popup_dialog2 + _easycom_uni_popup2 + _easycom_uni_id_pages_bind_mobile2)();
 }
-const _easycom_uni_id_pages_avatar = () => "../../components/uni-id-pages-avatar/uni-id-pages-avatar.js";
-const _easycom_uni_list_item = () => "../../../uni-list/components/uni-list-item/uni-list-item.js";
-const _easycom_uni_list = () => "../../../uni-list/components/uni-list/uni-list.js";
-const _easycom_uni_popup_dialog = () => "../../../uni-popup/components/uni-popup-dialog/uni-popup-dialog.js";
-const _easycom_uni_popup = () => "../../../uni-popup/components/uni-popup/uni-popup.js";
-const _easycom_uni_id_pages_bind_mobile = () => "../../components/uni-id-pages-bind-mobile/uni-id-pages-bind-mobile.js";
+const _easycom_uni_id_pages_avatar = () => "../../uni_modules/uni-id-pages/components/uni-id-pages-avatar/uni-id-pages-avatar.js";
+const _easycom_uni_list_item = () => "../../uni_modules/uni-list/components/uni-list-item/uni-list-item.js";
+const _easycom_uni_list = () => "../../uni_modules/uni-list/components/uni-list/uni-list.js";
+const _easycom_uni_popup_dialog = () => "../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.js";
+const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
+const _easycom_uni_id_pages_bind_mobile = () => "../../uni_modules/uni-id-pages/components/uni-id-pages-bind-mobile/uni-id-pages-bind-mobile.js";
 if (!Math) {
   (_easycom_uni_id_pages_avatar + _easycom_uni_list_item + _easycom_uni_list + _easycom_uni_popup_dialog + _easycom_uni_popup + _easycom_uni_id_pages_bind_mobile)();
 }
@@ -213,11 +213,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "设置昵称",
       placeholder: "请输入要设置的昵称"
     }),
-    m: common_vendor.sr("dialog", "0be2f605-6"),
+    m: common_vendor.sr("dialog", "c8e26b33-6"),
     n: common_vendor.p({
       type: "dialog"
     }),
-    o: common_vendor.sr("bind-mobile-by-sms", "0be2f605-8"),
+    o: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-8"),
     p: common_vendor.o($options.bindMobileSuccess),
     q: $data.showLoginManage
   }, $data.showLoginManage ? common_vendor.e({
@@ -228,5 +228,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     t: common_vendor.o((...args) => $options.login && $options.login(...args))
   }) : {});
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-0be2f605"], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/userinfo/userinfo.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-c8e26b33"], ["__file", "D:/WWW/linni/pages/me/index.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -33,11 +33,17 @@
   z-index: -2;
 }
 .top.data-v-1cf27b2a {
-  margin-top: 40rpx;
+  margin-top: 100rpx;
   padding-top: 100rpx;
   position: relative;
 }
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 376px) {
+.top.data-v-1cf27b2a {
+    margin-top: 130rpx;
+    padding-top: 70rpx;
+}
+}
+@media screen and (max-width: 321px) {
 .top.data-v-1cf27b2a {
     margin-top: 70rpx;
     padding-top: 80rpx;

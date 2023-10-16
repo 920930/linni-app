@@ -135,9 +135,6 @@ const _sfc_main = {
       set.add(e);
       this.formData.cars = [...set];
       this.$refs.inputClose.val = "";
-    },
-    smsBtn(e) {
-      console.log(this.formData.code);
     }
   }
 };
@@ -309,15 +306,14 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       phone: $data.formData.mobile,
       modelValue: $data.formData.code
     }),
-    Z: common_vendor.o($options.smsBtn),
-    aa: common_vendor.p({
+    Z: common_vendor.p({
       title: "输入内容"
     }),
-    ab: common_vendor.sr("smsDialog", "748ca9ec-19"),
-    ac: common_vendor.p({
+    aa: common_vendor.sr("smsDialog", "748ca9ec-19"),
+    ab: common_vendor.p({
       type: "dialog"
     }),
-    ad: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
+    ac: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
       return {
         a: common_vendor.t(t.name),
         b: common_vendor.o(($event) => $options.changeTitle(t.role), t.role),

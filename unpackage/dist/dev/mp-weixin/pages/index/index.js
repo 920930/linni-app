@@ -16,7 +16,7 @@ const _sfc_main = {
     const hasLogin = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.hasLogin);
     const loginBtn = () => {
       common_vendor.index.navigateTo({
-        url: hasLogin.value ? "/uni_modules/uni-id-pages/pages/userinfo/userinfo" : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+        url: hasLogin.value ? "/pages/me/index" : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
       });
     };
     const registerBtn = () => {

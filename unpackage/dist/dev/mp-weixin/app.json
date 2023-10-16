@@ -2,8 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/login/register",
+    "pages/me/index",
     "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
-    "uni_modules/uni-id-pages/pages/userinfo/userinfo",
     "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
     "uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage",
     "uni_modules/uni-id-pages/pages/login/login-withoutpwd",

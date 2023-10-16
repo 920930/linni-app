@@ -58,7 +58,7 @@
 		<uni-popup-dialog ref="inputClose" mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm" />
 	</uni-popup>
 	<uni-popup ref="smsDialog" type="dialog">
-		<uni-popup-dialog title="输入内容" @confirm="smsBtn">
+		<uni-popup-dialog title="输入内容">
 			<uni-id-pages-sms-form focusCaptchaInput v-model="formData.code" type="login-by-sms" ref="smsCode" :phone="formData.mobile" />
 		</uni-popup-dialog>
 	</uni-popup>
@@ -73,10 +73,7 @@
 	import rules from './validator.js';
 	import mixin from '@/uni_modules/uni-id-pages/common/login-page.mixin.js';
 	import config from '@/uni_modules/uni-id-pages/config.js'
-	import {
-		store,
-		mutations
-	} from '@/uni_modules/uni-id-pages/common/store.js'
+	import { store, mutations } from '@/uni_modules/uni-id-pages/common/store.js'
 
 	const uniIdCo = uniCloud.importObject("uni-id-co")
 	export default {
@@ -228,9 +225,6 @@
 				set.add(e)
 				this.formData.cars = [...set]
 				this.$refs.inputClose.val = '';
-			},
-			smsBtn(e) {
-				console.log(this.formData.code)
 			}
 		}
 	}
