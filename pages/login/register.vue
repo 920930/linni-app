@@ -21,7 +21,7 @@
 			<uni-forms-item name="cars" required>
 					<view  style="display: flex; gap: 20rpx;">
 						<uni-tag :text="car + ' ×'" v-for="car in formData.cars" :key="car" @click="removeCar(car)" />
-						<uni-tag text="新增车牌" type="primary" @click="$refs.inputDialog.open()" />
+						<uni-tag text="添加车牌" type="success" @click="$refs.inputDialog.open()" />
 					</view>
 			</uni-forms-item>
 			<view style="margin-bottom: 15rpx; color: rgba(0, 0, 0, 0.7);">{{name}}业务信息</view>
@@ -44,7 +44,7 @@
 				<uni-captcha ref="captcha" scene="register" v-model="formData.captcha" />
 			</uni-forms-item> -->
 			<uni-id-pages-agreements scope="register" ref="agreements"></uni-id-pages-agreements>
-			<button class="uni-btn" style="background-color: #2979ff;" @click="submit">注册</button>
+			<button class="uni-btn" style="background-color: #18bc37;" @click="submit">注册</button>
 			<button @click="navigateBack" class="register-back">返回</button>
 			<match-media :min-width="690">
 				<view class="link-box">
@@ -55,7 +55,7 @@
 		</uni-forms>
 	</view>
 	<uni-popup ref="inputDialog" type="dialog">
-		<uni-popup-dialog ref="inputClose" mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm" />
+		<uni-popup-dialog ref="inputClose" mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm">123</uni-popup-dialog>
 	</uni-popup>
 	<uni-popup ref="smsDialog" type="dialog">
 		<uni-popup-dialog title="输入内容">

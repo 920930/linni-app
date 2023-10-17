@@ -217,8 +217,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     q: common_vendor.o(($event) => _ctx.$refs.inputDialog.open()),
     r: common_vendor.p({
-      text: "新增车牌",
-      type: "primary"
+      text: "添加车牌",
+      type: "success"
     }),
     s: common_vendor.p({
       name: "cars",

@@ -3,6 +3,7 @@ const common_vendor = require("../../common/vendor.js");
 const uni_modules_uniIdPages_common_store = require("../../uni_modules/uni-id-pages/common/store.js");
 require("../../uni_modules/uni-id-pages/config.js");
 const uniIdCo = common_vendor.Ds.importObject("uni-id-co");
+const db = common_vendor.Ds.importObject("user");
 const _sfc_main = {
   computed: {
     userInfo() {
@@ -44,8 +45,12 @@ const _sfc_main = {
     if (e.showLoginManage) {
       this.showLoginManage = true;
     }
-    let res = await uniIdCo.getAccountInfo();
-    this.hasPwd = res.isPasswordSet;
+    try {
+      let res = await uniIdCo.getAccountInfo();
+      this.hasPwd = res.isPasswordSet;
+    } catch (e2) {
+      uni_modules_uniIdPages_common_store.mutations.logout();
+    }
   },
   methods: {
     login() {
@@ -94,7 +99,7 @@ const _sfc_main = {
     },
     bindMobileBySmsCode() {
       common_vendor.index.navigateTo({
-        url: "./bind-mobile/bind-mobile"
+        url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile?phone=" + this.userInfo.mobile
       });
     },
     setNickname(nickname) {
@@ -151,26 +156,40 @@ const _sfc_main = {
       common_vendor.index.navigateTo({
         url: "/uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify"
       });
+    },
+    delCar(car) {
+      db.updateAddress(car).then((res) => console.log(res)).catch((err) => {
+        if (err.code === "uni-id-token-expired")
+          this.logout();
+      });
     }
   }
 };
 if (!Array) {
   const _easycom_uni_id_pages_avatar2 = common_vendor.resolveComponent("uni-id-pages-avatar");
+  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
   const _easycom_uni_list_item2 = common_vendor.resolveComponent("uni-list-item");
   const _easycom_uni_list2 = common_vendor.resolveComponent("uni-list");
+  const _easycom_uni_tag2 = common_vendor.resolveComponent("uni-tag");
+  const _easycom_uni_collapse_item2 = common_vendor.resolveComponent("uni-collapse-item");
+  const _easycom_uni_collapse2 = common_vendor.resolveComponent("uni-collapse");
   const _easycom_uni_popup_dialog2 = common_vendor.resolveComponent("uni-popup-dialog");
   const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
   const _easycom_uni_id_pages_bind_mobile2 = common_vendor.resolveComponent("uni-id-pages-bind-mobile");
-  (_easycom_uni_id_pages_avatar2 + _easycom_uni_list_item2 + _easycom_uni_list2 + _easycom_uni_popup_dialog2 + _easycom_uni_popup2 + _easycom_uni_id_pages_bind_mobile2)();
+  (_easycom_uni_id_pages_avatar2 + _easycom_uni_section2 + _easycom_uni_list_item2 + _easycom_uni_list2 + _easycom_uni_tag2 + _easycom_uni_collapse_item2 + _easycom_uni_collapse2 + _easycom_uni_popup_dialog2 + _easycom_uni_popup2 + _easycom_uni_id_pages_bind_mobile2)();
 }
 const _easycom_uni_id_pages_avatar = () => "../../uni_modules/uni-id-pages/components/uni-id-pages-avatar/uni-id-pages-avatar.js";
+const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
 const _easycom_uni_list_item = () => "../../uni_modules/uni-list/components/uni-list-item/uni-list-item.js";
 const _easycom_uni_list = () => "../../uni_modules/uni-list/components/uni-list/uni-list.js";
+const _easycom_uni_tag = () => "../../uni_modules/uni-tag/components/uni-tag/uni-tag.js";
+const _easycom_uni_collapse_item = () => "../../uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item.js";
+const _easycom_uni_collapse = () => "../../uni_modules/uni-collapse/components/uni-collapse/uni-collapse.js";
 const _easycom_uni_popup_dialog = () => "../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.js";
 const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
 const _easycom_uni_id_pages_bind_mobile = () => "../../uni_modules/uni-id-pages/components/uni-id-pages-bind-mobile/uni-id-pages-bind-mobile.js";
 if (!Math) {
-  (_easycom_uni_id_pages_avatar + _easycom_uni_list_item + _easycom_uni_list + _easycom_uni_popup_dialog + _easycom_uni_popup + _easycom_uni_id_pages_bind_mobile)();
+  (_easycom_uni_id_pages_avatar + _easycom_uni_section + _easycom_uni_list_item + _easycom_uni_list + _easycom_uni_tag + _easycom_uni_collapse_item + _easycom_uni_collapse + _easycom_uni_popup_dialog + _easycom_uni_popup + _easycom_uni_id_pages_bind_mobile)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
@@ -178,54 +197,89 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       width: "260rpx",
       height: "260rpx"
     }),
-    b: common_vendor.o(($event) => $options.setNickname("")),
-    c: common_vendor.p({
-      title: "昵称",
+    b: common_vendor.p({
+      title: "基本信息",
+      type: "line"
+    }),
+    c: common_vendor.o(($event) => $options.setNickname("")),
+    d: common_vendor.p({
+      title: "名称",
       rightText: $options.userInfo.nickname || "未设置",
       link: true
     }),
-    d: common_vendor.o($options.bindMobile),
-    e: common_vendor.p({
+    e: common_vendor.o($options.bindMobile),
+    f: common_vendor.p({
       title: "手机号",
       rightText: $options.userInfo.mobile || "未绑定",
       link: true
     }),
-    f: $options.userInfo.email
-  }, $options.userInfo.email ? {
     g: common_vendor.p({
+      title: "地址",
+      rightText: "userInfo.mobile||'未绑定'",
+      link: true
+    }),
+    h: $options.userInfo.email
+  }, $options.userInfo.email ? {
+    i: common_vendor.p({
       title: "电子邮箱",
       rightText: $options.userInfo.email
     })
   } : {}, {
-    h: $data.hasPwd
+    j: $data.hasPwd
   }, $data.hasPwd ? {
-    i: common_vendor.o($options.changePassword),
-    j: common_vendor.p({
+    k: common_vendor.o($options.changePassword),
+    l: common_vendor.p({
       title: "修改密码",
       link: true
     })
   } : {}, {
-    k: common_vendor.o($options.setNickname),
-    l: common_vendor.p({
+    m: common_vendor.p({
+      title: "业务信息",
+      type: "line"
+    }),
+    n: common_vendor.p({
+      title: "我的订单",
+      rightText: "userInfo.mobile||'未绑定'",
+      link: true
+    }),
+    o: common_vendor.o(($event) => $options.delCar("川RFK862")),
+    p: common_vendor.p({
+      text: "川RFK862 ×"
+    }),
+    q: common_vendor.p({
+      text: "川RFK862 ×"
+    }),
+    r: common_vendor.p({
+      text: "新增车牌号",
+      type: "success"
+    }),
+    s: common_vendor.p({
+      title: "绑定的车牌号"
+    }),
+    t: common_vendor.p({
+      accordion: true
+    }),
+    v: common_vendor.o($options.setNickname),
+    w: common_vendor.p({
       mode: "input",
       value: $options.userInfo.nickname,
       inputType: $data.setNicknameIng ? "nickname" : "text",
       title: "设置昵称",
       placeholder: "请输入要设置的昵称"
     }),
-    m: common_vendor.sr("dialog", "c8e26b33-6"),
-    n: common_vendor.p({
+    x: common_vendor.sr("dialog", "c8e26b33-16"),
+    y: common_vendor.p({
       type: "dialog"
     }),
-    o: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-8"),
-    p: common_vendor.o($options.bindMobileSuccess),
-    q: $data.showLoginManage
+    z: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-18"),
+    A: common_vendor.o($options.bindMobileSuccess),
+    B: $data.showLoginManage
   }, $data.showLoginManage ? common_vendor.e({
-    r: $options.userInfo._id
+    C: $options.userInfo._id
   }, $options.userInfo._id ? {
-    s: common_vendor.o((...args) => $options.logout && $options.logout(...args))
+    D: common_vendor.o((...args) => $options.logout && $options.logout(...args))
   } : {
-    t: common_vendor.o((...args) => $options.login && $options.login(...args))
+    E: common_vendor.o((...args) => $options.login && $options.login(...args))
   }) : {});
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-c8e26b33"], ["__file", "D:/WWW/linni/pages/me/index.vue"]]);

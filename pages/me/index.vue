@@ -4,9 +4,12 @@
 		<view class="avatar">
 			<uni-id-pages-avatar width="260rpx" height="260rpx"></uni-id-pages-avatar>
 		</view>
+		
+		<uni-section title="基本信息" type="line" />
 		<uni-list>
-			<uni-list-item class="item" @click="setNickname('')" title="昵称" :rightText="userInfo.nickname||'未设置'" link />
+			<uni-list-item class="item" @click="setNickname('')" title="名称" :rightText="userInfo.nickname||'未设置'" link />
 			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link />
+			<uni-list-item class="item" title="地址" rightText="userInfo.mobile||'未绑定'" link />
 			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email" />
 			<!-- #ifdef APP -->
       <!-- 如未开通实人认证服务，可以将实名认证入口注释 -->
@@ -14,8 +17,22 @@
 			<!-- #endif -->
 			<uni-list-item v-if="hasPwd" class="item" @click="changePassword" title="修改密码" link />
 		</uni-list>
+		
+		<uni-section title="业务信息" class="mt10" type="line" />
+		<uni-list>
+			<uni-list-item class="item" title="我的订单" rightText="userInfo.mobile||'未绑定'" link />
+			<uni-collapse accordion style="border-top: 1rpx solid rgba(0, 0, 0, 0.06);">
+				<uni-collapse-item title="绑定的车牌号">
+					<view style="padding: 10rpx 30rpx 30rpx; display: flex; gap: 20rpx; flex-direction: row; flex-wrap: wrap;">
+						<uni-tag text="川RFK862 ×" @click="delCar('川RFK862')" />
+						<uni-tag text="川RFK862 ×" />
+						<uni-tag text="新增车牌号" type="success" />
+					</view>
+				</uni-collapse-item>
+			</uni-collapse>
+		</uni-list>
 		<!-- #ifndef MP -->
-		<uni-list class="mt10">
+		<uni-list class="mt30">
 			<uni-list-item @click="deactivate" title="注销账号" link="navigateTo"></uni-list-item>
 		</uni-list>
 		<!-- #endif -->
@@ -32,20 +49,22 @@
 	</view>
 </template>
 <script>
-const uniIdCo = uniCloud.importObject("uni-id-co")
-  import {store,mutations} from '@/uni_modules/uni-id-pages/common/store.js'
+	import {computed} from 'vue'
+  import {store, mutations} from '@/uni_modules/uni-id-pages/common/store.js';
+	const uniIdCo = uniCloud.importObject("uni-id-co");
+	const db = uniCloud.importObject("user");
+	
 	export default {
     computed: {
       userInfo() {
         return store.userInfo
       },
-	  realNameStatus () {
-		  if (!this.userInfo.realNameAuth) {
-			  return 0
-		  }
-
-		  return this.userInfo.realNameAuth.authStatus
-	  }
+			realNameStatus () {
+				if (!this.userInfo.realNameAuth) {
+					return 0
+				}
+				return this.userInfo.realNameAuth.authStatus
+			}
     },
 		data() {
 			return {
@@ -75,8 +94,12 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				this.showLoginManage = true //通过页面传参隐藏登录&退出登录按钮
 			}
 			//判断当前用户是否有密码，否则就不显示密码修改功能
-			let res = await uniIdCo.getAccountInfo()
-			this.hasPwd = res.isPasswordSet
+			try{
+				let res = await uniIdCo.getAccountInfo()
+				this.hasPwd = res.isPasswordSet
+			}catch(e){
+				mutations.logout()
+			}
 		},
 		methods: {
 			login() {
@@ -147,7 +170,7 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 			},
 			bindMobileBySmsCode() {
 				uni.navigateTo({
-					url: './bind-mobile/bind-mobile'
+					url: '/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile?phone=' + this.userInfo.mobile
 				})
 			},
 			setNickname(nickname) {
@@ -205,6 +228,13 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				uni.navigateTo({
 					url: "/uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify"
 				})
+			},
+			delCar(car){
+				db.updateAddress(car)
+					.then(res => console.log(res))
+					.catch(err => {
+						if(err.code === 'uni-id-token-expired') this.logout()
+					})
 			}
 		}
 	}
@@ -260,5 +290,8 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 
 	.mt10 {
 		margin-top: 10px;
+	}
+	.mt30 {
+		margin-top: 30px;
 	}
 </style>

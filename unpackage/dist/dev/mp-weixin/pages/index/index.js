@@ -38,19 +38,19 @@ const _sfc_main = {
       return {
         a: common_vendor.p({
           ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
+          type: "icon-lorry",
           color: "white",
-          size: "160"
+          size: "150"
         }),
         b: common_vendor.p({
           ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
+          type: "icon-lorry",
           color: "white",
-          size: "200"
+          size: "185"
         }),
         c: common_vendor.p({
           ["custom-prefix"]: "iconfont",
-          type: "icon-huoche",
+          type: "icon-lorry",
           color: "white",
           size: "50"
         }),

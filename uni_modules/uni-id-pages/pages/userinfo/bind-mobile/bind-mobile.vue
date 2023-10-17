@@ -11,8 +11,8 @@
 		<!-- 登录框 (选择手机号所属国家和地区需要另行实现) -->
 		<uni-easyinput clearable :focus="focusMobile" @blur="focusMobile = false" type="number" class="input-box" :inputBorder="false" v-model="formData.mobile"
 			maxlength="11" placeholder="请输入手机号"></uni-easyinput>
-		<uni-id-pages-sms-form ref="smsForm" type="bind-mobile-by-sms" v-model="formData.code" :phone="formData.mobile">
-		</uni-id-pages-sms-form>
+		<view style="margin-top: 20rpx;"></view>
+		<uni-id-pages-sms-form ref="smsForm" type="bind-mobile-by-sms" v-model="formData.code" :phone="formData.mobile" />
 		<button class="uni-btn send-btn-box" type="primary" @click="submit">提交</button>
 		<uni-popup-captcha @confirm="submit" v-model="formData.captcha" scene="bind-mobile-by-sms" ref="popup">
 		</uni-popup-captcha>
@@ -40,7 +40,9 @@
 				return `验证码已通过短信发送至 ${this.formData.mobile}。密码为6 - 20位`
 			}
 		},
-		onLoad(event) {},
+		onLoad(e) {
+			if(e.phone) this.formData.mobile = e.phone;
+		},
 		onReady() {},
 
 		methods: {

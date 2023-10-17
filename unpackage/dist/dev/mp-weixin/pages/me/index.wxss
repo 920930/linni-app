@@ -120,3 +120,6 @@ button.data-v-c8e26b33 {
 .mt10.data-v-c8e26b33 {
   margin-top: 10px;
 }
+.mt30.data-v-c8e26b33 {
+  margin-top: 30px;
+}

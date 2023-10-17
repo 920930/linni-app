@@ -3,17 +3,17 @@
 	<view class="top">
 		<view class="top-bg">
 			<match-media :max-width="375" >
-				<uni-icons custom-prefix="iconfont" type="icon-huoche" color='white' size="160" />
+				<uni-icons custom-prefix="iconfont" type="icon-lorry" color='white' size="150" />
 			</match-media>
 			<match-media :min-width="375" >
-				<uni-icons custom-prefix="iconfont" type="icon-huoche" color='white' size="200" />
+				<uni-icons custom-prefix="iconfont" type="icon-lorry" color='white' size="185" />
 			</match-media>
 		</view>
 		<view class="top-title">
 			<view class="top-title-left">
 				<view class="top-title-left-name">
 					<view class="top-title-left-name-icon">
-						<uni-icons custom-prefix="iconfont" type="icon-huoche" color='white' size="50" />
+						<uni-icons custom-prefix="iconfont" type="icon-lorry" color='white' size="50" />
 					</view>
 					<text>您好</text>
 				</view>
@@ -124,8 +124,9 @@
 	&-bg{
 		position: absolute;
 		top: 0;
+		left: 10rpx;
 		display: inline-block;
-		transform: rotateY(180deg);
+		// transform: rotateY(180deg) translateX(10px);
 		opacity: 0.1;
 	}
 	&-title{
@@ -146,7 +147,7 @@
 				margin-bottom: -10rpx;
 				&-icon{
 					display: inline-block;
-					transform: rotateY(180deg);
+					// transform: rotateY(180deg);
 					margin-right: 20rpx;
 				}
 			}
@@ -178,7 +179,7 @@
 		@media screen and (max-width: 375px) {
 			gap: 40rpx;
 		}
-		gap: 50rpx;
+		gap: 55rpx;
 		box-sizing: border-box;
 		&-li{
 			// background-color: white;

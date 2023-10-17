@@ -19,7 +19,9 @@ const _sfc_main = {
       return `验证码已通过短信发送至 ${this.formData.mobile}。密码为6 - 20位`;
     }
   },
-  onLoad(event) {
+  onLoad(e) {
+    if (e.phone)
+      this.formData.mobile = e.phone;
   },
   onReady() {
   },

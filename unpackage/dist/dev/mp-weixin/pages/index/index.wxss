@@ -52,8 +52,8 @@
 .top-bg.data-v-1cf27b2a {
   position: absolute;
   top: 0;
+  left: 10rpx;
   display: inline-block;
-  transform: rotateY(180deg);
   opacity: 0.1;
 }
 .top-title.data-v-1cf27b2a {
@@ -77,7 +77,6 @@
 }
 .top-title-left-name-icon.data-v-1cf27b2a {
   display: inline-block;
-  transform: rotateY(180deg);
   margin-right: 20rpx;
 }
 .top-title-left-text.data-v-1cf27b2a {
@@ -103,7 +102,7 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  gap: 50rpx;
+  gap: 55rpx;
   box-sizing: border-box;
 }
 @media screen and (max-width: 375px) {

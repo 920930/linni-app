@@ -64,7 +64,7 @@ const mutations = {
     common_vendor.index.removeStorageSync("uni_id_token");
     common_vendor.index.setStorageSync("uni_id_token_expired", 0);
     common_vendor.index.redirectTo({
-      url: `/${common_vendor.pagesJson.uniIdRouter && common_vendor.pagesJson.uniIdRouter.loginPage ? common_vendor.pagesJson.uniIdRouter.loginPage : "uni_modules/uni-id-pages/pages/login/login-withoutpwd"}`
+      url: `/${common_vendor.pagesJson.uniIdRouter && common_vendor.pagesJson.uniIdRouter.loginPage ? common_vendor.pagesJson.uniIdRouter.loginPage : "uni_modules/uni-id-pages/pages/login/login-withpwd"}`
     });
     common_vendor.index.$emit("uni-id-pages-logout");
     this.setUserInfo({}, { cover: true });
