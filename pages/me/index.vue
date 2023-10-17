@@ -9,7 +9,12 @@
 		<uni-list>
 			<uni-list-item class="item" @click="setNickname('')" title="名称" :rightText="userInfo.nickname||'未设置'" link />
 			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link />
-			<uni-list-item class="item" title="地址" rightText="userInfo.mobile||'未绑定'" link />
+			<uni-list-item class="item" link>
+				<template v-slot:body>
+					<text style="font-size: 32rpx;">地址</text>
+					<view style="font-size: 24rpx; margin-top: 14rpx; color: rgba(0, 0, 0, 0.6);">{{ userInfo.address }}</view>
+				</template>
+			</uni-list-item>
 			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email" />
 			<!-- #ifdef APP -->
       <!-- 如未开通实人认证服务，可以将实名认证入口注释 -->
@@ -24,8 +29,7 @@
 			<uni-collapse accordion style="border-top: 1rpx solid rgba(0, 0, 0, 0.06);">
 				<uni-collapse-item title="绑定的车牌号">
 					<view style="padding: 10rpx 30rpx 30rpx; display: flex; gap: 20rpx; flex-direction: row; flex-wrap: wrap;">
-						<uni-tag text="川RFK862 ×" @click="delCar('川RFK862')" />
-						<uni-tag text="川RFK862 ×" />
+						<uni-tag :text="`${car} ×`" @click="delCar(car)" v-for="car in userInfo.cars" :key="car" />
 						<uni-tag text="新增车牌号" type="success" />
 					</view>
 				</uni-collapse-item>

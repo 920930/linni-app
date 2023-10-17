@@ -214,73 +214,75 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       rightText: $options.userInfo.mobile || "未绑定",
       link: true
     }),
-    g: common_vendor.p({
-      title: "地址",
-      rightText: "userInfo.mobile||'未绑定'",
+    g: common_vendor.t($options.userInfo.address),
+    h: common_vendor.p({
       link: true
     }),
-    h: $options.userInfo.email
+    i: $options.userInfo.email
   }, $options.userInfo.email ? {
-    i: common_vendor.p({
+    j: common_vendor.p({
       title: "电子邮箱",
       rightText: $options.userInfo.email
     })
   } : {}, {
-    j: $data.hasPwd
+    k: $data.hasPwd
   }, $data.hasPwd ? {
-    k: common_vendor.o($options.changePassword),
-    l: common_vendor.p({
+    l: common_vendor.o($options.changePassword),
+    m: common_vendor.p({
       title: "修改密码",
       link: true
     })
   } : {}, {
-    m: common_vendor.p({
+    n: common_vendor.p({
       title: "业务信息",
       type: "line"
     }),
-    n: common_vendor.p({
+    o: common_vendor.p({
       title: "我的订单",
       rightText: "userInfo.mobile||'未绑定'",
       link: true
     }),
-    o: common_vendor.o(($event) => $options.delCar("川RFK862")),
-    p: common_vendor.p({
-      text: "川RFK862 ×"
+    p: common_vendor.f($options.userInfo.cars, (car, k0, i0) => {
+      return {
+        a: common_vendor.o(($event) => $options.delCar(car), car),
+        b: car,
+        c: "c8e26b33-13-" + i0 + ",c8e26b33-12",
+        d: common_vendor.p({
+          text: `${car} ×`
+        })
+      };
     }),
     q: common_vendor.p({
-      text: "川RFK862 ×"
-    }),
-    r: common_vendor.p({
       text: "新增车牌号",
       type: "success"
     }),
-    s: common_vendor.p({
+    r: common_vendor.p({
       title: "绑定的车牌号"
     }),
-    t: common_vendor.p({
+    s: common_vendor.p({
       accordion: true
     }),
-    v: common_vendor.o($options.setNickname),
-    w: common_vendor.p({
+    t: common_vendor.o($options.setNickname),
+    v: common_vendor.p({
       mode: "input",
       value: $options.userInfo.nickname,
       inputType: $data.setNicknameIng ? "nickname" : "text",
       title: "设置昵称",
       placeholder: "请输入要设置的昵称"
     }),
-    x: common_vendor.sr("dialog", "c8e26b33-16"),
-    y: common_vendor.p({
+    w: common_vendor.sr("dialog", "c8e26b33-15"),
+    x: common_vendor.p({
       type: "dialog"
     }),
-    z: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-18"),
-    A: common_vendor.o($options.bindMobileSuccess),
-    B: $data.showLoginManage
+    y: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-17"),
+    z: common_vendor.o($options.bindMobileSuccess),
+    A: $data.showLoginManage
   }, $data.showLoginManage ? common_vendor.e({
-    C: $options.userInfo._id
+    B: $options.userInfo._id
   }, $options.userInfo._id ? {
-    D: common_vendor.o((...args) => $options.logout && $options.logout(...args))
+    C: common_vendor.o((...args) => $options.logout && $options.logout(...args))
   } : {
-    E: common_vendor.o((...args) => $options.login && $options.login(...args))
+    D: common_vendor.o((...args) => $options.login && $options.login(...args))
   }) : {});
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-c8e26b33"], ["__file", "D:/WWW/linni/pages/me/index.vue"]]);
