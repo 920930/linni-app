@@ -95,7 +95,8 @@
 			}
 			//判断当前用户是否有密码，否则就不显示密码修改功能
 			try{
-				let res = await uniIdCo.getAccountInfo()
+				let res = await uniIdCo.getAccountInfo();
+				console.log(res)
 				this.hasPwd = res.isPasswordSet
 			}catch(e){
 				mutations.logout()
@@ -104,7 +105,7 @@
 		methods: {
 			login() {
 				uni.navigateTo({
-					url: '/uni_modules/uni-id-pages/pages/login/login-withoutpwd',
+					url: '/uni_modules/uni-id-pages/pages/login/login-withpwd',
 					complete: (e) => {
 						// console.log(e);
 					}
@@ -230,7 +231,7 @@
 				})
 			},
 			delCar(car){
-				db.updateAddress(car)
+				db.getUserInfo()
 					.then(res => console.log(res))
 					.catch(err => {
 						if(err.code === 'uni-id-token-expired') this.logout()

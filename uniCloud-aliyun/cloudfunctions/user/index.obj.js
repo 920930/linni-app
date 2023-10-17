@@ -3,11 +3,15 @@
 const uniIdCommon = require('uni-id-common');
 
 module.exports = {
-	// const db = uniCloud.databaseForJQL({clientInfo: this.this.getClientInfo()});
 	async _before() { // 通用预处理器getUniversalClientInfo
 		const token = this.getUniIdToken();
-		if(!token) {}
-		const clientInfo = this.getClientInfo()
+		if(!token) {
+			const err = new Error(payload.errMsg);
+			err.code = payload.errCode;
+			throw err;
+		}
+		const clientInfo = this.getClientInfo();
+		this.db = uniCloud.databaseForJQL({ clientInfo });
 		 // 创建uni-id实例，其上方法同uniID
 		const uniID = uniIdCommon.createInstance({
 			clientInfo
@@ -19,6 +23,16 @@ module.exports = {
 			throw err;
 		}
 		this.authInfo = payload;
+	},
+	/**
+	 * getUserInfo获取用户个人页面信息
+	 * @returns {object} 返回值描述
+	 */
+	async getUserInfo(){
+		const { uid } = this.authInfo;
+		const db = this.db.collection('uni-id-users');
+		const user = await db.doc(uid).field('_id,nickname,address,cars').get({getOne: true});
+		return user;
 	},
 	/**
 	 * updateAddress方法描述

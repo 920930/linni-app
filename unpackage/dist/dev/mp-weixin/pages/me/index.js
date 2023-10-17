@@ -47,6 +47,7 @@ const _sfc_main = {
     }
     try {
       let res = await uniIdCo.getAccountInfo();
+      console.log(res);
       this.hasPwd = res.isPasswordSet;
     } catch (e2) {
       uni_modules_uniIdPages_common_store.mutations.logout();
@@ -55,7 +56,7 @@ const _sfc_main = {
   methods: {
     login() {
       common_vendor.index.navigateTo({
-        url: "/uni_modules/uni-id-pages/pages/login/login-withoutpwd",
+        url: "/uni_modules/uni-id-pages/pages/login/login-withpwd",
         complete: (e) => {
         }
       });
@@ -158,7 +159,7 @@ const _sfc_main = {
       });
     },
     delCar(car) {
-      db.updateAddress(car).then((res) => console.log(res)).catch((err) => {
+      db.getUserInfo().then((res) => console.log(res)).catch((err) => {
         if (err.code === "uni-id-token-expired")
           this.logout();
       });
