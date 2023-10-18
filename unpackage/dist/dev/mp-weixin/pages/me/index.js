@@ -3,7 +3,7 @@ const common_vendor = require("../../common/vendor.js");
 const uni_modules_uniIdPages_common_store = require("../../uni_modules/uni-id-pages/common/store.js");
 require("../../uni_modules/uni-id-pages/config.js");
 const uniIdCo = common_vendor.Ds.importObject("uni-id-co");
-const db = common_vendor.Ds.importObject("user");
+common_vendor.Ds.importObject("user");
 const _sfc_main = {
   computed: {
     userInfo() {
@@ -158,11 +158,35 @@ const _sfc_main = {
         url: "/uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify"
       });
     },
-    delCar(car) {
-      db.getUserInfo().then((res) => console.log(res)).catch((err) => {
-        if (err.code === "uni-id-token-expired")
-          this.logout();
+    changeAddress() {
+      common_vendor.index.chooseLocation({
+        success(res) {
+          if (res.address.length) {
+            uni_modules_uniIdPages_common_store.mutations.updateUserInfo({ address: res.address });
+          }
+        }
       });
+    },
+    changeCar(car = "") {
+      if (car) {
+        const cars = uni_modules_uniIdPages_common_store.store.userInfo.cars.filter((ca) => ca !== car);
+        uni_modules_uniIdPages_common_store.mutations.updateUserInfo({ cars });
+      } else {
+        this.$refs.carDialog.open();
+      }
+    },
+    carConfirm(e) {
+      if (/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1,3}$/.test(e)) {
+        const cars = /* @__PURE__ */ new Set([e, ...uni_modules_uniIdPages_common_store.store.userInfo.cars]);
+        uni_modules_uniIdPages_common_store.mutations.updateUserInfo({ cars: [...cars] });
+        this.$refs.carClose.val = "";
+      } else {
+        common_vendor.index.showToast({
+          title: "请输入正确的车牌号",
+          icon: "none",
+          duration: 3e3
+        });
+      }
     }
   }
 };
@@ -214,23 +238,26 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       rightText: $options.userInfo.mobile || "未绑定",
       link: true
     }),
-    g: common_vendor.t($options.userInfo.address),
-    h: common_vendor.p({
-      link: true
-    }),
-    i: $options.userInfo.email
-  }, $options.userInfo.email ? {
-    j: common_vendor.p({
-      title: "电子邮箱",
-      rightText: $options.userInfo.email
-    })
-  } : {}, {
-    k: $data.hasPwd
+    g: $data.hasPwd
   }, $data.hasPwd ? {
-    l: common_vendor.o($options.changePassword),
-    m: common_vendor.p({
+    h: common_vendor.o($options.changePassword),
+    i: common_vendor.p({
       title: "修改密码",
       link: true
+    })
+  } : {}, {
+    j: common_vendor.o($options.changeAddress),
+    k: common_vendor.p({
+      title: "地址",
+      note: $options.userInfo.address,
+      rightText: "更改",
+      link: true
+    }),
+    l: $options.userInfo.email
+  }, $options.userInfo.email ? {
+    m: common_vendor.p({
+      title: "电子邮箱",
+      rightText: $options.userInfo.email
     })
   } : {}, {
     n: common_vendor.p({
@@ -244,7 +271,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     p: common_vendor.f($options.userInfo.cars, (car, k0, i0) => {
       return {
-        a: common_vendor.o(($event) => $options.delCar(car), car),
+        a: common_vendor.o(($event) => $options.changeCar(car), car),
         b: car,
         c: "c8e26b33-13-" + i0 + ",c8e26b33-12",
         d: common_vendor.p({
@@ -252,37 +279,50 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       };
     }),
-    q: common_vendor.p({
+    q: common_vendor.o($options.changeCar),
+    r: common_vendor.p({
       text: "新增车牌号",
       type: "success"
     }),
-    r: common_vendor.p({
-      title: "绑定的车牌号"
-    }),
     s: common_vendor.p({
+      title: "绑定的车牌号",
+      open: true
+    }),
+    t: common_vendor.p({
       accordion: true
     }),
-    t: common_vendor.o($options.setNickname),
-    v: common_vendor.p({
+    v: common_vendor.o($options.setNickname),
+    w: common_vendor.p({
       mode: "input",
       value: $options.userInfo.nickname,
       inputType: $data.setNicknameIng ? "nickname" : "text",
       title: "设置昵称",
       placeholder: "请输入要设置的昵称"
     }),
-    w: common_vendor.sr("dialog", "c8e26b33-15"),
-    x: common_vendor.p({
+    x: common_vendor.sr("dialog", "c8e26b33-15"),
+    y: common_vendor.p({
       type: "dialog"
     }),
-    y: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-17"),
-    z: common_vendor.o($options.bindMobileSuccess),
-    A: $data.showLoginManage
+    z: common_vendor.sr("carClose", "c8e26b33-18,c8e26b33-17"),
+    A: common_vendor.o($options.carConfirm),
+    B: common_vendor.p({
+      mode: "input",
+      title: "车牌号",
+      placeholder: "请输入车牌号"
+    }),
+    C: common_vendor.sr("carDialog", "c8e26b33-17"),
+    D: common_vendor.p({
+      type: "dialog"
+    }),
+    E: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-19"),
+    F: common_vendor.o($options.bindMobileSuccess),
+    G: $data.showLoginManage
   }, $data.showLoginManage ? common_vendor.e({
-    B: $options.userInfo._id
+    H: $options.userInfo._id
   }, $options.userInfo._id ? {
-    C: common_vendor.o((...args) => $options.logout && $options.logout(...args))
+    I: common_vendor.o((...args) => $options.logout && $options.logout(...args))
   } : {
-    D: common_vendor.o((...args) => $options.login && $options.login(...args))
+    J: common_vendor.o((...args) => $options.login && $options.login(...args))
   }) : {});
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-c8e26b33"], ["__file", "D:/WWW/linni/pages/me/index.vue"]]);

@@ -55,7 +55,7 @@
 		</uni-forms>
 	</view>
 	<uni-popup ref="inputDialog" type="dialog">
-		<uni-popup-dialog ref="inputClose" mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm">123</uni-popup-dialog>
+		<uni-popup-dialog ref="inputClose" mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="dialogInputConfirm" />
 	</uni-popup>
 	<uni-popup ref="smsDialog" type="dialog">
 		<uni-popup-dialog title="输入内容">
@@ -72,8 +72,8 @@
 <script>
 	import rules from './validator.js';
 	import mixin from '@/uni_modules/uni-id-pages/common/login-page.mixin.js';
-	import config from '@/uni_modules/uni-id-pages/config.js'
-	import { store, mutations } from '@/uni_modules/uni-id-pages/common/store.js'
+	import config from '@/uni_modules/uni-id-pages/config.js';
+	import { store, mutations } from '@/uni_modules/uni-id-pages/common/store.js';
 
 	const uniIdCo = uniCloud.importObject("uni-id-co")
 	export default {

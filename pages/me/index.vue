@@ -9,28 +9,23 @@
 		<uni-list>
 			<uni-list-item class="item" @click="setNickname('')" title="名称" :rightText="userInfo.nickname||'未设置'" link />
 			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link />
-			<uni-list-item class="item" link>
-				<template v-slot:body>
-					<text style="font-size: 32rpx;">地址</text>
-					<view style="font-size: 24rpx; margin-top: 14rpx; color: rgba(0, 0, 0, 0.6);">{{ userInfo.address }}</view>
-				</template>
-			</uni-list-item>
-			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email" />
+			<uni-list-item v-if="hasPwd" class="item" @click="changePassword" title="修改密码" link />
+			<uni-list-item class="item" title="地址" :note="userInfo.address" rightText="更改" link @click="changeAddress" />
 			<!-- #ifdef APP -->
       <!-- 如未开通实人认证服务，可以将实名认证入口注释 -->
 			<uni-list-item class="item" @click="realNameVerify" title="实名认证" :rightText="realNameStatus !== 2 ? '未认证': '已认证'" link />
 			<!-- #endif -->
-			<uni-list-item v-if="hasPwd" class="item" @click="changePassword" title="修改密码" link />
+			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email" />
 		</uni-list>
 		
 		<uni-section title="业务信息" class="mt10" type="line" />
 		<uni-list>
 			<uni-list-item class="item" title="我的订单" rightText="userInfo.mobile||'未绑定'" link />
 			<uni-collapse accordion style="border-top: 1rpx solid rgba(0, 0, 0, 0.06);">
-				<uni-collapse-item title="绑定的车牌号">
+				<uni-collapse-item title="绑定的车牌号" open>
 					<view style="padding: 10rpx 30rpx 30rpx; display: flex; gap: 20rpx; flex-direction: row; flex-wrap: wrap;">
-						<uni-tag :text="`${car} ×`" @click="delCar(car)" v-for="car in userInfo.cars" :key="car" />
-						<uni-tag text="新增车牌号" type="success" />
+						<uni-tag :text="`${car} ×`" @click="changeCar(car)" v-for="car in userInfo.cars" :key="car" />
+						<uni-tag text="新增车牌号" type="success" @click="changeCar" />
 					</view>
 				</uni-collapse-item>
 			</uni-collapse>
@@ -45,6 +40,9 @@
 				title="设置昵称" placeholder="请输入要设置的昵称">
 			</uni-popup-dialog>
 		</uni-popup>
+		<uni-popup ref="carDialog" type="dialog">
+			<uni-popup-dialog ref="carClose" mode="input" title="车牌号" placeholder="请输入车牌号" @confirm="carConfirm" />
+		</uni-popup>
 		<uni-id-pages-bind-mobile ref="bind-mobile-by-sms" @success="bindMobileSuccess" />
 		<template v-if="showLoginManage">
 			<button v-if="userInfo._id" @click="logout">退出登录</button>
@@ -55,6 +53,7 @@
 <script>
 	import {computed} from 'vue'
   import {store, mutations} from '@/uni_modules/uni-id-pages/common/store.js';
+	
 	const uniIdCo = uniCloud.importObject("uni-id-co");
 	const db = uniCloud.importObject("user");
 	
@@ -234,12 +233,35 @@
 					url: "/uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify"
 				})
 			},
-			delCar(car){
-				db.getUserInfo()
-					.then(res => console.log(res))
-					.catch(err => {
-						if(err.code === 'uni-id-token-expired') this.logout()
-					})
+			changeAddress(){
+				uni.chooseLocation({
+					success(res) {
+						if(res.address.length){
+							mutations.updateUserInfo({address: res.address})
+						}
+					}
+				});
+			},
+			changeCar(car = ''){
+				if(car){
+					const cars = store.userInfo.cars.filter(ca => ca !== car)
+					mutations.updateUserInfo({cars})
+				}else{
+					this.$refs.carDialog.open();
+				}
+			},
+			carConfirm(e){
+				if(/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1,3}$/.test(e)){
+					const cars = new Set([e, ...store.userInfo.cars]);
+					mutations.updateUserInfo({cars: [...cars]});
+					this.$refs.carClose.val = ''
+				}else{
+					uni.showToast({
+						title: '请输入正确的车牌号',
+						icon: 'none',
+						duration: 3000
+					});
+				}
 			}
 		}
 	}

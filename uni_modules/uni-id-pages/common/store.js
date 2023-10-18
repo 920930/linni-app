@@ -155,7 +155,8 @@ export const mutations = {
 		if (autoBack) {
 			this.loginBack({uniIdRedirectUrl})
 		}
-	}
+	},
+
 
 }
 
