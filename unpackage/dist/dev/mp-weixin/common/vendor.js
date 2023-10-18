@@ -7095,6 +7095,18 @@ const pages = [
     }
   },
   {
+    path: "pages/yuyue/send",
+    style: {
+      navigationBarTitleText: "发货申请"
+    }
+  },
+  {
+    path: "pages/yuyue/take",
+    style: {
+      navigationBarTitleText: "提货申请"
+    }
+  },
+  {
     path: "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
     style: {
       navigationBarTitleText: "注销账号"
@@ -9725,11 +9737,14 @@ exports.index = index;
 exports.initVueI18n = initVueI18n;
 exports.n = n$1;
 exports.o = o$1;
+exports.onMounted = onMounted;
 exports.p = p$1;
 exports.pagesJson = pagesJson;
 exports.reactive = reactive;
+exports.ref = ref;
 exports.resolveComponent = resolveComponent;
 exports.s = s$1;
 exports.sr = sr;
 exports.t = t;
+exports.unref = unref;
 exports.wx$1 = wx$1;

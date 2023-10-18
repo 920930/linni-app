@@ -18,6 +18,16 @@
 				"navigationBarTitleText": "个人中心"
 			}
 		}, {
+			"path": "pages/yuyue/send",
+			"style": {
+				"navigationBarTitleText": "发货申请"
+			}
+		}, {
+			"path": "pages/yuyue/take",
+			"style": {
+				"navigationBarTitleText": "提货申请"
+			}
+		}, {
 			"path": "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
 			"style": {
 				"navigationBarTitleText": "注销账号"

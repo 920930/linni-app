@@ -29,9 +29,10 @@ const _sfc_main = {
         url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
       });
     };
-    const smsBtn = () => {
+    const yuyueBtn = () => {
+      console.log("hahah");
       common_vendor.index.navigateTo({
-        url: "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+        url: "/pages/yuyue/send"
       });
     };
     return (_ctx, _cache) => {
@@ -66,7 +67,7 @@ const _sfc_main = {
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        h: common_vendor.o(smsBtn),
+        h: common_vendor.o(yuyueBtn),
         i: common_vendor.p({
           type: "right",
           size: "20",

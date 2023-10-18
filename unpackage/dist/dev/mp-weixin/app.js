@@ -7,6 +7,8 @@ if (!Math) {
   "./pages/index/index.js";
   "./pages/login/register.js";
   "./pages/me/index.js";
+  "./pages/yuyue/send.js";
+  "./pages/yuyue/take.js";
   "./uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate.js";
   "./uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile.js";
   "./uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage.js";

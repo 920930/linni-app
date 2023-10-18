@@ -1,8 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/login/register",
+    "pages/me/index",
     "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
-    "uni_modules/uni-id-pages/pages/userinfo/userinfo",
     "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
     "uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage",
     "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
@@ -23,6 +24,15 @@
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "requiredPrivateInfos": [
+    "chooseLocation",
+    "getLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置将用于区域选择"
+    }
   },
   "usingComponents": {}
 }

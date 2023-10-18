@@ -3,6 +3,8 @@
     "pages/index/index",
     "pages/login/register",
     "pages/me/index",
+    "pages/yuyue/send",
+    "pages/yuyue/take",
     "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
     "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
     "uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage",

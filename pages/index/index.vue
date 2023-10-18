@@ -33,7 +33,7 @@
 				</view>
 				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 			</view>
-			<view class="main-ul-li" @tap="smsBtn">
+			<view class="main-ul-li" @tap="yuyueBtn">
 				<image src="../../static/index/index-yy.png" class="main-ul-li-left" />
 				<view class="main-ul-li-center">
 					<text class="main-ul-li-center-t">电子提单</text>
@@ -92,9 +92,10 @@
 			url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
 		})
 	}
-	const smsBtn = () => {
+	const yuyueBtn = () => {
+		console.log('hahah')
 		uni.navigateTo({
-			url: '/uni_modules/uni-id-pages/pages/login/login-withpwd'
+			url: '/pages/yuyue/send'
 		})
 	}
 </script>
@@ -182,11 +183,6 @@
 		gap: 55rpx;
 		box-sizing: border-box;
 		&-li{
-			// background-color: white;
-			// padding: 20rpx;
-			// box-sizing: border-box;
-			// box-shadow: 0 0 5rpx 5rpx rgba(0, 0, 0, 0.05);
-			// border-radius: $uni-border-radius-base;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;

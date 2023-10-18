@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "usingComponents": {
+    "uni-id-pages-avatar": "../../uni_modules/uni-id-pages/components/uni-id-pages-avatar/uni-id-pages-avatar",
+    "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section",
+    "uni-list-item": "../../uni_modules/uni-list/components/uni-list-item/uni-list-item",
+    "uni-list": "../../uni_modules/uni-list/components/uni-list/uni-list",
+    "uni-tag": "../../uni_modules/uni-tag/components/uni-tag/uni-tag",
+    "uni-collapse-item": "../../uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item",
+    "uni-collapse": "../../uni_modules/uni-collapse/components/uni-collapse/uni-collapse",
+    "uni-popup-dialog": "../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog",
+    "uni-popup": "../../uni_modules/uni-popup/components/uni-popup/uni-popup",
+    "uni-id-pages-bind-mobile": "../../uni_modules/uni-id-pages/components/uni-id-pages-bind-mobile/uni-id-pages-bind-mobile"
+  }
+}
