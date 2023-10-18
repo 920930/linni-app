@@ -10,8 +10,9 @@ if (!Array) {
 const _easycom_uni_calendar = () => "../../uni_modules/uni-calendar/components/uni-calendar/uni-calendar.js";
 const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
 if (!Math) {
-  (_easycom_uni_calendar + _easycom_uni_section)();
+  (_easycom_uni_calendar + Divier + _easycom_uni_section)();
 }
+const Divier = () => "../../components/Divier.js";
 const _sfc_main = {
   __name: "send",
   setup(__props) {
@@ -73,7 +74,6 @@ const _sfc_main = {
         a: common_vendor.o(checkDate),
         b: common_vendor.p({
           insert: true,
-          lunar: true,
           ["start-date"]: "2023-10-18",
           ["end-date"]: "2023-10-22",
           selected: selected.value
@@ -98,7 +98,18 @@ const _sfc_main = {
           type: "line"
         }),
         f: common_vendor.o((...args) => _ctx.guitiChange && _ctx.guitiChange(...args)),
-        g: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.mobile)
+        g: common_vendor.p({
+          title: "请选择送货车牌",
+          ["sub-title"]: `您已选择时间为：${insetInfo.date} ${insetInfo.time}`,
+          type: "line"
+        }),
+        h: common_vendor.f(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.cars, (car, k0, i0) => {
+          return {
+            a: common_vendor.t(car),
+            b: car
+          };
+        }),
+        i: common_vendor.o((...args) => _ctx.guitiChange && _ctx.guitiChange(...args))
       };
     };
   }

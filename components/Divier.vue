@@ -1,0 +1,15 @@
+<template>
+	<view class="divier"></view>
+</template>
+
+<script>
+</script>
+
+<style>
+.divier{
+	height: 12rpx;
+	background-color: rgba(0, 0, 0, 0.06);
+	margin-top: 30rpx;
+	box-shadow: inset 0 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+</style>

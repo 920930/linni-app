@@ -1,33 +1,49 @@
 <template>
-	<uni-calendar 
+	<!-- <uni-section title="请选择到店日期" :sub-title="`您好，${store.userInfo.nickname}`" type="line" /> -->
+	<uni-calendar
 		:insert="true"
-		:lunar="true" 
 		:start-date="'2023-10-18'"
 		:end-date="'2023-10-22'"
 		@change="checkDate"
 		:selected="selected"
-	 />
-	 <uni-section class="mb-10" title="请选择到店时间" :sub-title="`您已选择日期为：${insetInfo.date}`" type="line" />
+	/>
+	<Divier />
+	<uni-section title="请选择到店时间" :sub-title="`您已选择日期为：${insetInfo.date}`" type="line" />
 	 <view class="list">
 	 	<view class="list-item" :class="{'list-active': i == active.time}" v-for="(item, i) in timers" :key="i" @tap="checkTime(i)">
 			<view class="list-item-time">{{ item.time }}</view>
 			<view class="list-item-num">剩余: {{ item.num }}</view>
 		</view>
-	 </view>
-	 <uni-section class="mb-10" title="请选择送货类型" :sub-title="`您已选择时间为：${insetInfo.date} ${insetInfo.time}`" type="line" />
+	</view>
+	<Divier />
+	<uni-section title="请选择送货类型" :sub-title="`您已选择时间为：${insetInfo.date} ${insetInfo.time}`" type="line" />
+	<checkbox-group @change="guitiChange">
+		<view class="flex">
+			<label class="radio"><checkbox value="r1" checked="true" color="#007aff" />常温</label>
+			<label class="radio"><checkbox value="r2" color="#007aff" />低温</label>
+			<label class="radio"><checkbox value="r3" color="#007aff" />果蔬</label>
+			<label class="radio"><checkbox value="r4" color="#007aff" />低温</label>
+			<label class="radio"><checkbox value="r5" color="#007aff" />其他</label>
+			<label class="radio"><checkbox value="r6" color="#007aff" />低温</label>
+			<label class="radio"><checkbox value="r7" color="#007aff" />其他</label>
+		</view>
+	</checkbox-group>
+	<Divier />
+	<uni-section title="请选择送货车牌" :sub-title="`您已选择时间为：${insetInfo.date} ${insetInfo.time}`" type="line" />
 	<radio-group @change="guitiChange">
-		<label class="radio"><radio value="r1" checked="true" color="#007aff" />常温</label>
-		<label class="radio"><radio value="r2" color="#007aff" />低温</label>
-		<label class="radio"><radio value="r3" color="#007aff" />果蔬</label>
-		<label class="radio"><radio value="r4" color="#007aff" />低温</label>
-		<label class="radio"><radio value="r5" color="#007aff" />低温</label>
+		<view class="flex">
+			<label class="radio" v-for="car in store.userInfo.cars" :key="car">
+				<radio value="r1" checked="true" color="#007aff" />{{car}}
+			</label>
+		</view>
 	</radio-group>
-	 <view class="">{{store.userInfo.mobile}}</view>
+	<button style="margin-top: 30rpx;">提交</button>
 </template>
 
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
 import { store } from "@/uni_modules/uni-id-pages/common/store.js";
+import Divier from "@/components/Divier.vue";
 
 const selected = ref([
 	{date: '2023-10-18', info: '可预约', data: { custom: '自定义信息', name: '自定义消息头'}},
@@ -108,5 +124,11 @@ const checkTime = (i) => {
 	&-active{
 		border-color: $uni-color-primary;
 	}
+}
+.flex{
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 40rpx;
+	gap: 20rpx;
 }
 </style>

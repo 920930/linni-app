@@ -2,6 +2,7 @@
   "navigationBarTitleText": "发货申请",
   "usingComponents": {
     "uni-calendar": "../../uni_modules/uni-calendar/components/uni-calendar/uni-calendar",
-    "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section"
+    "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section",
+    "divier": "../../components/Divier"
   }
 }

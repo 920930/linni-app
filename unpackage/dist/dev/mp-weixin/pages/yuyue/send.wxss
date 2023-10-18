@@ -47,3 +47,9 @@
 .list-active.data-v-d95c4bf3 {
   border-color: #007aff;
 }
+.flex.data-v-d95c4bf3 {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 40rpx;
+  gap: 20rpx;
+}
