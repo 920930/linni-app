@@ -103,10 +103,12 @@ const _sfc_main = {
           ["sub-title"]: `您已选择时间为：${insetInfo.date} ${insetInfo.time}`,
           type: "line"
         }),
-        h: common_vendor.f(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.cars, (car, k0, i0) => {
+        h: common_vendor.f(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.cars, (car, i, i0) => {
           return {
-            a: common_vendor.t(car),
-            b: car
+            a: car,
+            b: i === 0,
+            c: common_vendor.t(car),
+            d: i
           };
         }),
         i: common_vendor.o((...args) => _ctx.guitiChange && _ctx.guitiChange(...args))

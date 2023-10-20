@@ -32,8 +32,8 @@
 	<uni-section title="请选择送货车牌" :sub-title="`您已选择时间为：${insetInfo.date} ${insetInfo.time}`" type="line" />
 	<radio-group @change="guitiChange">
 		<view class="flex">
-			<label class="radio" v-for="car in store.userInfo.cars" :key="car">
-				<radio value="r1" checked="true" color="#007aff" />{{car}}
+			<label class="radio" v-for="(car, i) in store.userInfo.cars" :key="i">
+				<radio :value="car" :checked="i === 0" color="#007aff" />{{car}}
 			</label>
 		</view>
 	</radio-group>

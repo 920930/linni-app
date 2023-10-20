@@ -1,0 +1,64 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": ["title"],
+	"permission": {
+		"read": false,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"title": {
+			"bsonType": "string",
+			"description": "公司名称",
+			"trim": "both",
+			"permission": {
+				"read": true,
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"mobile": {
+			"bsonType": "string",
+			"description": "公司电话",
+			"trim": "both",
+			"permission": {
+				"read": true,
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"genre": {
+			"bsonType": "array",
+			"description": "送货类型",
+			"trim": "both",
+			"defaultValue": ["常温", "低温", "果蔬", "冰柜"],
+			"permission": {
+				"read": true,
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"time": {
+			"bsonType": "array",
+			"description": "送货时间区间",
+			"trim": "both",
+			// "defaultValue": [{val: "09:00 ~ 10:00", num: 30}],
+			"permission": {
+				"read": true,
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"room": {
+			"bsonType": "array",
+			"description": "仓门月台",
+			"trim": "both",
+			// "defaultValue": [{num: 1, show: true}],
+			"permission": {
+				"read": true,
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		}
+	}
+}
