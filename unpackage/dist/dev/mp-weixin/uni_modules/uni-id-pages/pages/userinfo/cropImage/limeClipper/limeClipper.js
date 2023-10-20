@@ -796,5 +796,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     G: common_vendor.s("z-index: " + $props.zIndex + ";" + $props.customStyle)
   });
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-5dd2a2ff"], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/userinfo/cropImage/limeClipper/limeClipper.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-5dd2a2ff"], ["__file", "D:/WWW/linni/app/uni_modules/uni-id-pages/pages/userinfo/cropImage/limeClipper/limeClipper.vue"]]);
 wx.createComponent(Component);

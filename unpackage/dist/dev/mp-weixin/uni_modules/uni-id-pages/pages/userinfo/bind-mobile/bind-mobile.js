@@ -93,7 +93,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       placeholder: "请输入手机号",
       modelValue: $data.formData.mobile
     }),
-    e: common_vendor.sr("smsForm", "0fc98ca6-1"),
+    e: common_vendor.sr("smsForm", "12d99082-1"),
     f: common_vendor.o(($event) => $data.formData.code = $event),
     g: common_vendor.p({
       type: "bind-mobile-by-sms",
@@ -101,7 +101,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.formData.code
     }),
     h: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    i: common_vendor.sr("popup", "0fc98ca6-2"),
+    i: common_vendor.sr("popup", "12d99082-2"),
     j: common_vendor.o($options.submit),
     k: common_vendor.o(($event) => $data.formData.captcha = $event),
     l: common_vendor.p({
@@ -110,5 +110,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/app/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile.vue"]]);
 wx.createPage(MiniProgramPage);

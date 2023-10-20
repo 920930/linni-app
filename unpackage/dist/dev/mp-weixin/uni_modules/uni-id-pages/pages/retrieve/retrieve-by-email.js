@@ -170,7 +170,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: common_vendor.p({
       name: "email"
     }),
-    f: common_vendor.sr("shortCode", "1b5764f2-4,1b5764f2-3"),
+    f: common_vendor.sr("shortCode", "5ae3d884-4,5ae3d884-3"),
     g: common_vendor.o(($event) => $data.formData.code = $event),
     h: common_vendor.p({
       email: $data.formData.email,
@@ -207,12 +207,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     r: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
     s: common_vendor.o((...args) => $options.retrieveByPhone && $options.retrieveByPhone(...args)),
     t: common_vendor.o((...args) => $options.backLogin && $options.backLogin(...args)),
-    v: common_vendor.sr("form", "1b5764f2-0"),
+    v: common_vendor.sr("form", "5ae3d884-0"),
     w: common_vendor.p({
       value: $data.formData,
       ["err-show-type"]: "toast"
     }),
-    x: common_vendor.sr("popup", "1b5764f2-9"),
+    x: common_vendor.sr("popup", "5ae3d884-9"),
     y: common_vendor.o($options.submit),
     z: common_vendor.o(($event) => $data.formData.captcha = $event),
     A: common_vendor.p({
@@ -221,5 +221,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/retrieve/retrieve-by-email.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/app/uni_modules/uni-id-pages/pages/retrieve/retrieve-by-email.vue"]]);
 wx.createPage(MiniProgramPage);

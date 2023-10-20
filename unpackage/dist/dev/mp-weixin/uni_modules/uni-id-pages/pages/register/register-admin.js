@@ -161,20 +161,20 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true,
       modelValue: $data.formData.password2
     }),
-    t: common_vendor.sr("captcha", "a6c9cfda-10,a6c9cfda-9"),
+    t: common_vendor.sr("captcha", "4258c47e-10,4258c47e-9"),
     v: common_vendor.o(($event) => $data.formData.captcha = $event),
     w: common_vendor.p({
       scene: "register",
       modelValue: $data.formData.captcha
     }),
-    x: common_vendor.sr("agreements", "a6c9cfda-11,a6c9cfda-0"),
+    x: common_vendor.sr("agreements", "4258c47e-11,4258c47e-0"),
     y: common_vendor.p({
       scope: "register"
     }),
     z: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
     A: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
     B: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    C: common_vendor.sr("form", "a6c9cfda-0"),
+    C: common_vendor.sr("form", "4258c47e-0"),
     D: common_vendor.p({
       value: $data.formData,
       rules: $data.rules,
@@ -183,5 +183,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/register/register-admin.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/app/uni_modules/uni-id-pages/pages/register/register-admin.vue"]]);
 wx.createPage(MiniProgramPage);

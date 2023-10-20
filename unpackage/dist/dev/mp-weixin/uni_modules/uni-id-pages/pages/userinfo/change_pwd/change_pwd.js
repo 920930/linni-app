@@ -127,12 +127,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       name: "newPassword2"
     }),
     n: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    o: common_vendor.sr("form", "50e84387-0"),
+    o: common_vendor.sr("form", "470c9e19-0"),
     p: common_vendor.p({
       value: $data.formData,
       ["err-show-type"]: "toast"
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/userinfo/change_pwd/change_pwd.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/app/uni_modules/uni-id-pages/pages/userinfo/change_pwd/change_pwd.vue"]]);
 wx.createPage(MiniProgramPage);

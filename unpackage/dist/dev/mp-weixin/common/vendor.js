@@ -1502,7 +1502,7 @@ function populateParameters(fromRes, toRes) {
   const hostLanguage = language.replace(/_/g, "-");
   const parameters = {
     appId: "__UNI__C7BD554",
-    appName: "邻你物流",
+    appName: "邻你物流APP端",
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
@@ -1646,7 +1646,7 @@ const getAppBaseInfo = {
       hostSDKVersion: SDKVersion,
       hostTheme: theme,
       appId: "__UNI__C7BD554",
-      appName: "邻你物流",
+      appName: "邻你物流APP端",
       appVersion: "1.0.0",
       appVersionCode: "100",
       appLanguage: getAppLanguage(hostLanguage)
@@ -7502,7 +7502,7 @@ class I {
 function S(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const b = true, k = "mp-weixin", T = S([]), P = k, A = S('{\n    "address": [\n        "127.0.0.1",\n        "10.10.10.200",\n        "192.168.2.22"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/920930/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = S('[{"provider":"aliyun","spaceName":"linni","spaceId":"mp-b5ff49b2-63b7-4902-a120-670403299a25","clientSecret":"PEmVayh0h23aZuuaqoG7TQ==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const b = true, k = "mp-weixin", T = S([]), P = k, A = S('{\n    "address": [\n        "127.0.0.1",\n        "192.168.2.117"\n    ],\n    "debugPort": 9001,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/920930/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = S('[{"provider":"aliyun","spaceName":"linni","spaceId":"mp-b5ff49b2-63b7-4902-a120-670403299a25","clientSecret":"PEmVayh0h23aZuuaqoG7TQ==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let x = "";
 try {
   x = "__UNI__C7BD554";

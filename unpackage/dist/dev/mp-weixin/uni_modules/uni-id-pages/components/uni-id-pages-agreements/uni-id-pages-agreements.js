@@ -127,5 +127,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   } : {}) : {});
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-40b82fe9"], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/components/uni-id-pages-agreements/uni-id-pages-agreements.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-40b82fe9"], ["__file", "D:/WWW/linni/app/uni_modules/uni-id-pages/components/uni-id-pages-agreements/uni-id-pages-agreements.vue"]]);
 wx.createComponent(Component);

@@ -116,5 +116,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-d95c4bf3"], ["__file", "D:/WWW/linni/pages/yuyue/send.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-d95c4bf3"], ["__file", "D:/WWW/linni/app/pages/yuyue/send.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -209,7 +209,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: car,
         b: common_vendor.o(($event) => $options.removeCar(car), car),
-        c: "748ca9ec-8-" + i0 + ",748ca9ec-7",
+        c: "a2580790-8-" + i0 + ",a2580790-7",
         d: common_vendor.p({
           text: car + " ×"
         })
@@ -272,7 +272,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true,
       modelValue: $data.formData.password2
     }),
-    J: common_vendor.sr("agreements", "748ca9ec-16,748ca9ec-0"),
+    J: common_vendor.sr("agreements", "a2580790-16,a2580790-0"),
     K: common_vendor.p({
       scope: "register"
     }),
@@ -280,25 +280,25 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     M: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
     N: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
     O: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    P: common_vendor.sr("form", "748ca9ec-0"),
+    P: common_vendor.sr("form", "a2580790-0"),
     Q: common_vendor.p({
       value: $data.formData,
       rules: $data.rules,
       ["validate-trigger"]: "submit",
       ["err-show-type"]: "toast"
     }),
-    R: common_vendor.sr("inputClose", "748ca9ec-18,748ca9ec-17"),
+    R: common_vendor.sr("inputClose", "a2580790-18,a2580790-17"),
     S: common_vendor.o($options.dialogInputConfirm),
     T: common_vendor.p({
       mode: "input",
       title: "车牌号",
       placeholder: "请输入车牌号"
     }),
-    U: common_vendor.sr("inputDialog", "748ca9ec-17"),
+    U: common_vendor.sr("inputDialog", "a2580790-17"),
     V: common_vendor.p({
       type: "dialog"
     }),
-    W: common_vendor.sr("smsCode", "748ca9ec-21,748ca9ec-20"),
+    W: common_vendor.sr("smsCode", "a2580790-21,a2580790-20"),
     X: common_vendor.o(($event) => $data.formData.code = $event),
     Y: common_vendor.p({
       focusCaptchaInput: true,
@@ -309,7 +309,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     Z: common_vendor.p({
       title: "输入内容"
     }),
-    aa: common_vendor.sr("smsDialog", "748ca9ec-19"),
+    aa: common_vendor.sr("smsDialog", "a2580790-19"),
     ab: common_vendor.p({
       type: "dialog"
     }),
@@ -322,5 +322,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/pages/login/register.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/WWW/linni/app/pages/login/register.vue"]]);
 wx.createPage(MiniProgramPage);

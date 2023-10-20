@@ -165,5 +165,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     t: common_vendor.sr("uniFabLogin", "58ed63b0-7")
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-58ed63b0"], ["__file", "D:/WWW/linni/uni_modules/uni-id-pages/pages/login/login-withpwd.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-58ed63b0"], ["__file", "D:/WWW/linni/app/uni_modules/uni-id-pages/pages/login/login-withpwd.vue"]]);
 wx.createPage(MiniProgramPage);
