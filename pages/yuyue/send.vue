@@ -30,14 +30,14 @@
 	</checkbox-group>
 	<Divier />
 	<uni-section title="请选择送货车牌" :sub-title="`您已选择时间为：${insetInfo.date} ${insetInfo.time}`" type="line" />
-	<radio-group @change="guitiChange">
+	<radio-group @change="carChange">
 		<view class="flex">
 			<label class="radio" v-for="(car, i) in store.userInfo.cars" :key="i">
 				<radio :value="car" :checked="i === 0" color="#007aff" />{{car}}
 			</label>
 		</view>
 	</radio-group>
-	<button style="margin-top: 30rpx;">提交</button>
+	<button style="margin-top: 30rpx;" @tap="sendBtn">提交</button>
 </template>
 
 <script setup>
@@ -74,6 +74,7 @@ const active = reactive({
 })
 onMounted(() => {
 	insetInfo.date = selected.value[0].date;
+	insetInfo.car = store.userInfo.cars[0];
 })
 const checkDate = (e) => {
 	insetInfo.date = e.fulldate;
@@ -97,6 +98,11 @@ const checkTime = (i) => {
 	}
 	active.time = i;
 	insetInfo.time = ret.time;
+}
+const carChange = e => insetInfo.car = e.detail.value;
+
+const sendBtn = () => {
+	console.log(insetInfo)
 }
 </script>
 

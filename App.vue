@@ -4,11 +4,6 @@
 		onLaunch: async function() {
 			console.log('App Launch')
 			await uniIdPageInit()
-			// await uniIdCo.registerAdmin({
-			// 	username: '18081990075',
-			// 	password: 'AI920930',
-			// 	nickname: 'zhang'
-			// })
 		},
 		onShow: function() {
 			console.log('App Show123')

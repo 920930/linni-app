@@ -45,6 +45,7 @@ const _sfc_main = {
     });
     common_vendor.onMounted(() => {
       insetInfo.date = selected.value[0].date;
+      insetInfo.car = uni_modules_uniIdPages_common_store.store.userInfo.cars[0];
     });
     const checkDate = (e) => {
       insetInfo.date = e.fulldate;
@@ -68,6 +69,10 @@ const _sfc_main = {
       }
       active.time = i;
       insetInfo.time = ret.time;
+    };
+    const carChange = (e) => insetInfo.car = e.detail.value;
+    const sendBtn = () => {
+      console.log(insetInfo);
     };
     return (_ctx, _cache) => {
       return {
@@ -111,7 +116,8 @@ const _sfc_main = {
             d: i
           };
         }),
-        i: common_vendor.o((...args) => _ctx.guitiChange && _ctx.guitiChange(...args))
+        i: common_vendor.o(carChange),
+        j: common_vendor.o(sendBtn)
       };
     };
   }
