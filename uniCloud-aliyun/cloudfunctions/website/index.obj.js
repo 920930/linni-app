@@ -2,11 +2,34 @@
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
 module.exports = {
 	_before: function () { // 通用预处理器
-		this.db = uniCloud.databaseForJQL({ clientInfo: this.getClientInfo() });
+		const database = uniCloud.databaseForJQL({ clientInfo: this.getClientInfo() });
+		this.db = database.collection('website');
 	},
-	getSite(){
-		const db = this.db.collection('website');
-		return db.get({getOne: true});
+	show(id){
+		return this.db.doc(id).get({getOne: true});
+	},
+	async store(val){
+		const one = await this.db.limit(1).get({getOne: true});
+		if(one.data) {
+			return {
+				errCode: 'error',
+				errMsg: '已存在数据，不允许重复添加'
+			}
+		}
+		await this.db.add(val);
+		return {
+			errCode: 0,
+			errMsg: '添加成功'
+		}
+	},
+	async update(val){
+		const _id = val._id;
+		Reflect.deleteProperty(val, '_id')
+		await this.db.doc(_id).update(val);
+		return {
+			errCode: 0,
+			errMsg: '添加成功'
+		}
 	}
 	/**
 	 * method1方法描述

@@ -1,7 +1,7 @@
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
 	"bsonType": "object",
-	"required": ["title"],
+	"required": ["title", "ftitle", "mobile", "genre", "times", "doors"],
 	"permission": {
 		"read": false,
 		"create": false,
@@ -14,7 +14,18 @@
 		},
 		"title": {
 			"bsonType": "string",
-			"description": "公司名称",
+			"title": "公司简称",
+			"description": "公司简称",
+			"trim": "both",
+			"permission": {
+				"read": true,
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
+		"ftitle": {
+			"bsonType": "string",
+			"title": "公司全称",
+			"description": "公司全称",
 			"trim": "both",
 			"permission": {
 				"read": true,
@@ -23,6 +34,7 @@
 		},
 		"mobile": {
 			"bsonType": "string",
+			"title": "公司电话",
 			"description": "公司电话",
 			"trim": "both",
 			"permission": {
@@ -32,16 +44,18 @@
 		},
 		"genre": {
 			"bsonType": "array",
+			"title": "送货类型",
 			"description": "送货类型",
 			"trim": "both",
-			"defaultValue": ["常温", "低温", "果蔬", "冰柜"],
+			// "defaultValue": ["常温", "低温", "果蔬", "冰柜"],
 			"permission": {
 				"read": true,
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},
-		"time": {
+		"times": {
 			"bsonType": "array",
+			"title": "送货时间区间",
 			"description": "送货时间区间",
 			"trim": "both",
 			// "defaultValue": [{val: "09:00 ~ 10:00", num: 30}],
@@ -50,8 +64,9 @@
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},
-		"room": {
+		"doors": {
 			"bsonType": "array",
+			"title": "仓门月台",
 			"description": "仓门月台",
 			"trim": "both",
 			// "defaultValue": [{num: 1, show: true}],
