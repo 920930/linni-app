@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4280736 */
-  src: url('iconfont.ttf?t=1697507720205') format('truetype');
+  src: url('/static/iconfont.ttf?t=1698310060137') format('truetype');
 }
 
 .iconfont {
@@ -11,8 +11,52 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-truck:before {
-  content: "\e8fd";
+.icon-fengexian:before {
+  content: "\ec7f";
+}
+
+.icon-formatheader1:before {
+  content: "\e860";
+}
+
+.icon-fontbgcolor:before {
+  content: "\e678";
+}
+
+.icon-charutupian:before {
+  content: "\e605";
+}
+
+.icon-juzhongduiqi:before {
+  content: "\e620";
+}
+
+.icon-youduiqi:before {
+  content: "\e64b";
+}
+
+.icon-zitijiacu:before {
+  content: "\e656";
+}
+
+.icon-zitishanchuxian:before {
+  content: "\e657";
+}
+
+.icon-zitixiahuaxian:before {
+  content: "\e658";
+}
+
+.icon-zitixieti:before {
+  content: "\e659";
+}
+
+.icon-zuoduiqi:before {
+  content: "\e65a";
+}
+
+.icon-text-color:before {
+  content: "\e650";
 }
 
 .icon-lorry:before {
