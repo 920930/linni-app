@@ -1,0 +1,7 @@
+{
+  "name": "webnotice",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
