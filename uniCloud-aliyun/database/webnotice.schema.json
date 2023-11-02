@@ -4,7 +4,7 @@
 	"description": "通知公告",
 	"required": ["title", "content"],
 	"permission": {
-		"read": false,
+		"read": true,
 		"create": false,
 		"update": false,
 		"delete": false
@@ -37,6 +37,16 @@
 			"bsonType": "string",
 			"title": "通知正文",
 			"description": "通知正文内容"
+		},
+		"create_date": {
+			"bsonType": "timestamp",
+			"label": "创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			},
+			"componentForEdit": {
+				"name": "uni-dateformat"
+			}
 		}
 	}
 }

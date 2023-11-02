@@ -17,5 +17,17 @@ module.exports = {
 			errCode: 0,
 			errMsg: '通知保存成功'
 		}
+	},
+	edit(_id, data){
+		if(!data) {
+			return {
+				errCode: 'PARAM_IS_NULL',
+				errMsg: '数据不能为空'
+			}
+		}
+		return this.db.doc(_id).update(data);
+	},
+	show(_id){
+		return this.db.doc(_id).get({getOne: true})
 	}
 }
