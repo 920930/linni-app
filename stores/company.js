@@ -1,16 +1,37 @@
 import { reactive } from 'vue';
-import db from uniCloud.importObject('website')
+import { defineStore } from 'pinia';
+const db = uniCloud.importObject('website');
 
 export const useCompanyStore = defineStore('company', () => {
 	const company = reactive({
-		title: '',
-		mobile: '',
+		title: "",
+		ftitle: "",
+		doors: [],
+		genre: [],
+		mobile: "",
+		times: [],
+		_id: "",
 	})
 	
-	const getCompanyInfo = async () => {
-		const data = await db.getSite();
-		console.log(data)
+	const getCompany = async () => {
+		try{
+			uni.showLoading({
+				title: "加载中..."
+			})
+			const { data } = await db.show();
+			company._id = data._id;
+			company.title = data.title;
+			company.ftitle = data.ftitle;
+			company.doors = data.doors;
+			company.genre = data.genre;
+			company.mobile = data.mobile;
+			company.times = data.times;
+		}catch(e){
+			console.log(123)
+		}finally{
+			uni.hideLoading()
+		}
 	}
 	
-	return { company };
+	return { company, getCompany };
 });

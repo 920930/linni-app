@@ -5,8 +5,8 @@ module.exports = {
 		const database = uniCloud.databaseForJQL({ clientInfo: this.getClientInfo() });
 		this.db = database.collection('website');
 	},
-	show(id){
-		return this.db.doc(id).get({getOne: true});
+	show(id = ""){
+		return id ? this.db.doc(id).get({getOne: true}) : this.db.limit(1).get({getOne: true});
 	},
 	async store(val){
 		const one = await this.db.limit(1).get({getOne: true});

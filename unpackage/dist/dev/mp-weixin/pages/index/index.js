@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const uni_modules_uniIdPages_common_store = require("../../uni_modules/uni-id-pages/common/store.js");
+const stores_company = require("../../stores/company.js");
 require("../../uni_modules/uni-id-pages/config.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -13,6 +14,8 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    const useCompany = stores_company.useCompanyStore();
+    const { company } = common_vendor.storeToRefs(useCompany);
     const hasLogin = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.hasLogin);
     const loginBtn = () => {
       common_vendor.index.navigateTo({
@@ -55,24 +58,20 @@ const _sfc_main = {
           color: "white",
           size: "50"
         }),
-        d: common_vendor.o(loginBtn),
-        e: common_vendor.p({
+        d: common_vendor.t(common_vendor.unref(company).title),
+        e: common_vendor.o(loginBtn),
+        f: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        f: common_vendor.o(registerBtn),
-        g: common_vendor.p({
+        g: common_vendor.o(registerBtn),
+        h: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        h: common_vendor.o(yuyueBtn),
-        i: common_vendor.p({
-          type: "right",
-          size: "20",
-          color: "rgba(0, 0, 0, 0.4)"
-        }),
+        i: common_vendor.o(yuyueBtn),
         j: common_vendor.p({
           type: "right",
           size: "20",
@@ -83,7 +82,13 @@ const _sfc_main = {
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        l: common_vendor.o(mobileFn)
+        l: common_vendor.p({
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
+        }),
+        m: common_vendor.o(mobileFn),
+        n: common_vendor.t(common_vendor.unref(company).mobile)
       };
     };
   }

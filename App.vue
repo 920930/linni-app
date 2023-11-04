@@ -1,17 +1,13 @@
-<script>
+<script setup>
 	import uniIdPageInit from '@/uni_modules/uni-id-pages/init.js';
-	export default {
-		onLaunch: async function() {
-			console.log('App Launch')
-			await uniIdPageInit()
-		},
-		onShow: function() {
-			console.log('App Show123')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
-	}
+	import { onLaunch } from '@dcloudio/uni-app';
+	import { useCompanyStore } from '@/stores/company.js';
+	const useCompany = useCompanyStore();
+	
+	onLaunch(async () => {
+		await uniIdPageInit();
+		await useCompany.getCompany();
+	})
 </script>
 
 <style>

@@ -1,11 +1,11 @@
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
 	"bsonType": "object",
-	"description": "通知公告",
+	"description": "预约订单",
 	"required": ["title", "content"],
 	"permission": {
 		"read": true,
-		"create": false,
+		"create": true,
 		"update": false,
 		"delete": false
 	},
@@ -13,30 +13,34 @@
 		"_id": {
 			"description": "ID，系统自动生成"
 		},
-		"title": {
+		"uid": {
 			"bsonType": "string",
-			"title": "通知标题"
+			"title": "订单用户ID",
+			"description": "订单用户ID， 参考`uni-id-users` 表",
+			"foreignKey": "uni-id-users._id",
+			"defaultValue": {
+			  "$env": "uid"
+			}
 		},
-		"type": {
-			"bsonType": "int",
-			"title": "通知类型",
-			"description": "通知类型 0普通公告 1放假通知",
-			"enum": [0, 1]
+		"mobile": {
+			"bsonType": "string",
+			"title": "手机号"
+		},
+		"genre": {
+			"bsonType": "array",
+			"title": "送货方式"
+		},
+		"car": {
+			"bsonType": "string",
+			"title": "车牌号"
 		},
 		"start": {
 			"bsonType": "timestamp",
-			"title": "开始时间",
-			"description": "开始时间"
+			"title": "预约开始时间"
 		},
 		"end": {
 			"bsonType": "timestamp",
-			"title": "结束时间",
-			"description": "结束时间"
-		},
-		"content": {
-			"bsonType": "string",
-			"title": "通知正文",
-			"description": "通知正文内容"
+			"title": "预约结束时间"
 		},
 		"createdAt": {
 			"bsonType": "timestamp",

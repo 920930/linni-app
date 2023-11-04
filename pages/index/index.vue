@@ -17,13 +17,13 @@
 					</view>
 					<text>您好</text>
 				</view>
-				<text class="top-title-left-text">欢迎来到邻你物流园区服务系统</text>
+				<text class="top-title-left-text">欢迎来到{{company.title}}园区服务系统</text>
 			</view>
 			<view class="top-title-right" @tap='loginBtn'>个人中心</view>
 		</view>
 	</view>
 	<view class="main">
-		<view class="main-title">大成都最有温度的物流专家</view>
+		<view class="main-title">- 大成都最有温度的物流专家 -</view>
 		<view class="main-ul">
 			<view class="main-ul-li" @tap="registerBtn">
 				<image src="../../static/index/index-user.png" class="main-ul-li-left" />
@@ -69,13 +69,18 @@
 	</view>
 	<view class="footer">
 		<view>- 服务热线 -</view>
-		<text>400-8055-400</text>
+		<text>{{company.mobile}}</text>
 	</view>
 </template>
 
 <script setup>
 	import { store } from '@/uni_modules/uni-id-pages/common/store.js';
 	import { computed } from 'vue';
+	import { storeToRefs } from "pinia";
+	import { useCompanyStore } from '@/stores/company.js';
+	const useCompany = useCompanyStore();
+	const {company} = storeToRefs(useCompany);
+
 	const hasLogin = computed(() => store.hasLogin)
 	const loginBtn = () => {
 		uni.navigateTo({

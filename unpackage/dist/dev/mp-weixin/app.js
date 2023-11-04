@@ -2,6 +2,7 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
 const uni_modules_uniIdPages_init = require("./uni_modules/uni-id-pages/init.js");
+const stores_company = require("./stores/company.js");
 require("./uni_modules/uni-id-pages/config.js");
 if (!Math) {
   "./pages/index/index.js";
@@ -26,15 +27,15 @@ if (!Math) {
   "./uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify.js";
 }
 const _sfc_main = {
-  onLaunch: async function() {
-    console.log("App Launch");
-    await uni_modules_uniIdPages_init.uniIdPageInit();
-  },
-  onShow: function() {
-    console.log("App Show123");
-  },
-  onHide: function() {
-    console.log("App Hide");
+  __name: "App",
+  setup(__props) {
+    const useCompany = stores_company.useCompanyStore();
+    common_vendor.onLaunch(async () => {
+      await uni_modules_uniIdPages_init.uniIdPageInit();
+      await useCompany.getCompany();
+    });
+    return () => {
+    };
   }
 };
 const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/WWW/linni/app/App.vue"]]);

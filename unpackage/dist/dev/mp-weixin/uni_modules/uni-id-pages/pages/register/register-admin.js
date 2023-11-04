@@ -5,7 +5,7 @@ const uni_modules_uniIdPages_common_loginPage_mixin = require("../../common/logi
 require("../../common/password.js");
 require("../../config.js");
 require("../../common/store.js");
-const uniIdCo = common_vendor.Ds.importObject("uni-id-co", { customUI: true });
+const uniIdCo = common_vendor.$s.importObject("uni-id-co", { customUI: true });
 const _sfc_main = {
   mixins: [uni_modules_uniIdPages_common_loginPage_mixin.mixin],
   data() {

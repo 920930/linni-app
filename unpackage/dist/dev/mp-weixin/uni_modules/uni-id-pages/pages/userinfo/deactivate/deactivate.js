@@ -15,7 +15,7 @@ const _sfc_main = {
         content: "已经仔细阅读注销提示，知晓可能带来的后果，并确认要注销",
         complete: (e) => {
           if (e.confirm) {
-            const uniIdco = common_vendor.Ds.importObject("uni-id-co");
+            const uniIdco = common_vendor.$s.importObject("uni-id-co");
             uniIdco.closeAccount().then((e2) => {
               common_vendor.index.showToast({
                 title: "注销成功",

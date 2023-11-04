@@ -1,6 +1,8 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const uni_modules_uniIdPages_common_store = require("../../uni_modules/uni-id-pages/common/store.js");
+const stores_company = require("../../stores/company.js");
+const pages_yuyue_lib = require("./lib.js");
 require("../../uni_modules/uni-id-pages/config.js");
 if (!Array) {
   const _easycom_uni_calendar2 = common_vendor.resolveComponent("uni-calendar");
@@ -16,36 +18,25 @@ const Divier = () => "../../components/Divier.js";
 const _sfc_main = {
   __name: "send",
   setup(__props) {
+    const companyStore = stores_company.useCompanyStore();
+    const db = common_vendor.$s.importObject("web-order");
+    const disabled = common_vendor.ref(false);
     const selected = common_vendor.ref([
-      { date: "2023-10-18", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } },
-      { date: "2023-10-19", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } },
-      { date: "2023-10-20", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } },
-      { date: "2023-10-21", info: "可预约" }
-    ]);
-    const timers = common_vendor.ref([
-      { time: "08:00 ~ 09:00", num: 30 },
-      { time: "09:00 ~ 10:00", num: 30 },
-      { time: "10:00 ~ 11:00", num: 30 },
-      { time: "11:00 ~ 12:00", num: 30 },
-      { time: "13:00 ~ 14:00", num: 30 },
-      { time: "14:00 ~ 15:00", num: 30 },
-      { time: "15:00 ~ 16:00", num: 30 },
-      { time: "16:00 ~ 17:00", num: 30 },
-      { time: "17:00 ~ 18:00", num: 0 }
+      { date: "2023-11-04", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } },
+      { date: "2023-11-05", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } }
     ]);
     const insetInfo = common_vendor.reactive({
-      date: "",
-      time: "",
-      guiti: "",
+      date: pages_yuyue_lib.today,
+      start: "",
+      end: "",
+      genre: [],
       car: ""
     });
     const active = common_vendor.reactive({
       time: -1,
-      guiti: 0
+      genre: 0
     });
     common_vendor.onMounted(() => {
-      insetInfo.date = selected.value[0].date;
-      insetInfo.car = uni_modules_uniIdPages_common_store.store.userInfo.cars[0];
     });
     const checkDate = (e) => {
       insetInfo.date = e.fulldate;
@@ -58,7 +49,7 @@ const _sfc_main = {
       });
     };
     const checkTime = (i) => {
-      const ret = timers.value.find((item, n) => n == i);
+      const ret = companyStore.company.times.find((item, n) => n == i);
       if (!ret.num) {
         active.time = -1;
         return common_vendor.index.showToast({
@@ -68,56 +59,79 @@ const _sfc_main = {
         });
       }
       active.time = i;
-      insetInfo.time = ret.time;
+      insetInfo.start = ret.start;
+      insetInfo.end = ret.end;
     };
+    const genreChange = (e) => insetInfo.genre = e.detail.value;
     const carChange = (e) => insetInfo.car = e.detail.value;
     const sendBtn = () => {
-      console.log(insetInfo);
+      if (!insetInfo.start) {
+        return common_vendor.index.showToast({ title: "请选择到店时间", icon: "none" });
+      }
+      if (!insetInfo.genre.length) {
+        return common_vendor.index.showToast({ title: "请选择送货类型", icon: "none" });
+      }
+      if (!insetInfo.car) {
+        return common_vendor.index.showToast({ title: "请选择送货车牌", icon: "none" });
+      }
+      const start = `${insetInfo.date} ${insetInfo.start}`;
+      const end = `${insetInfo.date} ${insetInfo.end}`;
+      disabled.value = true;
+      db.create({ ...insetInfo, start, end }).then(() => {
+      }).finally(() => disabled.value = false);
     };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.o(checkDate),
         b: common_vendor.p({
+          date: insetInfo.date,
           insert: true,
-          ["start-date"]: "2023-10-18",
-          ["end-date"]: "2023-10-22",
-          selected: selected.value
+          ["start-date"]: "2023-11-04",
+          ["end-date"]: "2023-11-10"
         }),
         c: common_vendor.p({
           title: "请选择到店时间",
           ["sub-title"]: `您已选择日期为：${insetInfo.date}`,
           type: "line"
         }),
-        d: common_vendor.f(timers.value, (item, i, i0) => {
+        d: common_vendor.f(common_vendor.unref(companyStore).company.times, (item, i, i0) => {
           return {
-            a: common_vendor.t(item.time),
-            b: common_vendor.t(item.num),
-            c: i == active.time ? 1 : "",
-            d: i,
-            e: common_vendor.o(($event) => checkTime(i), i)
+            a: common_vendor.t(item.start),
+            b: common_vendor.t(item.end),
+            c: common_vendor.t(item.num),
+            d: i == active.time ? 1 : "",
+            e: i,
+            f: common_vendor.o(($event) => checkTime(i), i)
           };
         }),
         e: common_vendor.p({
           title: "请选择送货类型",
-          ["sub-title"]: `您已选择时间为：${insetInfo.date} ${insetInfo.time}`,
+          ["sub-title"]: `您已选择时间为：${insetInfo.date} ${insetInfo.start}-${insetInfo.end}`,
           type: "line"
         }),
-        f: common_vendor.o((...args) => _ctx.guitiChange && _ctx.guitiChange(...args)),
-        g: common_vendor.p({
-          title: "请选择送货车牌",
-          ["sub-title"]: `您已选择时间为：${insetInfo.date} ${insetInfo.time}`,
-          type: "line"
-        }),
-        h: common_vendor.f(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.cars, (car, i, i0) => {
+        f: common_vendor.f(common_vendor.unref(companyStore).company.genre, (item, k0, i0) => {
           return {
-            a: car,
-            b: i === 0,
-            c: common_vendor.t(car),
-            d: i
+            a: item,
+            b: common_vendor.t(item),
+            c: item
           };
         }),
-        i: common_vendor.o(carChange),
-        j: common_vendor.o(sendBtn)
+        g: common_vendor.o(genreChange),
+        h: common_vendor.p({
+          title: "请选择送货车牌",
+          ["sub-title"]: `您已选择时间为：${insetInfo.date} ${insetInfo.start}-${insetInfo.end}`,
+          type: "line"
+        }),
+        i: common_vendor.f(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.cars, (car, i, i0) => {
+          return {
+            a: car,
+            b: common_vendor.t(car),
+            c: i
+          };
+        }),
+        j: common_vendor.o(carChange),
+        k: common_vendor.o(sendBtn),
+        l: disabled.value
       };
     };
   }
