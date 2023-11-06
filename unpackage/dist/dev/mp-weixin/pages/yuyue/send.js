@@ -26,7 +26,7 @@ const _sfc_main = {
       { date: "2023-11-05", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } }
     ]);
     const insetInfo = common_vendor.reactive({
-      date: pages_yuyue_lib.today,
+      date: pages_yuyue_lib.today().today,
       start: "",
       end: "",
       genre: [],
@@ -86,8 +86,8 @@ const _sfc_main = {
         b: common_vendor.p({
           date: insetInfo.date,
           insert: true,
-          ["start-date"]: "2023-11-04",
-          ["end-date"]: "2023-11-10"
+          ["start-date"]: common_vendor.unref(pages_yuyue_lib.today)().today,
+          ["end-date"]: common_vendor.unref(pages_yuyue_lib.today)(common_vendor.unref(companyStore).company.day).today
         }),
         c: common_vendor.p({
           title: "请选择到店时间",

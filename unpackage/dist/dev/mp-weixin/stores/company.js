@@ -5,6 +5,7 @@ const useCompanyStore = common_vendor.defineStore("company", () => {
   const company = common_vendor.reactive({
     title: "",
     ftitle: "",
+    day: 0,
     doors: [],
     genre: [],
     mobile: "",
@@ -24,6 +25,7 @@ const useCompanyStore = common_vendor.defineStore("company", () => {
       company.genre = data.genre;
       company.mobile = data.mobile;
       company.times = data.times;
+      company.day = data.day;
     } catch (e) {
       console.log(123);
     } finally {

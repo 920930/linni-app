@@ -6,6 +6,7 @@ export const useCompanyStore = defineStore('company', () => {
 	const company = reactive({
 		title: "",
 		ftitle: "",
+		day: 0,
 		doors: [],
 		genre: [],
 		mobile: "",
@@ -26,6 +27,7 @@ export const useCompanyStore = defineStore('company', () => {
 			company.genre = data.genre;
 			company.mobile = data.mobile;
 			company.times = data.times;
+			company.day = data.day;
 		}catch(e){
 			console.log(123)
 		}finally{

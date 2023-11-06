@@ -3,8 +3,8 @@
 	<uni-calendar
 		:date="insetInfo.date"
 		:insert="true"
-		:start-date="'2023-11-04'"
-		:end-date="'2023-11-10'"
+		:start-date="today().today"
+		:end-date="today(companyStore.company.day).today"
 		@change="checkDate"
 	/>
 	<Divier />
@@ -52,7 +52,7 @@ const selected = ref([
 	{date: '2023-11-05', info: '可预约', data: { custom: '自定义信息', name: '自定义消息头'}},
 ])
 const insetInfo = reactive({
-	date: today,
+	date: today().today,
 	start: '',
 	end: '',
 	genre: [],

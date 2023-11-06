@@ -42,6 +42,16 @@
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
 		},
+		"day": {
+			"bsonType": "int",
+			"title": "提前预约",
+			"description": "提前几天预约",
+			"trim": "both",
+			"permission": {
+				"read": true,
+				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+			}
+		},
 		"genre": {
 			"bsonType": "array",
 			"title": "送货类型",

@@ -21,7 +21,24 @@
   "libVersion": "3.1.2",
   "appid": "wx60dae2553e274d53",
   "projectname": "邻你物流APP端",
-  "condition": {},
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": []
+    }
+  },
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
