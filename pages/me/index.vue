@@ -55,7 +55,6 @@
   import {store, mutations} from '@/uni_modules/uni-id-pages/common/store.js';
 	
 	const uniIdCo = uniCloud.importObject("uni-id-co");
-	const db = uniCloud.importObject("user");
 	
 	export default {
     computed: {
@@ -99,7 +98,6 @@
 			//判断当前用户是否有密码，否则就不显示密码修改功能
 			try{
 				let res = await uniIdCo.getAccountInfo();
-				console.log(res)
 				this.hasPwd = res.isPasswordSet
 			}catch(e){
 				mutations.logout()

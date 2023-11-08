@@ -1,28 +1,16 @@
 // 云对象教程: https://uniapp.dcloud.net.cn/uniCloud/cloud-obj
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
 const uniIdCommon = require('uni-id-common');
+const checkToken = require('./checkToken.js');
 
 module.exports = {
 	async _before() { // 通用预处理器getUniversalClientInfo
-		const token = this.getUniIdToken();
-		if(!token) {
-			const err = new Error(payload.errMsg);
-			err.code = payload.errCode;
-			throw err;
+		try{
+			await checkToken(this)
+		}catch(e){
+			throw e;
 		}
-		const clientInfo = this.getClientInfo();
-		this.db = uniCloud.databaseForJQL({ clientInfo });
-		 // 创建uni-id实例，其上方法同uniID
-		const uniID = uniIdCommon.createInstance({
-			clientInfo
-		});
-		const payload = await uniID.checkToken(token);
-		if(payload.code){
-			const err = new Error(payload.errMsg);
-			err.code = payload.errCode;
-			throw err;
-		}
-		this.authInfo = payload;
+		this.db = uniCloud.databaseForJQL({ clientInfo: this.getClientInfo() });
 	},
 	/**
 	 * getUserInfo获取用户个人页面信息

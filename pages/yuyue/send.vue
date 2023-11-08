@@ -9,7 +9,7 @@
 	/>
 	<Divier />
 	<uni-section title="请选择到店时间" :sub-title="`您已选择日期为：${insetInfo.date}`" type="line" />
-	 <view class="list">
+	<view class="list">
 	 	<view class="list-item" :class="{'list-active': i == active.time}" v-for="(item, i) in companyStore.company.times" :key="i" @tap="checkTime(i)">
 			<view class="list-item-time">{{item.start}} ~ {{item.end}}</view>
 			<view class="list-item-num">剩余: {{ item.num }}</view>
@@ -37,14 +37,16 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue';
-import { store } from "@/uni_modules/uni-id-pages/common/store.js";
+import { reactive, ref } from 'vue';
+import { onLoad } from "@dcloudio/uni-app"
+import { store, mutations } from '@/uni_modules/uni-id-pages/common/store.js';
 import { useCompanyStore } from "@/stores/company.js";
-import Divier from "@/components/Divier.vue";
 import { today } from './lib.js';
+import Divier from "@/components/Divier.vue";
 
 const companyStore = useCompanyStore();
 const db = uniCloud.importObject('web-order');
+const dbNotice = uniCloud.importObject('webnotice');
 const disabled = ref(false)
 
 const selected = ref([
@@ -62,7 +64,7 @@ const active = reactive({
 	time: -1,
 	genre: 0,
 })
-onMounted(() => {
+onLoad(() => {
 	// insetInfo.date = selected.value[0].date;
 	// insetInfo.car = store.userInfo.cars[0];
 })
@@ -110,7 +112,9 @@ const sendBtn = () => {
 	const end = `${insetInfo.date} ${insetInfo.end}`;
 	disabled.value = true;
 	db.create({...insetInfo, start, end})
-		.then(() => {})
+		.catch(err => {
+			if(err.errCode: "uni-id-token-expired") mutations.logout();
+		})
 		.finally(() => disabled.value = false)
 }
 </script>
