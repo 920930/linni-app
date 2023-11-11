@@ -84,6 +84,14 @@
 				"read": true,
 				"write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
 			}
-		}
+		},
+		"createdAt": {
+			"bsonType": "timestamp",
+			"title": "创建时间",
+			"description": "创建时间",
+			"defaultValue": {
+				"$env": "now",
+			}
+		},
 	}
 }

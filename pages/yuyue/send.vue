@@ -1,11 +1,13 @@
 <template>
 	<!-- <uni-section title="请选择到店日期" :sub-title="`您好，${store.userInfo.nickname}`" type="line" /> -->
-	<uni-calendar
-		:date="insetInfo.date"
+	<wu-calendar
 		:insert="true"
-		:start-date="today().today"
-		:end-date="today(companyStore.company.day).today"
-		@change="checkDate"
+		:lunar="true"
+		:useToday='false'
+		:startDate="today().today"
+		:endDate="today(companyStore.company.day).today"
+		:selected="selected"
+		@change="e => insetInfo.date = e.fulldate"
 	/>
 	<Divier />
 	<uni-section title="请选择到店时间" :sub-title="`您已选择日期为：${insetInfo.date}`" type="line" />
@@ -38,7 +40,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-import { onLoad } from "@dcloudio/uni-app"
+import { onLoad, onShow } from "@dcloudio/uni-app"
 import { store, mutations } from '@/uni_modules/uni-id-pages/common/store.js';
 import { useCompanyStore } from "@/stores/company.js";
 import { today } from './lib.js';
@@ -49,12 +51,9 @@ const db = uniCloud.importObject('web-order');
 const dbNotice = uniCloud.importObject('webnotice');
 const disabled = ref(false)
 
-const selected = ref([
-	{date: '2023-11-04', info: '可预约', data: { custom: '自定义信息', name: '自定义消息头'}},
-	{date: '2023-11-05', info: '可预约', data: { custom: '自定义信息', name: '自定义消息头'}},
-])
+const selected = ref([])
 const insetInfo = reactive({
-	date: today().today,
+	date: '',
 	start: '',
 	end: '',
 	genre: [],
@@ -65,19 +64,12 @@ const active = reactive({
 	genre: 0,
 })
 onLoad(() => {
-	// insetInfo.date = selected.value[0].date;
-	// insetInfo.car = store.userInfo.cars[0];
-})
-// 到店日期
-const checkDate = (e) => {
-	insetInfo.date = e.fulldate;
-	const one = selected.value.find(res => res.date === e.fulldate)
-	if(one) return;
-	selected.value.push({
-		date: e.fulldate,
-		info: '打卡',
+	// 改用市场wu-ui的日历插件 https://ext.dcloud.net.cn/plugin?id=14157
+	db.notices().then(ret => {
+		console.log(ret.data)
+		selected.value = ret.data;
 	})
-}
+})
 // 到店时间
 const checkTime = (i) => {
 	const ret = companyStore.company.times.find((item, n) => n == i);
@@ -100,6 +92,13 @@ const carChange = e => insetInfo.car = e.detail.value;
 
 const sendBtn = () => {
 	if(!insetInfo.start){
+		return uni.showToast({ title: "请选择到店日期", icon: "none" })
+	}
+	const one = selected.value.find(item => item.data == insetInfo.date);
+	if(one){
+		return uni.showToast({ title: `${insetInfo.date}不可选`, icon: "none" })
+	}
+	if(!insetInfo.start){
 		return uni.showToast({ title: "请选择到店时间", icon: "none" })
 	}
 	if(!insetInfo.genre.length){
@@ -113,7 +112,7 @@ const sendBtn = () => {
 	disabled.value = true;
 	db.create({...insetInfo, start, end})
 		.catch(err => {
-			if(err.errCode: "uni-id-token-expired") mutations.logout();
+			if(err.errCode === "uni-id-token-expired") mutations.logout();
 		})
 		.finally(() => disabled.value = false)
 }

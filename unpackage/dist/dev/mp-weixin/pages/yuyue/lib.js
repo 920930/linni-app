@@ -1,6 +1,7 @@
 "use strict";
 const today = (num = 0) => {
   const time = /* @__PURE__ */ new Date();
+  time.setDate(0, 0, 0);
   if (num)
     time.setDate(time.getDate() + num);
   const year = time.getFullYear();

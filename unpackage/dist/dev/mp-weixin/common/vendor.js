@@ -9947,6 +9947,7 @@ const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
   !isInSSRComponentSetup && injectHook(lifecycle, hook, target);
 };
 const onLaunch = /* @__PURE__ */ createHook(ON_LAUNCH);
+const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
 var isVue2 = false;
 function set(target, key, val) {
   if (Array.isArray(target)) {
@@ -10734,7 +10735,7 @@ exports.initVueI18n = initVueI18n;
 exports.n = n$1;
 exports.o = o$1;
 exports.onLaunch = onLaunch;
-exports.onMounted = onMounted;
+exports.onLoad = onLoad;
 exports.p = p$1;
 exports.pagesJson = pagesJson;
 exports.reactive = reactive;

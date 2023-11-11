@@ -2,7 +2,7 @@
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
 const checkToken = require('../user/checkToken.js');
 module.exports = {
-	_before: function () { // 通用预处理器
+	_before: async function () { // 通用预处理器
 		if(!['store', 'edit'].includes(this.methodName)){
 			try{
 				await checkToken(this);

@@ -18,7 +18,7 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "3.1.2",
+  "libVersion": "3.2.0",
   "appid": "wx60dae2553e274d53",
   "projectname": "邻你物流APP端",
   "condition": {

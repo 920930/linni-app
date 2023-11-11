@@ -5,14 +5,14 @@ const stores_company = require("../../stores/company.js");
 const pages_yuyue_lib = require("./lib.js");
 require("../../uni_modules/uni-id-pages/config.js");
 if (!Array) {
-  const _easycom_uni_calendar2 = common_vendor.resolveComponent("uni-calendar");
+  const _easycom_wu_calendar2 = common_vendor.resolveComponent("wu-calendar");
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_uni_calendar2 + _easycom_uni_section2)();
+  (_easycom_wu_calendar2 + _easycom_uni_section2)();
 }
-const _easycom_uni_calendar = () => "../../uni_modules/uni-calendar/components/uni-calendar/uni-calendar.js";
+const _easycom_wu_calendar = () => "../../uni_modules/wu-calendar/components/wu-calendar/wu-calendar.js";
 const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
 if (!Math) {
-  (_easycom_uni_calendar + Divier + _easycom_uni_section)();
+  (_easycom_wu_calendar + Divier + _easycom_uni_section)();
 }
 const Divier = () => "../../components/Divier.js";
 const _sfc_main = {
@@ -20,13 +20,11 @@ const _sfc_main = {
   setup(__props) {
     const companyStore = stores_company.useCompanyStore();
     const db = common_vendor.$s.importObject("web-order");
+    common_vendor.$s.importObject("webnotice");
     const disabled = common_vendor.ref(false);
-    const selected = common_vendor.ref([
-      { date: "2023-11-04", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } },
-      { date: "2023-11-05", info: "可预约", data: { custom: "自定义信息", name: "自定义消息头" } }
-    ]);
+    const selected = common_vendor.ref([]);
     const insetInfo = common_vendor.reactive({
-      date: pages_yuyue_lib.today().today,
+      date: "",
       start: "",
       end: "",
       genre: [],
@@ -36,18 +34,12 @@ const _sfc_main = {
       time: -1,
       genre: 0
     });
-    common_vendor.onMounted(() => {
-    });
-    const checkDate = (e) => {
-      insetInfo.date = e.fulldate;
-      const one = selected.value.find((res) => res.date === e.fulldate);
-      if (one)
-        return;
-      selected.value.push({
-        date: e.fulldate,
-        info: "打卡"
+    common_vendor.onLoad(() => {
+      db.notices().then((ret) => {
+        console.log(ret.data);
+        selected.value = ret.data;
       });
-    };
+    });
     const checkTime = (i) => {
       const ret = companyStore.company.times.find((item, n) => n == i);
       if (!ret.num) {
@@ -66,6 +58,13 @@ const _sfc_main = {
     const carChange = (e) => insetInfo.car = e.detail.value;
     const sendBtn = () => {
       if (!insetInfo.start) {
+        return common_vendor.index.showToast({ title: "请选择到店日期", icon: "none" });
+      }
+      const one = selected.value.find((item) => item.data == insetInfo.date);
+      if (one) {
+        return common_vendor.index.showToast({ title: `${insetInfo.date}不可选`, icon: "none" });
+      }
+      if (!insetInfo.start) {
         return common_vendor.index.showToast({ title: "请选择到店时间", icon: "none" });
       }
       if (!insetInfo.genre.length) {
@@ -77,17 +76,21 @@ const _sfc_main = {
       const start = `${insetInfo.date} ${insetInfo.start}`;
       const end = `${insetInfo.date} ${insetInfo.end}`;
       disabled.value = true;
-      db.create({ ...insetInfo, start, end }).then(() => {
+      db.create({ ...insetInfo, start, end }).catch((err) => {
+        if (err.errCode === "uni-id-token-expired")
+          uni_modules_uniIdPages_common_store.mutations.logout();
       }).finally(() => disabled.value = false);
     };
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.o(checkDate),
+        a: common_vendor.o((e) => insetInfo.date = e.fulldate),
         b: common_vendor.p({
-          date: insetInfo.date,
           insert: true,
-          ["start-date"]: common_vendor.unref(pages_yuyue_lib.today)().today,
-          ["end-date"]: common_vendor.unref(pages_yuyue_lib.today)(common_vendor.unref(companyStore).company.day).today
+          lunar: true,
+          useToday: false,
+          startDate: common_vendor.unref(pages_yuyue_lib.today)().today,
+          endDate: common_vendor.unref(pages_yuyue_lib.today)(common_vendor.unref(companyStore).company.day).today,
+          selected: selected.value
         }),
         c: common_vendor.p({
           title: "请选择到店时间",

@@ -1,5 +1,6 @@
 export const today = (num = 0) => {
 	const time = new Date();
+	time.setDate(0,0,0);
 	if(num) time.setDate(time.getDate() + num);
 	const year = time.getFullYear();
 	const m = time.getMonth() + 1;
