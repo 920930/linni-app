@@ -3,16 +3,21 @@
 	<wu-calendar
 		:insert="true"
 		:lunar="true"
-		:useToday='false'
-		:startDate="today().today"
-		:endDate="today(companyStore.company.day).today"
+		:use-today="false"
+		:startDate="active.startDate"
+		:endDate="active.endDate"
 		:selected="selected"
-		@change="e => insetInfo.date = e.fulldate"
+		@change="calendarChange"
 	/>
 	<Divier />
 	<uni-section title="请选择到店时间" :sub-title="`您已选择日期为：${insetInfo.date}`" type="line" />
-	<view class="list">
-	 	<view class="list-item" :class="{'list-active': i == active.time}" v-for="(item, i) in companyStore.company.times" :key="i" @tap="checkTime(i)">
+	<view class="list" v-if="insetInfo.date">
+	 	<view class="list-item"
+			:class="{'list-active': i == active.time}"
+			v-for="(item, i) in selectedTimes"
+			:key="item.startMins"
+			@tap="checkTime(i)"
+		>
 			<view class="list-item-time">{{item.start}} ~ {{item.end}}</view>
 			<view class="list-item-num">剩余: {{ item.num }}</view>
 		</view>
@@ -43,15 +48,14 @@ import { reactive, ref } from 'vue';
 import { onLoad, onShow } from "@dcloudio/uni-app"
 import { store, mutations } from '@/uni_modules/uni-id-pages/common/store.js';
 import { useCompanyStore } from "@/stores/company.js";
-import { today } from './lib.js';
 import Divier from "@/components/Divier.vue";
 
 const companyStore = useCompanyStore();
 const db = uniCloud.importObject('web-order');
-const dbNotice = uniCloud.importObject('webnotice');
 const disabled = ref(false)
 
-const selected = ref([])
+const selected = ref([]);
+const selectedTimes = ref([])
 const insetInfo = reactive({
 	date: '',
 	start: '',
@@ -62,18 +66,37 @@ const insetInfo = reactive({
 const active = reactive({
 	time: -1,
 	genre: 0,
+	startDate: '',
+	endDate: ''
 })
-onLoad(() => {
+onLoad(async () => {
+	if(!store.hasLogin){
+		uni.redirectTo({
+			url: '/uni_modules/uni-id-pages/pages/login/login-withpwd',
+		})
+	}
 	// 改用市场wu-ui的日历插件 https://ext.dcloud.net.cn/plugin?id=14157
-	db.notices().then(ret => {
-		console.log(ret.data)
+	try{
+		// 判断预约有效时间内是否有放假，或已经预约的日期
+		const ret = await db.notices();
 		selected.value = ret.data;
-	})
+		active.startDate = selected.value[0].date;
+		active.endDate = selected.value[selected.value.length-1].date;
+		
+	}catch(err){
+		if(err.errCode === "uni-id-token-expired") mutations.logout();
+	}
 })
+// 到店日期
+const calendarChange = (e) => {
+	insetInfo.date = e.fulldate;
+	const one = selected.value.find(item => item.date == e.fulldate);
+	one && (selectedTimes.value = one.times)
+}
 // 到店时间
 const checkTime = (i) => {
-	const ret = companyStore.company.times.find((item, n) => n == i);
-	if(!ret.num) {
+	const ret = selectedTimes.value.find((item, index) => index == i);
+	if(ret.num <= 0) {
 		active.time = -1;
 		return uni.showToast({
 			title: '此时段已全部预约',

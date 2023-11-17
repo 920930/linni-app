@@ -100,7 +100,7 @@
 	const yuyueBtn = () => {
 		console.log('hahah')
 		uni.navigateTo({
-			url: '/pages/yuyue/send'
+			url: hasLogin.value ? '/pages/yuyue/send' : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
 		})
 	}
 </script>

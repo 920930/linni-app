@@ -29,7 +29,6 @@ export const useCompanyStore = defineStore('company', () => {
 			company.times = data.times;
 			company.day = data.day;
 		}catch(e){
-			console.log(123)
 		}finally{
 			uni.hideLoading()
 		}

@@ -35,7 +35,7 @@ const _sfc_main = {
     const yuyueBtn = () => {
       console.log("hahah");
       common_vendor.index.navigateTo({
-        url: "/pages/yuyue/send"
+        url: hasLogin.value ? "/pages/yuyue/send" : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
       });
     };
     return (_ctx, _cache) => {

@@ -1,7 +1,7 @@
 // 云对象教程: https://uniapp.dcloud.net.cn/uniCloud/cloud-obj
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
 const uniIdCommon = require('uni-id-common');
-const checkToken = require('./checkToken.js');
+const checkToken = require('../website/checkToken.js');
 
 module.exports = {
 	async _before() { // 通用预处理器getUniversalClientInfo

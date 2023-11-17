@@ -27,7 +27,6 @@ const useCompanyStore = common_vendor.defineStore("company", () => {
       company.times = data.times;
       company.day = data.day;
     } catch (e) {
-      console.log(123);
     } finally {
       common_vendor.index.hideLoading();
     }
