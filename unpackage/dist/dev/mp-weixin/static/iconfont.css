@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4280736 */
-  src: url('./iconfont.ttf?t=1698310060137') format('truetype');
+  src: url('iconfont.ttf?t=1700558168656') format('truetype');
 }
 
 .iconfont {
@@ -9,6 +9,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ico:before {
+  content: "\e646";
+}
+
+.icon-rubber:before {
+  content: "\ea15";
 }
 
 .icon-fengexian:before {

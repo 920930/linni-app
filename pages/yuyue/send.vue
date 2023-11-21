@@ -121,19 +121,22 @@ const sendBtn = () => {
 	if(one){
 		return uni.showToast({ title: `${insetInfo.date}不可选`, icon: "none" })
 	}
-	if(!insetInfo.start){
-		return uni.showToast({ title: "请选择到店时间", icon: "none" })
-	}
 	if(!insetInfo.genre.length){
 		return uni.showToast({ title: "请选择送货类型", icon: "none" })
 	}
 	if(!insetInfo.car){
 		return uni.showToast({ title: "请选择送货车牌", icon: "none" })
 	}
+	// 日期和时间结合，如：2023-11-20 09
 	const start = `${insetInfo.date} ${insetInfo.start}`;
 	const end = `${insetInfo.date} ${insetInfo.end}`;
 	disabled.value = true;
 	db.create({...insetInfo, start, end})
+		.then(() => {
+			uni.navigateTo({
+				url: '/pages/index/index'
+			})
+		})
 		.catch(err => {
 			if(err.errCode === "uni-id-token-expired") mutations.logout();
 		})

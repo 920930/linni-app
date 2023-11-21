@@ -89,7 +89,7 @@
 	}
 	const registerBtn = () => {
 		uni.navigateTo({
-			url: "/pages/login/register"
+			url: hasLogin.value ? '/pages/me/index' : "/pages/login/register"
 		})
 	}
 	const mobileFn = () => {
@@ -98,7 +98,6 @@
 		})
 	}
 	const yuyueBtn = () => {
-		console.log('hahah')
 		uni.navigateTo({
 			url: hasLogin.value ? '/pages/yuyue/send' : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
 		})

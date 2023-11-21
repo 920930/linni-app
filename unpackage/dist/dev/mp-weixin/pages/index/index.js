@@ -24,7 +24,7 @@ const _sfc_main = {
     };
     const registerBtn = () => {
       common_vendor.index.navigateTo({
-        url: "/pages/login/register"
+        url: hasLogin.value ? "/pages/me/index" : "/pages/login/register"
       });
     };
     const mobileFn = () => {
@@ -33,7 +33,6 @@ const _sfc_main = {
       });
     };
     const yuyueBtn = () => {
-      console.log("hahah");
       common_vendor.index.navigateTo({
         url: hasLogin.value ? "/pages/yuyue/send" : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
       });

@@ -33,6 +33,9 @@ module.exports = {
 		const company = await this.db.collection('website').orderBy('createdAt').field('day,times,createdAt').get({getOne: true});
 		this.company = company.data;
 	},
+	myOrder(page = 1, size = 20){
+		return this.orderDb.where(`uid == $cloudEnv_uid`).get();
+	},
 	index(){
 		const user = this.db.collection('uni-id-users').field('_id,name,mobile,car').getTemp();
 		return this.db.collection('web-order', user).orderBy('createdAt desc').get();
@@ -42,7 +45,9 @@ module.exports = {
 		return this.db.collection('web-order', user).doc(_id).get({getOne: true})
 	},
 	async create(ret){
+		// 当前到设定的未来可预约的时间
 		const qj = dateTime(new Date(), this.company.day);
+		// 通过前端发送过来的预约的起始时间，获取当天开始和结束的毫秒位数
 		const { start, end } = dateTime(ret.start);
 		const bool = qj.start <= start && qj.end >= end;
 		if(!bool){
@@ -51,19 +56,53 @@ module.exports = {
 				errMsg: `只能预约当前${this.company.day}天内`
 			}
 		}
-		const one = await this.orderDb.where(`uid == $cloudEnv_uid && start >= ${start} && end <= ${end}`).get({getOne: true});
-		if(one.data) {
+		// 提取关键字段
+		const values = {
+			start: new Date(ret.start).getTime(),
+			end: new Date(ret.end).getTime(),
+			genre: ret.genre,
+			car: ret.car,
+		}
+		// 判断当前时间是否是放假时间
+		const notice = await this.noticeDb.where(`start <= ${values.start} && end >= ${values.end} && type == "1"`).get({getOne: true});
+		if(notice.data){
+			return {
+				errCode: "error 213",
+				errMsg: `放假时间再不接单`
+			}
+		}
+		// 查询当天已经预约的总量，后面判断是否操过可预约的量
+		const orders = await this.orderDb.where(`start >= ${start} && end <= ${end}`).get();
+		// 查询当前用户是否已经预约
+		// const one = await this.orderDb.where(`uid == $cloudEnv_uid && start >= ${start} && end <= ${end}`).get({getOne: true});
+		const one = orders.data.find(or => or.uid == this.authInfo.uid);
+		if(one) {
 			return {
 				errCode: "error 213",
 				errMsg: `您在${ret.date}已有预约`
 			}
 		}
-		Reflect.deleteProperty(ret, 'date');
-		// 设置预约到店的真实开始时间，如2023-10-11 9:00
-		ret.start = new Date(ret.start).getTime();
-		// 设置预约到店的真实结束时间，如2023-10-11 10:00
-		ret.end = new Date(ret.end).getTime();
-		this.orderDb.add(ret);
+		// 通过values的start和end判断，在company表的times中找到设定的可预约时间段及其可预约量
+		const timeOne = this.company.times.find(tm => tm.startMins === (values.start - start) && tm.endMins === (values.end - start));
+		if(!timeOne) {
+			return {
+				errCode: "error 213",
+				errMsg: `请选择正确的时间段预约`
+			}
+		}
+		// 通过values的start和end判断，这个时间段的order总量
+		const timeOrders = orders.data.filter(or => or.start === values.start && or.end === values.end);
+		if((timeOne.num - timeOrders.length) <= 0) {
+			return {
+				errCode: "error 213",
+				errMsg: `当前时间段没有余量了`
+			}
+		}
+		await this.orderDb.add(values);
+		return {
+			errCode: 0,
+			errMsg: `预约成功`
+		}
 	},
 	update(_id, data){
 		
@@ -127,8 +166,6 @@ module.exports = {
 				const todayOrders = orders.data.filter(or => or.start >= item.start && or.end <= (item.start + mis -1000));
 				// 获取当天可预约的总量
 				const total = item.times.reduce((t, n) => t += n.num, 0);
-				console.log('total', total)
-				console.log('todayOrders', todayOrders.length)
 				if(total > todayOrders.length) {
 					item.times.forEach(t => {
 						// 获取当天某一个时间段内所有订单，注意company中startMins和endMins时间 = 如9：00的毫秒 - 0：00的毫秒

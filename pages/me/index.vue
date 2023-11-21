@@ -20,7 +20,7 @@
 		
 		<uni-section title="业务信息" class="mt10" type="line" />
 		<uni-list>
-			<uni-list-item class="item" title="我的订单" rightText="userInfo.mobile||'未绑定'" link />
+			<uni-list-item class="item" title="我的预约" rightText="进入" link @click="orderUrl" />
 			<uni-collapse accordion style="border-top: 1rpx solid rgba(0, 0, 0, 0.06);">
 				<uni-collapse-item title="绑定的车牌号" open>
 					<view style="padding: 10rpx 30rpx 30rpx; display: flex; gap: 20rpx; flex-direction: row; flex-wrap: wrap;">
@@ -261,7 +261,12 @@
 						duration: 3000
 					});
 				}
-			}
+			},
+			orderUrl(){
+				uni.navigateTo({
+					url: '/pages/me/order'
+				})
+			},
 		}
 	}
 </script>

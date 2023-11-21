@@ -80,9 +80,6 @@ const _sfc_main = {
       if (one) {
         return common_vendor.index.showToast({ title: `${insetInfo.date}不可选`, icon: "none" });
       }
-      if (!insetInfo.start) {
-        return common_vendor.index.showToast({ title: "请选择到店时间", icon: "none" });
-      }
       if (!insetInfo.genre.length) {
         return common_vendor.index.showToast({ title: "请选择送货类型", icon: "none" });
       }
@@ -92,7 +89,11 @@ const _sfc_main = {
       const start = `${insetInfo.date} ${insetInfo.start}`;
       const end = `${insetInfo.date} ${insetInfo.end}`;
       disabled.value = true;
-      db.create({ ...insetInfo, start, end }).catch((err) => {
+      db.create({ ...insetInfo, start, end }).then(() => {
+        common_vendor.index.navigateTo({
+          url: "/pages/index/index"
+        });
+      }).catch((err) => {
         if (err.errCode === "uni-id-token-expired")
           uni_modules_uniIdPages_common_store.mutations.logout();
       }).finally(() => disabled.value = false);

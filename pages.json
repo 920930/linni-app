@@ -18,6 +18,11 @@
 				"navigationBarTitleText": "个人中心"
 			}
 		}, {
+			"path": "pages/me/order",
+			"style": {
+				"navigationBarTitleText": "我的预约"
+			}
+		}, {
 			"path": "pages/yuyue/send",
 			"style": {
 				"navigationBarTitleText": "发货申请"

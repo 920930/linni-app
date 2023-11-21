@@ -185,6 +185,11 @@ const _sfc_main = {
           duration: 3e3
         });
       }
+    },
+    orderUrl() {
+      common_vendor.index.navigateTo({
+        url: "/pages/me/order"
+      });
     }
   }
 };
@@ -262,12 +267,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "业务信息",
       type: "line"
     }),
-    o: common_vendor.p({
-      title: "我的订单",
-      rightText: "userInfo.mobile||'未绑定'",
+    o: common_vendor.o($options.orderUrl),
+    p: common_vendor.p({
+      title: "我的预约",
+      rightText: "进入",
       link: true
     }),
-    p: common_vendor.f($options.userInfo.cars, (car, k0, i0) => {
+    q: common_vendor.f($options.userInfo.cars, (car, k0, i0) => {
       return {
         a: common_vendor.o(($event) => $options.changeCar(car), car),
         b: car,
@@ -277,50 +283,50 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       };
     }),
-    q: common_vendor.o($options.changeCar),
-    r: common_vendor.p({
+    r: common_vendor.o($options.changeCar),
+    s: common_vendor.p({
       text: "新增车牌号",
       type: "success"
     }),
-    s: common_vendor.p({
+    t: common_vendor.p({
       title: "绑定的车牌号",
       open: true
     }),
-    t: common_vendor.p({
+    v: common_vendor.p({
       accordion: true
     }),
-    v: common_vendor.o($options.setNickname),
-    w: common_vendor.p({
+    w: common_vendor.o($options.setNickname),
+    x: common_vendor.p({
       mode: "input",
       value: $options.userInfo.nickname,
       inputType: $data.setNicknameIng ? "nickname" : "text",
       title: "设置昵称",
       placeholder: "请输入要设置的昵称"
     }),
-    x: common_vendor.sr("dialog", "c8e26b33-15"),
-    y: common_vendor.p({
+    y: common_vendor.sr("dialog", "c8e26b33-15"),
+    z: common_vendor.p({
       type: "dialog"
     }),
-    z: common_vendor.sr("carClose", "c8e26b33-18,c8e26b33-17"),
-    A: common_vendor.o($options.carConfirm),
-    B: common_vendor.p({
+    A: common_vendor.sr("carClose", "c8e26b33-18,c8e26b33-17"),
+    B: common_vendor.o($options.carConfirm),
+    C: common_vendor.p({
       mode: "input",
       title: "车牌号",
       placeholder: "请输入车牌号"
     }),
-    C: common_vendor.sr("carDialog", "c8e26b33-17"),
-    D: common_vendor.p({
+    D: common_vendor.sr("carDialog", "c8e26b33-17"),
+    E: common_vendor.p({
       type: "dialog"
     }),
-    E: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-19"),
-    F: common_vendor.o($options.bindMobileSuccess),
-    G: $data.showLoginManage
+    F: common_vendor.sr("bind-mobile-by-sms", "c8e26b33-19"),
+    G: common_vendor.o($options.bindMobileSuccess),
+    H: $data.showLoginManage
   }, $data.showLoginManage ? common_vendor.e({
-    H: $options.userInfo._id
+    I: $options.userInfo._id
   }, $options.userInfo._id ? {
-    I: common_vendor.o((...args) => $options.logout && $options.logout(...args))
+    J: common_vendor.o((...args) => $options.logout && $options.logout(...args))
   } : {
-    J: common_vendor.o((...args) => $options.login && $options.login(...args))
+    K: common_vendor.o((...args) => $options.login && $options.login(...args))
   }) : {});
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-c8e26b33"], ["__file", "D:/WWW/linni/app/pages/me/index.vue"]]);
