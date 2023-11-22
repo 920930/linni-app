@@ -33,7 +33,7 @@
 				</view>
 				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 			</view>
-			<template v-if="hasLogin && store.userInfo.role.includes('member')">
+			<template v-if="hasLogin && userInfo.role && userInfo.role.includes('member')">
 				<view class="main-ul-li" @tap="yuyueBtn">
 					<image src="../../static/index/index-code.png" class="main-ul-li-left" />
 					<view class="main-ul-li-center">
@@ -94,6 +94,7 @@
 	const {company} = storeToRefs(useCompany);
 
 	const hasLogin = computed(() => store.hasLogin);
+	const userInfo = computed(() => store.userInfo);
 	const loginBtn = () => {
 		uni.navigateTo({
 			url: hasLogin.value ? '/pages/me/index' : "/pages/login/login"

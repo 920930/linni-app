@@ -10,7 +10,7 @@
 					<view class="or-top">
 						<text>{{item.uid[0].nickname}}，您好！</text>
 						<text class="or-top-r" :class="{'or-top-active' : item.state && Date.now() < item.end}">
-						{{item.state !== 0 && Date.now() > item.end ? "已过期" : STATE[item.state]}}
+						{{ Date.now() > item.end && item.state === 1 ?  "已过期" : STATE[item.state]}}
 						</text>
 					</view>
 					<view class="or-time">
@@ -18,7 +18,7 @@
 					</view>
 					<view class="or-time or-time-flex">
 						<text>入园车辆：{{item.car}}</text>
-						<uni-icons custom-prefix="iconfont" type="icon-ico" size="25" />
+						<uni-icons custom-prefix="iconfont" type="icon-ico" size="25" @tap="codeFn(item)" v-if="item.state !== 0 && Date.now() < item.end" />
 					</view>
 					<view class="or-time">
 						<text>货仓类型：</text>
@@ -34,50 +34,30 @@
 			</template>
 		</template>
 	</unicloud-db>
-	<canvas id="qrcode" canvas-id="qrcode" style="width: 200px;height: 200px;" />
-	<button @tap="shaoma">shaoma</button>
-	{{code.scanType}}
-	<view class="">
-		
-	</view>
-	{{code.result}}
+	<uni-popup ref="popupRef" type="dialog">
+		<uni-popup-dialog title="等待扫码">
+			<canvas id="qrcode" canvas-id="qrcode" style="width: 200px;height: 200px;" />
+		</uni-popup-dialog>
+	</uni-popup>
 </template>
 
 <script lang='ts' setup>
-import { ref, reactive } from 'vue';
-import { onPullDownRefresh, onReachBottom, onReady } from "@dcloudio/uni-app";
+import { ref } from 'vue';
+import { onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app";
 import UQRCode from '../../uni_modules/Sansnn-uQRCode/js_sdk/uqrcode/uqrcode.js';
 const db = uniCloud.database();
 const orderRef = ref();
-const code = reactive({
-	scanType: '',
-	result: ''
-})
+const popupRef = ref();
+
 const STATE = {
 	0: '已取消',
 	1: '待入园',
-	2: '已完成',
+	2: '已入园',
 }
 const colList = ref([
 	db.collection('web-order').where(`uid == $cloudEnv_uid && state == 1`).orderBy("createdAt", "asc").getTemp(),
 	db.collection('uni-id-users').field('_id,mobile,nickname').getTemp({getOne: true}),
 ]);
-onReady(() => {
-	// 获取uQRCode实例
-	const qr = new UQRCode();
-	// 设置二维码内容
-	qr.data = "https://uqrcode.cn/doc";
-	// 设置二维码大小，必须与canvas设置的宽高一致
-	qr.size = 200;
-	// 调用制作二维码方法
-	qr.make();
-	// 获取canvas上下文
-	const canvasContext = uni.createCanvasContext('qrcode'); // 如果是组件，this必须传入
-	// 设置uQRCode实例的canvas上下文
-	qr.canvasContext = canvasContext;
-	// 调用绘制方法将二维码图案绘制到canvas上
-	qr.drawCanvas();
-})
 
 onPullDownRefresh(() => {
 	orderRef.value.loadData({clear: true}, () => {
@@ -96,18 +76,23 @@ const quxiaoBtn = (item: any) => {
 			})
 		})
 }
-// 测试扫码
-const shaoma = () => {
-	// 只允许通过相机扫码
-	uni.scanCode({
-		onlyFromCamera: true,
-		success (res) {
-			code.result = res.result;
-			code.scanType = res.scanType;
-			console.log('条码类型：' + res.scanType);
-			console.log('条码内容：' + res.result);
-		}
-	});
+// 显示二维码
+const codeFn = (item: any) => {
+	popupRef.value.open();
+	// 获取uQRCode实例
+	const qr = new UQRCode();
+	// 设置二维码内容
+	qr.data = `{_id: ${item._id}, state: ${item.state}, start: ${item.start}, end: ${item.end}}`;
+	// 设置二维码大小，必须与canvas设置的宽高一致
+	qr.size = 200;
+	// 调用制作二维码方法
+	qr.make();
+	// 获取canvas上下文
+	const canvasContext = uni.createCanvasContext('qrcode'); // 如果是组件，this必须传入
+	// 设置uQRCode实例的canvas上下文
+	qr.canvasContext = canvasContext;
+	// 调用绘制方法将二维码图案绘制到canvas上
+	qr.drawCanvas();
 }
 </script>
 

@@ -17,6 +17,7 @@ const _sfc_main = {
     const useCompany = stores_company.useCompanyStore();
     const { company } = common_vendor.storeToRefs(useCompany);
     const hasLogin = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.hasLogin);
+    const userInfo = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.userInfo);
     const loginBtn = () => {
       common_vendor.index.navigateTo({
         url: hasLogin.value ? "/pages/me/index" : "/pages/login/login"
@@ -65,8 +66,8 @@ const _sfc_main = {
           color: "rgba(0, 0, 0, 0.4)"
         }),
         g: common_vendor.o(registerBtn),
-        h: common_vendor.unref(hasLogin) && common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.role.includes("member")
-      }, common_vendor.unref(hasLogin) && common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.role.includes("member") ? {
+        h: common_vendor.unref(hasLogin) && common_vendor.unref(userInfo).role && common_vendor.unref(userInfo).role.includes("member")
+      }, common_vendor.unref(hasLogin) && common_vendor.unref(userInfo).role && common_vendor.unref(userInfo).role.includes("member") ? {
         i: common_vendor.p({
           type: "right",
           size: "20",
