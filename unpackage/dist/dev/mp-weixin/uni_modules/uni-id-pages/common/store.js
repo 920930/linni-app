@@ -34,7 +34,7 @@ const mutations = {
         customUI: true
       });
       try {
-        let res = await usersTable.where("'_id' == $cloudEnv_uid").field("mobile,nickname,username,email,cars,address,avatar_file").get();
+        let res = await usersTable.where("'_id' == $cloudEnv_uid").field("mobile,role,nickname,username,email,cars,address,avatar_file").get();
         const realNameRes = await uniIdCo2.getRealNameInfo();
         this.setUserInfo({
           ...res.result.data[0],

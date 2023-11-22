@@ -71,7 +71,7 @@ const _sfc_main = {
             duration: 3e3
           });
         }
-        if (this.formData.role !== "member") {
+        if (this.formData.role == "supplier") {
           if (!res.cars.length) {
             return common_vendor.index.showToast({
               title: "请增加车牌号",
@@ -79,6 +79,7 @@ const _sfc_main = {
               duration: 3e3
             });
           }
+          res.cars = res.cars.map((item) => item.toUpperCase());
           const bool = res.cars.some((car) => !/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1,3}$/.test(car));
           if (bool) {
             return common_vendor.index.showToast({
@@ -205,7 +206,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       name: "address",
       required: true
     }),
-    p: common_vendor.f($data.formData.cars, (car, k0, i0) => {
+    p: $data.formData.role == "supplier"
+  }, $data.formData.role == "supplier" ? {
+    q: common_vendor.f($data.formData.cars, (car, k0, i0) => {
       return {
         a: car,
         b: common_vendor.o(($event) => $options.removeCar(car), car),
@@ -215,32 +218,33 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       };
     }),
-    q: common_vendor.o(($event) => _ctx.$refs.inputDialog.open()),
-    r: common_vendor.p({
+    r: common_vendor.o(($event) => _ctx.$refs.inputDialog.open()),
+    s: common_vendor.p({
       text: "添加车牌",
       type: "success"
     }),
-    s: common_vendor.p({
+    t: common_vendor.p({
       name: "cars",
       required: true
-    }),
-    t: common_vendor.t($options.name),
-    v: common_vendor.o(($event) => $data.focusUsername = false),
-    w: common_vendor.o(($event) => $data.formData.username = $event),
-    x: common_vendor.p({
+    })
+  } : {}, {
+    v: common_vendor.t($options.name),
+    w: common_vendor.o(($event) => $data.focusUsername = false),
+    x: common_vendor.o(($event) => $data.formData.username = $event),
+    y: common_vendor.p({
       inputBorder: false,
       focus: $data.focusUsername,
       placeholder: "请输入登录账户",
       trim: "both",
       modelValue: $data.formData.username
     }),
-    y: common_vendor.p({
+    z: common_vendor.p({
       name: "username",
       required: true
     }),
-    z: common_vendor.o(($event) => $data.focusPassword = false),
-    A: common_vendor.o(($event) => $data.formData.password = $event),
-    B: common_vendor.p({
+    A: common_vendor.o(($event) => $data.focusPassword = false),
+    B: common_vendor.o(($event) => $data.formData.password = $event),
+    C: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword,
       maxlength: "20",
@@ -249,15 +253,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password
     }),
-    C: common_vendor.o(($event) => $data.formData.password = $event),
-    D: common_vendor.p({
+    D: common_vendor.o(($event) => $data.formData.password = $event),
+    E: common_vendor.p({
       name: "password",
       required: true,
       modelValue: $data.formData.password
     }),
-    E: common_vendor.o(($event) => $data.focusPassword2 = false),
-    F: common_vendor.o(($event) => $data.formData.password2 = $event),
-    G: common_vendor.p({
+    F: common_vendor.o(($event) => $data.focusPassword2 = false),
+    G: common_vendor.o(($event) => $data.formData.password2 = $event),
+    H: common_vendor.p({
       inputBorder: false,
       focus: $data.focusPassword2,
       placeholder: "再次输入密码",
@@ -266,54 +270,54 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       trim: "both",
       modelValue: $data.formData.password2
     }),
-    H: common_vendor.o(($event) => $data.formData.password2 = $event),
-    I: common_vendor.p({
+    I: common_vendor.o(($event) => $data.formData.password2 = $event),
+    J: common_vendor.p({
       name: "password2",
       required: true,
       modelValue: $data.formData.password2
     }),
-    J: common_vendor.sr("agreements", "a2580790-16,a2580790-0"),
-    K: common_vendor.p({
+    K: common_vendor.sr("agreements", "a2580790-16,a2580790-0"),
+    L: common_vendor.p({
       scope: "register"
     }),
-    L: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    M: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
-    N: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
-    O: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    P: common_vendor.sr("form", "a2580790-0"),
-    Q: common_vendor.p({
+    M: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
+    N: common_vendor.o((...args) => $options.navigateBack && $options.navigateBack(...args)),
+    O: common_vendor.o((...args) => $options.registerByEmail && $options.registerByEmail(...args)),
+    P: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
+    Q: common_vendor.sr("form", "a2580790-0"),
+    R: common_vendor.p({
       value: $data.formData,
       rules: $data.rules,
       ["validate-trigger"]: "submit",
       ["err-show-type"]: "toast"
     }),
-    R: common_vendor.sr("inputClose", "a2580790-18,a2580790-17"),
-    S: common_vendor.o($options.dialogInputConfirm),
-    T: common_vendor.p({
+    S: common_vendor.sr("inputClose", "a2580790-18,a2580790-17"),
+    T: common_vendor.o($options.dialogInputConfirm),
+    U: common_vendor.p({
       mode: "input",
       title: "车牌号",
       placeholder: "请输入车牌号"
     }),
-    U: common_vendor.sr("inputDialog", "a2580790-17"),
-    V: common_vendor.p({
+    V: common_vendor.sr("inputDialog", "a2580790-17"),
+    W: common_vendor.p({
       type: "dialog"
     }),
-    W: common_vendor.sr("smsCode", "a2580790-21,a2580790-20"),
-    X: common_vendor.o(($event) => $data.formData.code = $event),
-    Y: common_vendor.p({
+    X: common_vendor.sr("smsCode", "a2580790-21,a2580790-20"),
+    Y: common_vendor.o(($event) => $data.formData.code = $event),
+    Z: common_vendor.p({
       focusCaptchaInput: true,
       type: "login-by-sms",
       phone: $data.formData.mobile,
       modelValue: $data.formData.code
     }),
-    Z: common_vendor.p({
+    aa: common_vendor.p({
       title: "输入内容"
     }),
-    aa: common_vendor.sr("smsDialog", "a2580790-19"),
-    ab: common_vendor.p({
+    ab: common_vendor.sr("smsDialog", "a2580790-19"),
+    ac: common_vendor.p({
       type: "dialog"
     }),
-    ac: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
+    ad: common_vendor.f($data.userType.filter((item) => item.role != $data.formData.role), (t, k0, i0) => {
       return {
         a: common_vendor.t(t.name),
         b: common_vendor.o(($event) => $options.changeTitle(t.role), t.role),

@@ -8,6 +8,11 @@
 				"navigationBarTextStyle": "white"
 			}
 		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "用户登录"
+			}
+		}, {
 			"path": "pages/login/register",
 			"style": {
 				"navigationBarTitleText": "供货商注册"

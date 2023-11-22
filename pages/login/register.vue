@@ -18,7 +18,7 @@
 				<view style="position: absolute; z-index: 10; left: 0; top: 0; bottom: 0; width: 89%;" @tap="manBtn"></view>
 				<uni-easyinput :placeholder="`${name}地址选择`" v-model="formData.address" trim="both" :inputBorder="false" class="input-box" />
 			</uni-forms-item>
-			<uni-forms-item name="cars" required>
+			<uni-forms-item name="cars" required v-if="formData.role == 'supplier'">
 					<view  style="display: flex; gap: 20rpx;">
 						<uni-tag :text="car + ' ×'" v-for="car in formData.cars" :key="car" @click="removeCar(car)" />
 						<uni-tag text="添加车牌" type="success" @click="$refs.inputDialog.open()" />
@@ -149,7 +149,7 @@
 							duration: 3000
 						});
 					}
-					if(this.formData.role !== 'member'){
+					if(this.formData.role == 'supplier'){
 						if(!res.cars.length){
 							return uni.showToast({
 								title: '请增加车牌号',
@@ -157,6 +157,7 @@
 								duration: 3000
 							});
 						}
+						res.cars = res.cars.map(item => item.toUpperCase())
 						const bool = res.cars.some(car => !/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1,3}$/.test(car))
 						if(bool){
 							return uni.showToast({

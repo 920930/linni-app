@@ -9,7 +9,9 @@
 				<view class="or" v-for="item in data" :key="item._id">
 					<view class="or-top">
 						<text>{{item.uid[0].nickname}}，您好！</text>
-						<text class="or-top-r" :class="{'or-top-active' : item.state}">{{STATE[item.state]}}</text>
+						<text class="or-top-r" :class="{'or-top-active' : item.state && Date.now() < item.end}">
+						{{item.state !== 0 && Date.now() > item.end ? "已过期" : STATE[item.state]}}
+						</text>
 					</view>
 					<view class="or-time">
 						入园时间：<uni-dateformat :date="item.start" format="yyyy-MM-dd hh:mm" />-<uni-dateformat :date="item.end" format="hh:mm" />
@@ -26,21 +28,31 @@
 					</view>
 					<view class="or-time or-time-flex">
 						<text>请在规定时间内入园，过期无效</text>
-						<text v-if="item.state === 1">取消</text>
+						<text v-if="item.state === 1 && Date.now() < item.end" @click="quxiaoBtn(item)">取消</text>
 					</view>
 				</view>
 			</template>
 		</template>
 	</unicloud-db>
 	<canvas id="qrcode" canvas-id="qrcode" style="width: 200px;height: 200px;" />
+	<button @tap="shaoma">shaoma</button>
+	{{code.scanType}}
+	<view class="">
+		
+	</view>
+	{{code.result}}
 </template>
 
 <script lang='ts' setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { onPullDownRefresh, onReachBottom, onReady } from "@dcloudio/uni-app";
 import UQRCode from '../../uni_modules/Sansnn-uQRCode/js_sdk/uqrcode/uqrcode.js';
 const db = uniCloud.database();
 const orderRef = ref();
+const code = reactive({
+	scanType: '',
+	result: ''
+})
 const STATE = {
 	0: '已取消',
 	1: '待入园',
@@ -73,6 +85,30 @@ onPullDownRefresh(() => {
 	})
 })
 onReachBottom(() => orderRef.value.loadMore())
+// 用户取消订单
+const quxiaoBtn = (item: any) => {
+	db.collection('web-order').doc(item._id).update({state: 0})
+		.then(() => item.state = 0)
+		.catch((e) => {
+			uni.showToast({
+				title: e.errMsg,
+				icon: "error"
+			})
+		})
+}
+// 测试扫码
+const shaoma = () => {
+	// 只允许通过相机扫码
+	uni.scanCode({
+		onlyFromCamera: true,
+		success (res) {
+			code.result = res.result;
+			code.scanType = res.scanType;
+			console.log('条码类型：' + res.scanType);
+			console.log('条码内容：' + res.result);
+		}
+	});
+}
 </script>
 
 <style lang="scss" scoped>

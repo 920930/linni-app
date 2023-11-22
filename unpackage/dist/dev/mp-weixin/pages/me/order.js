@@ -20,6 +20,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
     const db = common_vendor.$s.database();
     const orderRef = common_vendor.ref();
+    const code = common_vendor.reactive({
+      scanType: "",
+      result: ""
+    });
     const STATE = {
       0: "已取消",
       1: "待入园",
@@ -44,6 +48,25 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       });
     });
     common_vendor.onReachBottom(() => orderRef.value.loadMore());
+    const quxiaoBtn = (item) => {
+      db.collection("web-order").doc(item._id).update({ state: 0 }).then(() => item.state = 0).catch((e) => {
+        common_vendor.index.showToast({
+          title: e.errMsg,
+          icon: "error"
+        });
+      });
+    };
+    const shaoma = () => {
+      common_vendor.index.scanCode({
+        onlyFromCamera: true,
+        success(res) {
+          code.result = res.result;
+          code.scanType = res.scanType;
+          console.log("条码类型：" + res.scanType);
+          console.log("条码内容：" + res.result);
+        }
+      });
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.w(({
@@ -59,8 +82,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             c: common_vendor.f(data, (item, k1, i1) => {
               return common_vendor.e({
                 a: common_vendor.t(item.uid[0].nickname),
-                b: common_vendor.t(STATE[item.state]),
-                c: item.state ? 1 : "",
+                b: common_vendor.t(item.state !== 0 && Date.now() > item.end ? "已过期" : STATE[item.state]),
+                c: item.state && Date.now() < item.end ? 1 : "",
                 d: "3549378c-1-" + i0 + "-" + i1 + ",3549378c-0",
                 e: common_vendor.p({
                   date: item.start,
@@ -87,9 +110,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
                   };
                 })
               } : {}, {
-                l: item.state === 1
-              }, item.state === 1 ? {} : {}, {
-                m: item._id
+                l: item.state === 1 && Date.now() < item.end
+              }, item.state === 1 && Date.now() < item.end ? {
+                m: common_vendor.o(($event) => quxiaoBtn(item), item._id)
+              } : {}, {
+                n: item._id
               });
             }),
             d: common_vendor.p({
@@ -111,7 +136,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         c: common_vendor.p({
           collection: colList.value
-        })
+        }),
+        d: common_vendor.o(shaoma),
+        e: common_vendor.t(code.scanType),
+        f: common_vendor.t(code.result)
       };
     };
   }

@@ -4,9 +4,9 @@
 	"required": ["title", "ftitle", "mobile", "genre", "times", "doors"],
 	"permission": {
 		"read": true,
-		"create": "'CREATE_WEB' in auth.permission",
-		"update": "doc._id == auth.uid || 'CREATE_WEB' in auth.permission",
-		"delete": "'CREATE_WEB' in auth.permission"
+		"create": "'CREATE_WEB_SITE' in auth.permission",
+		"update": "doc._id == auth.uid || 'UPDATE_WEB_SITE' in auth.permission",
+		"delete": "'UPDATE_WEB_SITE' in auth.permission"
 	},
 	"properties": {
 		"_id": {
