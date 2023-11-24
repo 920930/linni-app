@@ -10913,6 +10913,7 @@ exports.sr = sr;
 exports.ssrRef = ssrRef;
 exports.storeToRefs = storeToRefs;
 exports.t = t$1;
+exports.toRaw = toRaw;
 exports.unref = unref;
 exports.w = w$1;
 exports.wx$1 = wx$1;

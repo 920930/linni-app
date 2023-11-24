@@ -55,3 +55,32 @@
   display: flex;
   justify-content: space-between;
 }
+.canvas.data-v-3549378c {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.canvas-code.data-v-3549378c {
+  position: absolute;
+  width: 400rpx;
+  height: 400rpx;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30rpx;
+  box-shadow: 0 0 20rpx 10rpx rgba(0, 0, 0, 0.05);
+  border-radius: 10rpx;
+}
+.btn.data-v-3549378c {
+  position: fixed;
+  left: 60rpx;
+  bottom: 60rpx;
+  padding: 20rpx;
+  background-color: white;
+  box-shadow: 0 0 20rpx 10rpx rgba(0, 0, 0, 0.1);
+  border-radius: 20rpx;
+  z-index: 100;
+}

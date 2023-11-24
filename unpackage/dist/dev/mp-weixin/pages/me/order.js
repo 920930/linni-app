@@ -1,37 +1,39 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const uni_modules_SansnnUQRCode_js_sdk_uqrcode_uqrcode = require("../../uni_modules/Sansnn-uQRCode/js_sdk/uqrcode/uqrcode.js");
 if (!Array) {
   const _easycom_uni_dateformat2 = common_vendor.resolveComponent("uni-dateformat");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_uni_tag2 = common_vendor.resolveComponent("uni-tag");
   const _easycom_unicloud_db2 = common_vendor.resolveComponent("unicloud-db");
-  const _easycom_uni_popup_dialog2 = common_vendor.resolveComponent("uni-popup-dialog");
-  const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
-  (_easycom_uni_dateformat2 + _easycom_uni_icons2 + _easycom_uni_tag2 + _easycom_unicloud_db2 + _easycom_uni_popup_dialog2 + _easycom_uni_popup2)();
+  const _easycom_uv_qrcode2 = common_vendor.resolveComponent("uv-qrcode");
+  (_easycom_uni_dateformat2 + _easycom_uni_icons2 + _easycom_uni_tag2 + _easycom_unicloud_db2 + _easycom_uv_qrcode2)();
 }
 const _easycom_uni_dateformat = () => "../../uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.js";
 const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_uni_tag = () => "../../uni_modules/uni-tag/components/uni-tag/uni-tag.js";
 const _easycom_unicloud_db = () => "../../node-modules/@dcloudio/uni-components/lib/unicloud-db/unicloud-db.js";
-const _easycom_uni_popup_dialog = () => "../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.js";
-const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
+const _easycom_uv_qrcode = () => "../../uni_modules/uv-qrcode/components/uv-qrcode/uv-qrcode.js";
 if (!Math) {
-  (_easycom_uni_dateformat + _easycom_uni_icons + _easycom_uni_tag + _easycom_unicloud_db + _easycom_uni_popup_dialog + _easycom_uni_popup)();
+  (_easycom_uni_dateformat + _easycom_uni_icons + _easycom_uni_tag + _easycom_unicloud_db + _easycom_uv_qrcode)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "order",
   setup(__props) {
     const db = common_vendor.$s.database();
     const orderRef = common_vendor.ref();
-    const popupRef = common_vendor.ref();
+    const code = common_vendor.reactive({
+      show: false,
+      value: ""
+    });
+    const state = common_vendor.ref(1);
+    const val = common_vendor.ref(`state >= ${state.value} && end >= ${Date.now()}`);
     const STATE = {
       0: "已取消",
       1: "待入园",
       2: "已入园"
     };
     const colList = common_vendor.ref([
-      db.collection("web-order").where(`uid == $cloudEnv_uid && state == 1`).orderBy("createdAt", "asc").getTemp(),
+      db.collection("web-order").where(`uid == $cloudEnv_uid && ${val.value}`).getTemp(),
       db.collection("uni-id-users").field("_id,mobile,nickname").getTemp({ getOne: true })
     ]);
     common_vendor.onPullDownRefresh(() => {
@@ -48,15 +50,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         });
       });
     };
-    const codeFn = (item) => {
-      popupRef.value.open();
-      const qr = new uni_modules_SansnnUQRCode_js_sdk_uqrcode_uqrcode.b();
-      qr.data = `{_id: ${item._id}, state: ${item.state}, start: ${item.start}, end: ${item.end}}`;
-      qr.size = 200;
-      qr.make();
-      const canvasContext = common_vendor.index.createCanvasContext("qrcode");
-      qr.canvasContext = canvasContext;
-      qr.drawCanvas();
+    const codeFn = (item = null) => {
+      if (item)
+        code.value = item._id;
+      code.show = !code.show;
+    };
+    const moreBtn = () => {
+      state.value = state.value == 0 ? 1 : 0;
+      val.value = state.value ? `state >= ${state.value} && end >= ${Date.now()}` : `state >= ${state.value}}`;
+      orderRef.value.loadData({ clear: true }, () => common_vendor.index.stopPullDownRefresh());
     };
     return (_ctx, _cache) => {
       return {
@@ -130,17 +132,18 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           "k": "orderRef"
         }),
         c: common_vendor.p({
-          collection: colList.value
+          collection: colList.value,
+          orderby: "end desc"
         }),
-        d: common_vendor.p({
-          title: "等待扫码"
+        d: common_vendor.sr("qrcode", "3549378c-5"),
+        e: common_vendor.p({
+          size: "400rpx",
+          value: "https://h5.uvui.cn"
         }),
-        e: common_vendor.sr(popupRef, "3549378c-5", {
-          "k": "popupRef"
-        }),
-        f: common_vendor.p({
-          type: "dialog"
-        })
+        f: code.show,
+        g: common_vendor.o(codeFn),
+        h: common_vendor.t(state.value ? "所有预约" : "正常预约"),
+        i: common_vendor.o(moreBtn)
       };
     };
   }

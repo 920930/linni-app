@@ -91,7 +91,7 @@ const _sfc_main = {
       disabled.value = true;
       db.create({ ...insetInfo, start, end }).then(() => {
         common_vendor.index.navigateTo({
-          url: "/pages/index/index"
+          url: "/pages/me/order"
         });
       }).catch((err) => {
         if (err.errCode === "uni-id-token-expired")

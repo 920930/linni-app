@@ -134,7 +134,7 @@ const sendBtn = () => {
 	db.create({...insetInfo, start, end})
 		.then(() => {
 			uni.navigateTo({
-				url: '/pages/index/index'
+				url: '/pages/me/order'
 			})
 		})
 		.catch(err => {

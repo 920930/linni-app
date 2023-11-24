@@ -6,7 +6,7 @@
 	"permission": {
 		"read": true,
 		"create": "'CREATE_WEB_NOTICE' in auth.permission",
-		"update": "doc._id == auth.uid || 'UPDATE_WEB_NOTICE' in auth.permission",
+		"update": "'UPDATE_WEB_NOTICE' in auth.permission",
 		"delete": "'DELETE_WEB_NOTICE' in auth.permission"
 	},
 	"properties": {

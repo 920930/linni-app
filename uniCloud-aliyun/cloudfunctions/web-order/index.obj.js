@@ -1,6 +1,6 @@
 // 云对象教程: https://uniapp.dcloud.net.cn/uniCloud/cloud-obj
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
-const checkToken = require('../website/checkToken.js');
+const {checkToken} = require('my-common');
 function dateTime(data, day = 0) {
 	const time = new Date(data);
 	const start = time.setHours(0,0,0,0)
