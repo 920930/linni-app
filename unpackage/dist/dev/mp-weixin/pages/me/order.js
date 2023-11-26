@@ -25,15 +25,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       show: false,
       value: ""
     });
-    const state = common_vendor.ref(1);
-    const val = common_vendor.ref(`state >= ${state.value} && end >= ${Date.now()}`);
+    const state = common_vendor.ref(0);
+    common_vendor.ref(`state >= ${state.value} && end >= ${Date.now()}`);
     const STATE = {
       0: "已取消",
       1: "待入园",
       2: "已入园"
     };
     const colList = common_vendor.ref([
-      db.collection("web-order").where(`uid == $cloudEnv_uid && ${val.value}`).getTemp(),
+      db.collection("web-order").where(`uid == $cloudEnv_uid ${state.value == 1 ? `&& state >= 1 && end >= ${Date.now()}` : ""}`).getTemp(),
       db.collection("uni-id-users").field("_id,mobile,nickname").getTemp({ getOne: true })
     ]);
     common_vendor.onPullDownRefresh(() => {
@@ -57,8 +57,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
     const moreBtn = () => {
       state.value = state.value == 0 ? 1 : 0;
-      val.value = state.value ? `state >= ${state.value} && end >= ${Date.now()}` : `state >= ${state.value}}`;
-      orderRef.value.loadData({ clear: true }, () => common_vendor.index.stopPullDownRefresh());
+      orderRef.value.refresh();
     };
     return (_ctx, _cache) => {
       return {
@@ -98,8 +97,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
                   size: "25"
                 })
               } : {}, {
-                m: item.state === 1
-              }, item.state === 1 ? {
+                m: item.state === 1 && Date.now() < item.end && Date.now() > item.start
+              }, item.state === 1 && Date.now() < item.end && Date.now() > item.start ? {
                 n: common_vendor.f(item.genre, (v, i, i2) => {
                   return {
                     a: i,
@@ -112,11 +111,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
                   };
                 })
               } : {}, {
-                o: item.state === 1 && Date.now() < item.end
-              }, item.state === 1 && Date.now() < item.end ? {
-                p: common_vendor.o(($event) => quxiaoBtn(item), item._id)
+                o: common_vendor.t(item.state === 1 && Date.now() > item.start && Date.now() < item.end ? "您现在可以入园，请尽快进入" : item.state === 1 && Date.now() < item.start ? "请在规定时间内入园，过期无效" : "您已经取消或完成，欢迎再次预约"),
+                p: item.state === 1 && Date.now() < item.start
+              }, item.state === 1 && Date.now() < item.start ? {
+                q: common_vendor.o(($event) => quxiaoBtn(item), item._id)
               } : {}, {
-                q: item._id
+                r: item._id
               });
             })
           }, {

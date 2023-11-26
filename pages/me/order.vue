@@ -23,13 +23,17 @@
 			</view>
 			<view class="or-time">
 				<text>货仓类型：</text>
-				<view class="" style="display: inline-flex; gap: 10rpx;" v-if="item.state === 1">
+				<view class="" style="display: inline-flex; gap: 10rpx;" v-if="item.state === 1  && Date.now() < item.end && Date.now() > item.start">
 					<uni-tag v-for="(v, i) in item.genre" :key="i" inverted :text="v" size="mini" />
 				</view>
 			</view>
 			<view class="or-time or-time-flex">
-				<text>请在规定时间内入园，过期无效</text>
-				<text v-if="item.state === 1 && Date.now() < item.end" @click="quxiaoBtn(item)">取消</text>
+				<text>{{
+					item.state === 1 && Date.now() > item.start && Date.now() < item.end
+						? '您现在可以入园，请尽快进入'
+						: item.state === 1 && Date.now() < item.start ? '请在规定时间内入园，过期无效' : '您已经取消或完成，欢迎再次预约'}}
+				</text>
+				<text v-if="item.state === 1 && Date.now() < item.start" @click="quxiaoBtn(item)">取消</text>
 			</view>
 		</view>
 	</unicloud-db>
@@ -51,7 +55,7 @@ const code = reactive({
 	show: false,
 	value: ''
 })
-const state = ref(1);
+const state = ref(0);
 const val = ref(`state >= ${state.value} && end >= ${Date.now()}`)
 const STATE = {
 	0: '已取消',
@@ -59,7 +63,7 @@ const STATE = {
 	2: '已入园',
 }
 const colList = ref([
-	db.collection('web-order').where(`uid == $cloudEnv_uid && ${val.value}`).getTemp(),
+	db.collection('web-order').where(`uid == $cloudEnv_uid ${state.value == 1 ? `&& state >= 1 && end >= ${Date.now()}`: ''}`).getTemp(),
 	db.collection('uni-id-users').field('_id,mobile,nickname').getTemp({getOne: true}),
 ]);
 
@@ -87,8 +91,10 @@ const codeFn = (item: any = null) => {
 
 const moreBtn = () => {
 	state.value = state.value == 0 ? 1 : 0;
-	val.value = state.value ? `state >= ${state.value} && end >= ${Date.now()}` : `state >= ${state.value}}`;
-	orderRef.value.loadData({clear: true}, () => uni.stopPullDownRefresh())
+	// const val = state.value ? `uid == $cloudEnv_uid && state >= ${state.value} && end >= ${Date.now()}` : `uid == $cloudEnv_uid`;
+	// colList.value = [db.collection('web-order').where(val).getTemp(), colList.value.pop()];
+	// console.log(colList.value)
+	orderRef.value.refresh()
 }
 </script>
 
