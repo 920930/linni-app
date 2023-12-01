@@ -1,8 +1,8 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
 const uni_modules_uniIdPages_config = require("../config.js");
-const uniIdCo = common_vendor.$s.importObject("uni-id-co");
-const db = common_vendor.$s.database();
+const uniIdCo = common_vendor.Bs.importObject("uni-id-co");
+const db = common_vendor.Bs.database();
 const usersTable = db.collection("uni-id-users");
 let hostUserInfo = common_vendor.index.getStorageSync("uni-id-pages-userInfo") || {};
 const data = {
@@ -30,7 +30,7 @@ const mutations = {
         }
       });
     } else {
-      const uniIdCo2 = common_vendor.$s.importObject("uni-id-co", {
+      const uniIdCo2 = common_vendor.Bs.importObject("uni-id-co", {
         customUI: true
       });
       try {
@@ -54,7 +54,7 @@ const mutations = {
     return data2;
   },
   async logout() {
-    if (common_vendor.$s.getCurrentUserInfo().tokenExpired > Date.now()) {
+    if (common_vendor.Bs.getCurrentUserInfo().tokenExpired > Date.now()) {
       try {
         await uniIdCo.logout();
       } catch (e) {

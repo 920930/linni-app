@@ -280,7 +280,7 @@ const _sfc_main = {
     login(params, type) {
       console.log({ params, type });
       let action = "loginBy" + type.trim().replace(type[0], type[0].toUpperCase());
-      const uniIdCo = common_vendor.$s.importObject("uni-id-co", {
+      const uniIdCo = common_vendor.Bs.importObject("uni-id-co", {
         customUI: true
       });
       uniIdCo[action](params).then((result) => {

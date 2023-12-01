@@ -3,7 +3,7 @@ const common_vendor = require("../../../../common/vendor.js");
 const uni_modules_uniIdPages_common_loginPage_mixin = require("../../common/login-page.mixin.js");
 require("../../common/store.js");
 require("../../config.js");
-const uniIdCo = common_vendor.$s.importObject("uni-id-co", {
+const uniIdCo = common_vendor.Bs.importObject("uni-id-co", {
   errorOptions: {
     type: "toast"
   }

@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const db = common_vendor.$s.importObject("website");
+const db = common_vendor.Bs.importObject("website");
 const useCompanyStore = common_vendor.defineStore("company", () => {
   const company = common_vendor.reactive({
     title: "",

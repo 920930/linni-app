@@ -120,7 +120,7 @@ const _sfc_main = {
           icon: "none",
           duration: 3e3
         });
-      const uniIdCo = common_vendor.$s.importObject("uni-id-co", {
+      const uniIdCo = common_vendor.Bs.importObject("uni-id-co", {
         customUI: true
       });
       console.log("sendEmailCode", {

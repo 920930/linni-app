@@ -4,7 +4,7 @@ const uni_modules_uniIdPages_common_loginPage_mixin = require("../../../common/l
 const uni_modules_uniIdPages_common_store = require("../../../common/store.js");
 const common_assets = require("../../../../../common/assets.js");
 require("../../../config.js");
-common_vendor.$s.importObject("uni-id-co");
+common_vendor.Bs.importObject("uni-id-co");
 const tempFrvInfoKey = "uni-id-pages-temp-frv";
 const _sfc_main = {
   mixins: [uni_modules_uniIdPages_common_loginPage_mixin.mixin],
@@ -52,7 +52,7 @@ const _sfc_main = {
     startFacialRecognitionVerify() {
     },
     async getFrvAuthResult() {
-      const uniIdCo = common_vendor.$s.importObject("uni-id-co", {
+      const uniIdCo = common_vendor.Bs.importObject("uni-id-co", {
         customUI: true
       });
       try {

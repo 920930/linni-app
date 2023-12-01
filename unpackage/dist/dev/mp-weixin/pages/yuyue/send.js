@@ -18,7 +18,7 @@ const _sfc_main = {
   __name: "send",
   setup(__props) {
     const companyStore = stores_company.useCompanyStore();
-    const db = common_vendor.$s.importObject("web-order");
+    const db = common_vendor.Bs.importObject("web-order");
     const disabled = common_vendor.ref(false);
     const selected = common_vendor.ref([]);
     const selectedTimes = common_vendor.ref([]);

@@ -27,7 +27,7 @@ const _sfc_main = {
   },
   methods: {
     submit() {
-      const uniIdCo = common_vendor.$s.importObject("uni-id-co", {
+      const uniIdCo = common_vendor.Bs.importObject("uni-id-co", {
         errorOptions: {
           type: "toast"
         }
