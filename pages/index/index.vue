@@ -33,38 +33,50 @@
 				</view>
 				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 			</view>
-			<view class="main-ul-li" @tap="yuyueBtn">
-				<image src="../../static/index/index-yy.png" class="main-ul-li-left" />
-				<view class="main-ul-li-center">
-					<text class="main-ul-li-center-t">电子提单</text>
-					<view class="main-ul-li-center-b">电子化提单申请</view>
+			<template v-if="hasLogin && userInfo.role && userInfo.role.includes('member')">
+				<view class="main-ul-li" @tap="yuyueBtn">
+					<image src="../../static/index/index-code.png" class="main-ul-li-left" />
+					<view class="main-ul-li-center">
+						<text class="main-ul-li-center-t">扫码入场</text>
+						<view class="main-ul-li-center-b">通过扫码入场/装卸货物</view>
+					</view>
+					<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 				</view>
-				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
-			</view>
-			<view class="main-ul-li">
-				<image src="../../static/index/index-bf.png" class="main-ul-li-left" />
-				<view class="main-ul-li-center">
-					<text class="main-ul-li-center-t">商务来访</text>
-					<view class="main-ul-li-center-b">来访预约申请</view>
+			</template>
+			<template v-else>
+				<view class="main-ul-li" @tap="yuyueBtn">
+					<image src="../../static/index/index-yy.png" class="main-ul-li-left" />
+					<view class="main-ul-li-center">
+						<text class="main-ul-li-center-t">电子提单</text>
+						<view class="main-ul-li-center-b">电子化提单申请</view>
+					</view>
+					<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 				</view>
-				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
-			</view>
-			<view class="main-ul-li">
-				<image src="../../static/index/index-in.png" class="main-ul-li-left" />
-				<view class="main-ul-li-center">
-					<text class="main-ul-li-center-t">入园须知</text>
-					<view class="main-ul-li-center-b">严格遵守入园须知</view>
+				<view class="main-ul-li">
+					<image src="../../static/index/index-bf.png" class="main-ul-li-left" />
+					<view class="main-ul-li-center">
+						<text class="main-ul-li-center-t">商务来访</text>
+						<view class="main-ul-li-center-b">来访预约申请</view>
+					</view>
+					<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 				</view>
-				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
-			</view>
-			<view class="main-ul-li" @tap="mobileFn">
-				<image src="../../static/index/index-email.png" class="main-ul-li-left" />
-				<view class="main-ul-li-center">
-					<text class="main-ul-li-center-t">投诉与建议</text>
-					<view class="main-ul-li-center-b">提出建议与反馈</view>
+				<view class="main-ul-li">
+					<image src="../../static/index/index-in.png" class="main-ul-li-left" />
+					<view class="main-ul-li-center">
+						<text class="main-ul-li-center-t">入园须知</text>
+						<view class="main-ul-li-center-b">严格遵守入园须知</view>
+					</view>
+					<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 				</view>
-				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
-			</view>
+				<view class="main-ul-li" @tap="mobileFn">
+					<image src="../../static/index/index-email.png" class="main-ul-li-left" />
+					<view class="main-ul-li-center">
+						<text class="main-ul-li-center-t">投诉与建议</text>
+						<view class="main-ul-li-center-b">提出建议与反馈</view>
+					</view>
+					<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
+				</view>
+			</template>
 		</view>
 	</view>
 	<view class="footer">
@@ -81,15 +93,16 @@
 	const useCompany = useCompanyStore();
 	const {company} = storeToRefs(useCompany);
 
-	const hasLogin = computed(() => store.hasLogin)
+	const hasLogin = computed(() => store.hasLogin);
+	const userInfo = computed(() => store.userInfo);
 	const loginBtn = () => {
 		uni.navigateTo({
-			url: hasLogin.value ? '/pages/me/index' : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+			url: hasLogin.value ? '/pages/me/index' : "/pages/login/login"
 		})
 	}
 	const registerBtn = () => {
 		uni.navigateTo({
-			url: "/pages/login/register"
+			url: hasLogin.value ? '/pages/me/index' : "/pages/login/register"
 		})
 	}
 	const mobileFn = () => {
@@ -98,9 +111,8 @@
 		})
 	}
 	const yuyueBtn = () => {
-		console.log('hahah')
 		uni.navigateTo({
-			url: hasLogin.value ? '/pages/yuyue/send' : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+			url: hasLogin.value ? '/pages/yuyue/send' : "/pages/login/login"
 		})
 	}
 </script>

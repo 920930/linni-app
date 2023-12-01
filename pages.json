@@ -8,6 +8,11 @@
 				"navigationBarTextStyle": "white"
 			}
 		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "用户登录"
+			}
+		}, {
 			"path": "pages/login/register",
 			"style": {
 				"navigationBarTitleText": "供货商注册"
@@ -16,6 +21,11 @@
 			"path": "pages/me/index",
 			"style": {
 				"navigationBarTitleText": "个人中心"
+			}
+		}, {
+			"path": "pages/me/order",
+			"style": {
+				"navigationBarTitleText": "我的预约"
 			}
 		}, {
 			"path": "pages/yuyue/send",

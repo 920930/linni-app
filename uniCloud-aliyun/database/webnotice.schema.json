@@ -5,9 +5,9 @@
 	"required": ["title", "content"],
 	"permission": {
 		"read": true,
-		"create": false,
-		"update": false,
-		"delete": false
+		"create": "'CREATE_WEB_NOTICE' in auth.permission",
+		"update": "'UPDATE_WEB_NOTICE' in auth.permission",
+		"delete": "'DELETE_WEB_NOTICE' in auth.permission"
 	},
 	"properties": {
 		"_id": {

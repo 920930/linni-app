@@ -161,6 +161,9 @@ const looseToNumber = (val) => {
 };
 const LINEFEED = "\n";
 const SLOT_DEFAULT_NAME = "d";
+const UNI_SSR = "__uniSSR";
+const UNI_SSR_DATA = "data";
+const UNI_SSR_GLOBAL_DATA = "globalData";
 const ON_SHOW = "onShow";
 const ON_HIDE = "onHide";
 const ON_LAUNCH = "onLaunch";
@@ -482,12 +485,12 @@ function include(str, parts) {
 function startsWith(str, parts) {
   return parts.find((part) => str.indexOf(part) === 0);
 }
-function normalizeLocale(locale, messages) {
+function normalizeLocale(locale, messages2) {
   if (!locale) {
     return;
   }
   locale = locale.trim().replace(/_/g, "-");
-  if (messages && messages[locale]) {
+  if (messages2 && messages2[locale]) {
     return locale;
   }
   locale = locale.toLowerCase();
@@ -507,8 +510,8 @@ function normalizeLocale(locale, messages) {
     return LOCALE_ZH_HANS;
   }
   let locales = [LOCALE_EN, LOCALE_FR, LOCALE_ES];
-  if (messages && Object.keys(messages).length > 0) {
-    locales = Object.keys(messages);
+  if (messages2 && Object.keys(messages2).length > 0) {
+    locales = Object.keys(messages2);
   }
   const lang = startsWith(locale, locales);
   if (lang) {
@@ -516,7 +519,7 @@ function normalizeLocale(locale, messages) {
   }
 }
 class I18n {
-  constructor({ locale, fallbackLocale, messages, watcher, formater }) {
+  constructor({ locale, fallbackLocale, messages: messages2, watcher, formater }) {
     this.locale = LOCALE_EN;
     this.fallbackLocale = LOCALE_EN;
     this.message = {};
@@ -526,7 +529,7 @@ class I18n {
       this.fallbackLocale = fallbackLocale;
     }
     this.formater = formater || defaultFormatter;
-    this.messages = messages || {};
+    this.messages = messages2 || {};
     this.setLocale(locale || LOCALE_EN);
     if (watcher) {
       this.watchLocale(watcher);
@@ -608,10 +611,10 @@ function getDefaultLocale() {
   }
   return LOCALE_EN;
 }
-function initVueI18n(locale, messages = {}, fallbackLocale, watcher) {
+function initVueI18n(locale, messages2 = {}, fallbackLocale, watcher) {
   if (typeof locale !== "string") {
-    [locale, messages] = [
-      messages,
+    [locale, messages2] = [
+      messages2,
       locale
     ];
   }
@@ -624,7 +627,7 @@ function initVueI18n(locale, messages = {}, fallbackLocale, watcher) {
   const i18n = new I18n({
     locale,
     fallbackLocale,
-    messages,
+    messages: messages2,
     watcher
   });
   let t2 = (key, values) => {
@@ -2740,6 +2743,9 @@ function isRef(r2) {
 function ref(value) {
   return createRef(value, false);
 }
+function shallowRef(value) {
+  return createRef(value, true);
+}
 function createRef(rawValue, shallow) {
   if (isRef(rawValue)) {
     return rawValue;
@@ -3763,6 +3769,9 @@ function traverse(value, seen) {
     }
   }
   return value;
+}
+function defineComponent(options) {
+  return isFunction(options) ? { setup: options, name: options.name } : options;
 }
 const isKeepAlive = (vnode) => vnode.type.__isKeepAlive;
 function onActivated(hook, target) {
@@ -6279,6 +6288,70 @@ function vFor(source, renderItem) {
   }
   return ret;
 }
+function renderSlot(name, props = {}, key) {
+  const instance = getCurrentInstance();
+  const { parent, isMounted, ctx: { $scope } } = instance;
+  const vueIds = ($scope.properties || $scope.props).uI;
+  if (!vueIds) {
+    return;
+  }
+  if (!parent && !isMounted) {
+    onMounted(() => {
+      renderSlot(name, props, key);
+    }, instance);
+    return;
+  }
+  const invoker = findScopedSlotInvoker(vueIds, instance);
+  if (invoker) {
+    invoker(name, props, key);
+  }
+}
+function findScopedSlotInvoker(vueId, instance) {
+  let parent = instance.parent;
+  while (parent) {
+    const invokers = parent.$ssi;
+    if (invokers && invokers[vueId]) {
+      return invokers[vueId];
+    }
+    parent = parent.parent;
+  }
+}
+function withScopedSlot(fn, { name, path, vueId }) {
+  const instance = getCurrentInstance();
+  fn.path = path;
+  const scopedSlots = instance.$ssi || (instance.$ssi = {});
+  const invoker = scopedSlots[vueId] || (scopedSlots[vueId] = createScopedSlotInvoker(instance));
+  if (!invoker.slots[name]) {
+    invoker.slots[name] = {
+      fn
+    };
+  } else {
+    invoker.slots[name].fn = fn;
+  }
+  return getValueByDataPath(instance.ctx.$scope.data, path);
+}
+function createScopedSlotInvoker(instance) {
+  const invoker = (slotName, args, index2) => {
+    const slot = invoker.slots[slotName];
+    if (!slot) {
+      return;
+    }
+    const hasIndex = typeof index2 !== "undefined";
+    index2 = index2 || 0;
+    const prevInstance = setCurrentRenderingInstance(instance);
+    const data = slot.fn(args, slotName + (hasIndex ? "-" + index2 : ""), index2);
+    const path = slot.fn.path;
+    setCurrentRenderingInstance(prevInstance);
+    (instance.$scopedSlotsData || (instance.$scopedSlotsData = [])).push({
+      path,
+      index: index2,
+      data
+    });
+    instance.$updateScopedSlots();
+  };
+  invoker.slots = {};
+  return invoker;
+}
 function stringifyStyle(value) {
   if (isString(value)) {
     return value;
@@ -6301,6 +6374,8 @@ function setRef(ref2, id, opts = {}) {
 }
 const o$1 = (value, key) => vOn(value, key);
 const f$1 = (source, renderItem) => vFor(source, renderItem);
+const r$1 = (name, props, key) => renderSlot(name, props, key);
+const w$1 = (fn, options) => withScopedSlot(fn, options);
 const s$1 = (value) => stringifyStyle(value);
 const e = (target, ...sources) => extend(target, ...sources);
 const n$1 = (value) => normalizeClass(value);
@@ -7146,6 +7221,12 @@ const pages = [
     }
   },
   {
+    path: "pages/login/login",
+    style: {
+      navigationBarTitleText: "用户登录"
+    }
+  },
+  {
     path: "pages/login/register",
     style: {
       navigationBarTitleText: "供货商注册"
@@ -7155,6 +7236,12 @@ const pages = [
     path: "pages/me/index",
     style: {
       navigationBarTitleText: "个人中心"
+    }
+  },
+  {
+    path: "pages/me/order",
+    style: {
+      navigationBarTitleText: "我的预约"
     }
   },
   {
@@ -9280,7 +9367,7 @@ class Qn extends class {
     });
   }
 }
-const Xn = "token无效，跳转登录页面", Zn = "token过期，跳转登录页面", es = { TOKEN_INVALID_TOKEN_EXPIRED: Zn, TOKEN_INVALID_INVALID_CLIENTID: Xn, TOKEN_INVALID: Xn, TOKEN_INVALID_WRONG_TOKEN: Xn, TOKEN_INVALID_ANONYMOUS_USER: Xn }, ts = { "uni-id-token-expired": Zn, "uni-id-check-token-failed": Xn, "uni-id-token-not-exist": Xn, "uni-id-check-device-feature-failed": Xn };
+const Xn = "token无效，跳转登录页面", Zn = "token过期，跳转登录页面", es$1 = { TOKEN_INVALID_TOKEN_EXPIRED: Zn, TOKEN_INVALID_INVALID_CLIENTID: Xn, TOKEN_INVALID: Xn, TOKEN_INVALID_WRONG_TOKEN: Xn, TOKEN_INVALID_ANONYMOUS_USER: Xn }, ts = { "uni-id-token-expired": Zn, "uni-id-check-token-failed": Xn, "uni-id-token-not-exist": Xn, "uni-id-check-device-feature-failed": Xn };
 function ns(e2, t2) {
   let n2 = "";
   return n2 = e2 ? `${e2}/${t2}` : t2, n2.replace(/^\//, "");
@@ -9418,7 +9505,7 @@ function Is() {
           if ("object" != typeof e3)
             return false;
           const { errCode: t3 } = e3 || {};
-          return t3 in es;
+          return t3 in es$1;
         }(n2);
     }
     s2 && function(e3 = {}) {
@@ -9953,11 +10040,46 @@ let $s = new class {
   } }), Ss($s), $s.addInterceptor = N, $s.removeInterceptor = D, $s.interceptObject = F;
 })();
 var Bs = $s;
+function getSSRDataType() {
+  return getCurrentInstance() ? UNI_SSR_DATA : UNI_SSR_GLOBAL_DATA;
+}
+function assertKey(key, shallow = false) {
+  if (!key) {
+    throw new Error(`${shallow ? "shallowSsrRef" : "ssrRef"}: You must provide a key.`);
+  }
+}
+const ssrClientRef = (value, key, shallow = false) => {
+  const valRef = shallow ? shallowRef(value) : ref(value);
+  if (typeof window === "undefined") {
+    return valRef;
+  }
+  const __uniSSR = window[UNI_SSR];
+  if (!__uniSSR) {
+    return valRef;
+  }
+  const type = getSSRDataType();
+  assertKey(key, shallow);
+  if (hasOwn$1(__uniSSR[type], key)) {
+    valRef.value = __uniSSR[type][key];
+    if (type === UNI_SSR_DATA) {
+      delete __uniSSR[type][key];
+    }
+  }
+  return valRef;
+};
+const ssrRef = (value, key) => {
+  return ssrClientRef(value, key);
+};
+const shallowSsrRef = (value, key) => {
+  return ssrClientRef(value, key, true);
+};
 const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
   !isInSSRComponentSetup && injectHook(lifecycle, hook, target);
 };
 const onLaunch = /* @__PURE__ */ createHook(ON_LAUNCH);
 const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
+const onReachBottom = /* @__PURE__ */ createHook(ON_REACH_BOTTOM);
+const onPullDownRefresh = /* @__PURE__ */ createHook(ON_PULL_DOWN_REFRESH);
 var isVue2 = false;
 function set(target, key, val) {
   if (Array.isArray(target)) {
@@ -10731,29 +10853,76 @@ const Pinia = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePropert
   skipHydrate,
   storeToRefs
 }, Symbol.toStringTag, { value: "Module" }));
+const en = {
+  "uniCloud.component.add.success": "Success",
+  "uniCloud.component.update.success": "Success",
+  "uniCloud.component.remove.showModal.title": "Tips",
+  "uniCloud.component.remove.showModal.content": "是否删除该数据"
+};
+const es = {
+  "uniCloud.component.add.success": "新增成功",
+  "uniCloud.component.update.success": "修改成功",
+  "uniCloud.component.remove.showModal.title": "提示",
+  "uniCloud.component.remove.showModal.content": "是否删除该数据"
+};
+const fr = {
+  "uniCloud.component.add.success": "新增成功",
+  "uniCloud.component.update.success": "修改成功",
+  "uniCloud.component.remove.showModal.title": "提示",
+  "uniCloud.component.remove.showModal.content": "是否删除该数据"
+};
+const zhHans = {
+  "uniCloud.component.add.success": "新增成功",
+  "uniCloud.component.update.success": "修改成功",
+  "uniCloud.component.remove.showModal.title": "提示",
+  "uniCloud.component.remove.showModal.content": "是否删除该数据"
+};
+const zhHant = {
+  "uniCloud.component.add.success": "新增成功",
+  "uniCloud.component.update.success": "修改成功",
+  "uniCloud.component.remove.showModal.title": "提示",
+  "uniCloud.component.remove.showModal.content": "是否刪除數據"
+};
+const messages = {
+  en,
+  es,
+  fr,
+  "zh-Hans": zhHans,
+  "zh-Hant": zhHant
+};
 exports.Bs = Bs;
 exports.Pinia = Pinia;
 exports._export_sfc = _export_sfc;
 exports.computed = computed;
 exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;
+exports.defineComponent = defineComponent;
 exports.defineStore = defineStore;
 exports.e = e;
 exports.f = f$1;
+exports.getCurrentInstance = getCurrentInstance;
 exports.index = index;
 exports.initVueI18n = initVueI18n;
+exports.messages = messages;
 exports.n = n$1;
 exports.o = o$1;
 exports.onLaunch = onLaunch;
 exports.onLoad = onLoad;
+exports.onMounted = onMounted;
+exports.onPullDownRefresh = onPullDownRefresh;
+exports.onReachBottom = onReachBottom;
 exports.p = p$1;
 exports.pagesJson = pagesJson;
+exports.r = r$1;
 exports.reactive = reactive;
 exports.ref = ref;
 exports.resolveComponent = resolveComponent;
 exports.s = s$1;
+exports.shallowSsrRef = shallowSsrRef;
 exports.sr = sr;
+exports.ssrRef = ssrRef;
 exports.storeToRefs = storeToRefs;
 exports.t = t$1;
 exports.unref = unref;
+exports.w = w$1;
 exports.wx$1 = wx$1;

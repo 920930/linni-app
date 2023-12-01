@@ -6,8 +6,10 @@ const stores_company = require("./stores/company.js");
 require("./uni_modules/uni-id-pages/config.js");
 if (!Math) {
   "./pages/index/index.js";
+  "./pages/login/login.js";
   "./pages/login/register.js";
   "./pages/me/index.js";
+  "./pages/me/order.js";
   "./pages/yuyue/send.js";
   "./pages/yuyue/take.js";
   "./uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate.js";

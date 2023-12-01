@@ -17,14 +17,15 @@ const _sfc_main = {
     const useCompany = stores_company.useCompanyStore();
     const { company } = common_vendor.storeToRefs(useCompany);
     const hasLogin = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.hasLogin);
+    const userInfo = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.userInfo);
     const loginBtn = () => {
       common_vendor.index.navigateTo({
-        url: hasLogin.value ? "/pages/me/index" : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+        url: hasLogin.value ? "/pages/me/index" : "/pages/login/login"
       });
     };
     const registerBtn = () => {
       common_vendor.index.navigateTo({
-        url: "/pages/login/register"
+        url: hasLogin.value ? "/pages/me/index" : "/pages/login/register"
       });
     };
     const mobileFn = () => {
@@ -33,13 +34,12 @@ const _sfc_main = {
       });
     };
     const yuyueBtn = () => {
-      console.log("hahah");
       common_vendor.index.navigateTo({
-        url: hasLogin.value ? "/pages/yuyue/send" : "/uni_modules/uni-id-pages/pages/login/login-withpwd"
+        url: hasLogin.value ? "/pages/yuyue/send" : "/pages/login/login"
       });
     };
     return (_ctx, _cache) => {
-      return {
+      return common_vendor.e({
         a: common_vendor.p({
           ["custom-prefix"]: "iconfont",
           type: "icon-lorry",
@@ -66,30 +66,40 @@ const _sfc_main = {
           color: "rgba(0, 0, 0, 0.4)"
         }),
         g: common_vendor.o(registerBtn),
-        h: common_vendor.p({
+        h: common_vendor.unref(hasLogin) && common_vendor.unref(userInfo).role && common_vendor.unref(userInfo).role.includes("member")
+      }, common_vendor.unref(hasLogin) && common_vendor.unref(userInfo).role && common_vendor.unref(userInfo).role.includes("member") ? {
+        i: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        i: common_vendor.o(yuyueBtn),
-        j: common_vendor.p({
-          type: "right",
-          size: "20",
-          color: "rgba(0, 0, 0, 0.4)"
-        }),
+        j: common_vendor.o(yuyueBtn)
+      } : {
         k: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        l: common_vendor.p({
+        l: common_vendor.o(yuyueBtn),
+        m: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        m: common_vendor.o(mobileFn),
-        n: common_vendor.t(common_vendor.unref(company).mobile)
-      };
+        n: common_vendor.p({
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
+        }),
+        o: common_vendor.p({
+          type: "right",
+          size: "20",
+          color: "rgba(0, 0, 0, 0.4)"
+        }),
+        p: common_vendor.o(mobileFn)
+      }, {
+        q: common_vendor.t(common_vendor.unref(company).mobile)
+      });
     };
   }
 };

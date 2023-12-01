@@ -19,8 +19,8 @@
 		</uni-list>
 		
 		<uni-section title="业务信息" class="mt10" type="line" />
-		<uni-list>
-			<uni-list-item class="item" title="我的订单" rightText="userInfo.mobile||'未绑定'" link />
+		<uni-list v-if="userInfo.role.includes('supplier')">
+			<uni-list-item class="item" title="我的预约" rightText="进入" link @click="orderUrl" />
 			<uni-collapse accordion style="border-top: 1rpx solid rgba(0, 0, 0, 0.06);">
 				<uni-collapse-item title="绑定的车牌号" open>
 					<view style="padding: 10rpx 30rpx 30rpx; display: flex; gap: 20rpx; flex-direction: row; flex-wrap: wrap;">
@@ -30,6 +30,10 @@
 				</uni-collapse-item>
 			</uni-collapse>
 		</uni-list>
+		<uni-list v-else>
+			<uni-list-item class="item" title="扫码" link @click="codeBtn" />
+		</uni-list>
+		{{code}}
 		<!-- #ifndef MP -->
 		<uni-list class="mt30">
 			<uni-list-item @click="deactivate" title="注销账号" link="navigateTo"></uni-list-item>
@@ -84,7 +88,8 @@
 				// },
 				hasPwd: false,
 				showLoginManage: true ,//通过页面传参隐藏登录&退出登录按钮
-				setNicknameIng:false
+				setNicknameIng:false,
+				code: '',
 			}
 		},
 		async onShow() {
@@ -261,7 +266,22 @@
 						duration: 3000
 					});
 				}
-			}
+			},
+			orderUrl(){
+				uni.navigateTo({
+					url: '/pages/me/order'
+				})
+			},
+			codeBtn(){
+				uni.scanCode({
+					onlyFromCamera: true,
+					success (res) {
+						this.code = res.result;
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+					}
+				});
+			},
 		}
 	}
 </script>

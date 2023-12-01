@@ -5,9 +5,9 @@
 	"required": ["title", "content"],
 	"permission": {
 		"read": true,
-		"create": true,
-		"update": false,
-		"delete": false
+		"create": "'CREATE_WEB_ORDER' in auth.permission",
+		"update": "doc.uid == auth.uid || 'UPDATE_WEB_ORDER' in auth.permission",
+		"delete": "'DELETE_WEB_ORDER' in auth.permission"
 	},
 	"properties": {
 		"_id": {
@@ -46,7 +46,7 @@
 			"bsonType": "int",
 			"title": "订单状态",
 			"description": "订单状态: 0取消,1正常,2完成",
-			"defaultValue": 0
+			"defaultValue": 1
 		},
 		"createdAt": {
 			"bsonType": "timestamp",

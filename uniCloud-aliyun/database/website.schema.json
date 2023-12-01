@@ -4,9 +4,9 @@
 	"required": ["title", "ftitle", "mobile", "genre", "times", "doors"],
 	"permission": {
 		"read": true,
-		"create": false,
-		"update": false,
-		"delete": false
+		"create": "'CREATE_WEB_SITE' in auth.permission",
+		"update": "'UPDATE_WEB_SITE' in auth.permission",
+		"delete": "'UPDATE_WEB_SITE' in auth.permission"
 	},
 	"properties": {
 		"_id": {
@@ -90,8 +90,8 @@
 			"title": "创建时间",
 			"description": "创建时间",
 			"defaultValue": {
-				"$env": "now",
+				"$env": "now"
 			}
-		},
+		}
 	}
 }

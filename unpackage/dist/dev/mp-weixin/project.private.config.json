@@ -8,8 +8,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "发货",
-          "pathName": "pages/yuyue/send",
+          "name": "订单",
+          "pathName": "pages/me/order",
           "query": "",
           "launchMode": "default",
           "scene": null
