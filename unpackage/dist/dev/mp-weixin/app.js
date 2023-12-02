@@ -10,6 +10,7 @@ if (!Math) {
   "./pages/login/register.js";
   "./pages/me/index.js";
   "./pages/me/order.js";
+  "./pages/me/oritem.js";
   "./pages/yuyue/send.js";
   "./pages/yuyue/take.js";
   "./uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate.js";

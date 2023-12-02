@@ -7245,6 +7245,12 @@ const pages = [
     }
   },
   {
+    path: "pages/me/oritem",
+    style: {
+      navigationBarTitleText: "预约详情"
+    }
+  },
+  {
     path: "pages/yuyue/send",
     style: {
       navigationBarTitleText: "发货申请"
@@ -7652,7 +7658,7 @@ class v {
 function I(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const S = true, b = "mp-weixin", A = I([]), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "192.168.31.99"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/92030/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"linni","spaceId":"mp-b5ff49b2-63b7-4902-a120-670403299a25","clientSecret":"PEmVayh0h23aZuuaqoG7TQ=="}]') || [];
+const S = true, b = "mp-weixin", A = I([]), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "192.168.2.190"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "remote",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/92030/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"linni","spaceId":"mp-b5ff49b2-63b7-4902-a120-670403299a25","clientSecret":"PEmVayh0h23aZuuaqoG7TQ=="}]') || [];
 let O = "";
 try {
   O = "__UNI__C7BD554";
@@ -10078,6 +10084,7 @@ const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
 };
 const onLaunch = /* @__PURE__ */ createHook(ON_LAUNCH);
 const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
+const onReady = /* @__PURE__ */ createHook(ON_READY);
 const onReachBottom = /* @__PURE__ */ createHook(ON_REACH_BOTTOM);
 const onPullDownRefresh = /* @__PURE__ */ createHook(ON_PULL_DOWN_REFRESH);
 var isVue2 = false;
@@ -10911,6 +10918,7 @@ exports.onLoad = onLoad;
 exports.onMounted = onMounted;
 exports.onPullDownRefresh = onPullDownRefresh;
 exports.onReachBottom = onReachBottom;
+exports.onReady = onReady;
 exports.p = p$1;
 exports.pagesJson = pagesJson;
 exports.r = r$1;
@@ -10923,6 +10931,7 @@ exports.sr = sr;
 exports.ssrRef = ssrRef;
 exports.storeToRefs = storeToRefs;
 exports.t = t$1;
+exports.toRaw = toRaw;
 exports.unref = unref;
 exports.w = w$1;
 exports.wx$1 = wx$1;

@@ -28,6 +28,11 @@
 				"navigationBarTitleText": "我的预约"
 			}
 		}, {
+			"path": "pages/me/oritem",
+			"style": {
+				"navigationBarTitleText": "预约详情"
+			}
+		}, {
 			"path": "pages/yuyue/send",
 			"style": {
 				"navigationBarTitleText": "发货申请"

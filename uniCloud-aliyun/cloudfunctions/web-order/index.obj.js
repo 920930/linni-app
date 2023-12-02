@@ -34,7 +34,7 @@ module.exports = {
 		this.company = company.data;
 	},
 	myOrder(page = 1, size = 20){
-		return this.orderDb.where(`uid == $cloudEnv_uid`).get();
+		return this.orderDb.where(`uid == $cloudEnv_uid`).orderBy('createdAt desc').get();
 	},
 	index(){
 		const user = this.db.collection('uni-id-users').field('_id,name,mobile,car').getTemp();
@@ -105,7 +105,7 @@ module.exports = {
 		}
 	},
 	update(_id, data){
-		
+		this.orderDb.doc(item._id).update({state: 0})
 	},
 	async notices(){
 		// 一天的总毫秒数
