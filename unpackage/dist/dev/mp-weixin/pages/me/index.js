@@ -49,7 +49,7 @@ const _sfc_main = {
       let res = await uniIdCo.getAccountInfo();
       this.hasPwd = res.isPasswordSet;
     } catch (e2) {
-      console.log(e2);
+      uni_modules_uniIdPages_common_store.mutations.logout();
     }
   },
   methods: {

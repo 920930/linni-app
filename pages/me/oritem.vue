@@ -1,15 +1,16 @@
 <template>
 	<unicloud-db
+		ref='dbRef'
 		v-slot:default="{data, loading, error}"
 		collection="web-order"
-		loadtime='onready'
-		:where="`_id == '${id}' && uid == $cloudEnv_uid`"
+		:where="`uid == $cloudEnv_uid && _id == '${id}'`"
 		:getone="true"
 	>
 		<view v-if="loading">loading...</view>
 		<template v-else>
 			<view v-if="error">出错了。。。</view>
-			<template v-else>
+			<template v-if="data">
+				<navigator url='http://www.zcfsjt.com'>h5页面</navigator>
 				<view class="item">
 					<view class="item-title">订单详情</view>
 					<view class="item-main">
@@ -77,19 +78,29 @@
 </template>
 
 <script setup>
-import { onReady } from '@dcloudio/uni-app';
+import { onReady, onLoad } from '@dcloudio/uni-app';
 import { computed, reactive, ref } from 'vue';
 import {store} from '@/uni_modules/uni-id-pages/common/store.js';
 
 const id = ref('');
+// db前端ref
+const dbRef = ref();
+// 二维码ref
 const qrcode = ref();
+const where = ref(`_id == '${id}' && uid == $cloudEnv_uid`)
 const avatar = computed(() => store.userInfo.avatar_file.url || 'https://www.uvui.cn/common/logo.png')
 const codeopt = reactive({
 	size: 200,
 	foregroundImageSrc: avatar,
 	foregroundImageBorderRadius: 10,
 })
-onReady(e => id.value = e.id);
+
+onLoad(e => {
+	id.value = e.id;
+});
+// onReady(() => {
+// 	dbRef.value.loadData()
+// });
 </script>
 
 <style lang="scss" scoped>

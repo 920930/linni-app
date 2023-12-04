@@ -84,7 +84,7 @@ onLoad(async () => {
 		active.endDate = selected.value[selected.value.length-1].date;
 		
 	}catch(err){
-		if(err.errCode === "uni-id-token-expired") mutations.logout();
+		mutations.logout();
 	}
 })
 // 到店日期

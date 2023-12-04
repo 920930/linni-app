@@ -105,8 +105,7 @@
 				let res = await uniIdCo.getAccountInfo();
 				this.hasPwd = res.isPasswordSet
 			}catch(e){
-				console.log(e)
-				// mutations.logout();
+				mutations.logout();
 			}
 		},
 		methods: {

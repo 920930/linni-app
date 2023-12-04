@@ -18,14 +18,18 @@ const _sfc_main = {
   __name: "oritem",
   setup(__props) {
     const id = common_vendor.ref("");
+    const dbRef = common_vendor.ref();
     const qrcode = common_vendor.ref();
+    common_vendor.ref(`_id == '${id}' && uid == $cloudEnv_uid`);
     const avatar = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.userInfo.avatar_file.url || "https://www.uvui.cn/common/logo.png");
     const codeopt = common_vendor.reactive({
       size: 200,
       foregroundImageSrc: avatar,
       foregroundImageBorderRadius: 10
     });
-    common_vendor.onReady((e) => id.value = e.id);
+    common_vendor.onLoad((e) => {
+      id.value = e.id;
+    });
     return (_ctx, _cache) => {
       return {
         a: common_vendor.w(({
@@ -37,73 +41,77 @@ const _sfc_main = {
             a: loading
           }, loading ? {} : common_vendor.e({
             b: error
-          }, error ? {} : common_vendor.e({
-            c: common_vendor.t(data._id),
-            d: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.nickname),
-            e: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.mobile),
-            f: "9e31f644-1-" + i0 + ",9e31f644-0",
-            g: common_vendor.p({
+          }, error ? {} : {}, {
+            c: data
+          }, data ? common_vendor.e({
+            d: common_vendor.t(data._id),
+            e: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.nickname),
+            f: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.mobile),
+            g: "9e31f644-1-" + i0 + ",9e31f644-0",
+            h: common_vendor.p({
               date: data.start,
               format: "yyyy-MM-dd hh:mm"
             }),
-            h: "9e31f644-2-" + i0 + ",9e31f644-0",
-            i: common_vendor.p({
+            i: "9e31f644-2-" + i0 + ",9e31f644-0",
+            j: common_vendor.p({
               date: data.end,
               format: "hh:mm"
             }),
-            j: common_vendor.t(data.car),
-            k: common_vendor.f(data.genre, (item, k1, i1) => {
+            k: common_vendor.t(data.car),
+            l: common_vendor.f(data.genre, (item, k1, i1) => {
               return {
                 a: common_vendor.t(item),
                 b: item
               };
             }),
-            l: data.state === 1
+            m: data.state === 1
           }, data.state === 1 ? common_vendor.e({
-            m: data.start < Date.now() && data.end > Date.now()
+            n: data.start < Date.now() && data.end > Date.now()
           }, data.start < Date.now() && data.end > Date.now() ? {
-            n: common_vendor.sr(qrcode, "9e31f644-3-" + i0 + ",9e31f644-0", {
+            o: common_vendor.sr(qrcode, "9e31f644-3-" + i0 + ",9e31f644-0", {
               "k": "qrcode"
             }),
-            o: "9e31f644-3-" + i0 + ",9e31f644-0",
-            p: common_vendor.p({
+            p: "9e31f644-3-" + i0 + ",9e31f644-0",
+            q: common_vendor.p({
               options: codeopt,
               value: "https://h5.uvui.cn"
             }),
-            q: "9e31f644-4-" + i0 + ",9e31f644-0",
-            r: common_vendor.p({
+            r: "9e31f644-4-" + i0 + ",9e31f644-0",
+            s: common_vendor.p({
               date: data.start,
               format: "yyyy-MM-dd"
             }),
-            s: "9e31f644-5-" + i0 + ",9e31f644-0",
-            t: common_vendor.p({
+            t: "9e31f644-5-" + i0 + ",9e31f644-0",
+            v: common_vendor.p({
               date: data.start,
               format: "hh:mm"
             }),
-            v: "9e31f644-6-" + i0 + ",9e31f644-0",
-            w: common_vendor.p({
+            w: "9e31f644-6-" + i0 + ",9e31f644-0",
+            x: common_vendor.p({
               date: data.end,
               format: "hh:mm"
             })
           } : data.end < Date.now() ? {} : {}, {
-            x: data.end < Date.now()
+            y: data.end < Date.now()
           }) : {}, {
-            y: data.state === 0
+            z: data.state === 0
           }, data.state === 0 ? {} : {}, {
-            z: data.state === 2
-          }, data.state === 2 ? {} : {})), {
-            A: i0,
-            B: s0
+            A: data.state === 2
+          }, data.state === 2 ? {} : {}) : {}), {
+            B: i0,
+            C: s0
           });
         }, {
           name: "d",
           path: "a",
           vueId: "9e31f644-0"
         }),
-        b: common_vendor.p({
+        b: common_vendor.sr(dbRef, "9e31f644-0", {
+          "k": "dbRef"
+        }),
+        c: common_vendor.p({
           collection: "web-order",
-          loadtime: "onready",
-          where: `_id == '${id.value}' && uid == $cloudEnv_uid`,
+          where: `uid == $cloudEnv_uid && _id == '${id.value}'`,
           getone: true
         })
       };

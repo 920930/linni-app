@@ -47,8 +47,7 @@ const _sfc_main = {
         active.startDate = selected.value[0].date;
         active.endDate = selected.value[selected.value.length - 1].date;
       } catch (err) {
-        if (err.errCode === "uni-id-token-expired")
-          uni_modules_uniIdPages_common_store.mutations.logout();
+        uni_modules_uniIdPages_common_store.mutations.logout();
       }
     });
     const calendarChange = (e) => {
