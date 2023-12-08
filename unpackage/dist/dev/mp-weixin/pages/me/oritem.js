@@ -5,31 +5,96 @@ require("../../uni_modules/uni-id-pages/config.js");
 if (!Array) {
   const _easycom_uni_dateformat2 = common_vendor.resolveComponent("uni-dateformat");
   const _easycom_uv_qrcode2 = common_vendor.resolveComponent("uv-qrcode");
+  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_unicloud_db2 = common_vendor.resolveComponent("unicloud-db");
-  (_easycom_uni_dateformat2 + _easycom_uv_qrcode2 + _easycom_unicloud_db2)();
+  (_easycom_uni_dateformat2 + _easycom_uv_qrcode2 + _easycom_uni_icons2 + _easycom_unicloud_db2)();
 }
 const _easycom_uni_dateformat = () => "../../uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat.js";
 const _easycom_uv_qrcode = () => "../../uni_modules/uv-qrcode/components/uv-qrcode/uv-qrcode.js";
+const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_unicloud_db = () => "../../node-modules/@dcloudio/uni-components/lib/unicloud-db/unicloud-db.js";
 if (!Math) {
-  (_easycom_uni_dateformat + _easycom_uv_qrcode + _easycom_unicloud_db)();
+  (_easycom_uni_dateformat + _easycom_uv_qrcode + _easycom_uni_icons + _easycom_unicloud_db)();
 }
 const _sfc_main = {
   __name: "oritem",
   setup(__props) {
-    const id = common_vendor.ref("");
     const dbRef = common_vendor.ref();
     const qrcode = common_vendor.ref();
-    common_vendor.ref(`_id == '${id}' && uid == $cloudEnv_uid`);
     const avatar = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.userInfo.avatar_file.url || "https://www.uvui.cn/common/logo.png");
+    const info = common_vendor.reactive({
+      id: "",
+      load: false,
+      disabled: false
+    });
+    const code = common_vendor.ref({
+      current: 0,
+      value: ""
+    });
+    const codeInfo = [
+      { color: "#86909c", desc: "过期：请刷新二维码" },
+      { color: "#27a468", desc: "绿码：请扫码核实进入园区" },
+      { color: "#ffb400", desc: "黄码：未到预约时间 请等待" },
+      { color: "#f53f3f", desc: "红码：预约已过期 请重新预约" },
+      { color: "#b71de8", desc: "紫码：您已完成预约" },
+      { color: "#165dff", desc: "蓝码：您已取消本次预约" }
+    ];
+    const codeActive = common_vendor.computed(() => codeInfo[code.current]);
     const codeopt = common_vendor.reactive({
+      data: "https://www.zcfsjt.com",
       size: 200,
+      // 二维码颜色
+      foregroundColor: "#27a468",
+      // 二维码背景 后景色
+      // areaColor: 'rgba(0, 0, 0, 0.1)',
+      margin: 10,
+      // 二维码背景 前景色
+      backgroundColor: "white",
       foregroundImageSrc: avatar,
       foregroundImageBorderRadius: 10
     });
-    common_vendor.onLoad((e) => {
-      id.value = e.id;
+    common_vendor.onLoad((e) => info.id = e.id);
+    common_vendor.onReady(() => {
+      common_vendor.index.setNavigationBarColor({
+        frontColor: "#ffffff",
+        backgroundColor: "#1576df"
+      });
+      resetBtn();
     });
+    const toUrl = (id) => {
+      common_vendor.index.navigateTo({
+        url: "/pages/me/check?id=" + id
+      });
+    };
+    const resetBtn = async () => {
+      info.load = true;
+      dbRef.value.loadData({}, (datav) => {
+        info.load = false;
+        console.log(datav);
+        if (datav.state == 1) {
+          const now = Date.now();
+          if (now < datav.start) {
+            code.current = 2;
+          } else if (now > datav.start && now < datav.end) {
+            code.current = 1;
+            setTimeout(() => resetTime(), 1e4);
+          } else {
+            code.current = 3;
+          }
+        } else if (datav.state == 0) {
+          code.current = 5;
+        } else {
+          code.current = 4;
+        }
+        code.value = `${datav._id},${code.current}`;
+        resetTime(codeInfo[code.current].color, 100);
+      });
+    };
+    const resetTime = (color = "#86909c", t = 1e4) => {
+      setTimeout(() => {
+        codeopt.foregroundColor = color;
+      }, t);
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.w(({
@@ -38,68 +103,57 @@ const _sfc_main = {
           error
         }, s0, i0) => {
           return common_vendor.e({
-            a: loading
-          }, loading ? {} : common_vendor.e({
-            b: error
-          }, error ? {} : {}, {
-            c: data
-          }, data ? common_vendor.e({
-            d: common_vendor.t(data._id),
-            e: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.nickname),
-            f: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.mobile),
-            g: "9e31f644-1-" + i0 + ",9e31f644-0",
-            h: common_vendor.p({
+            a: data
+          }, data ? {
+            b: common_vendor.t(common_vendor.unref(uni_modules_uniIdPages_common_store.store).userInfo.nickname),
+            c: common_vendor.t(data._id),
+            d: "9e31f644-1-" + i0 + ",9e31f644-0",
+            e: common_vendor.p({
               date: data.start,
               format: "yyyy-MM-dd hh:mm"
             }),
-            i: "9e31f644-2-" + i0 + ",9e31f644-0",
-            j: common_vendor.p({
+            f: "9e31f644-2-" + i0 + ",9e31f644-0",
+            g: common_vendor.p({
               date: data.end,
               format: "hh:mm"
             }),
-            k: common_vendor.t(data.car),
-            l: common_vendor.f(data.genre, (item, k1, i1) => {
-              return {
-                a: common_vendor.t(item),
-                b: item
-              };
-            }),
-            m: data.state === 1
-          }, data.state === 1 ? common_vendor.e({
-            n: data.start < Date.now() && data.end > Date.now()
-          }, data.start < Date.now() && data.end > Date.now() ? {
-            o: common_vendor.sr(qrcode, "9e31f644-3-" + i0 + ",9e31f644-0", {
+            h: common_vendor.sr(qrcode, "9e31f644-3-" + i0 + ",9e31f644-0", {
               "k": "qrcode"
             }),
-            p: "9e31f644-3-" + i0 + ",9e31f644-0",
-            q: common_vendor.p({
+            i: common_vendor.o(($event) => toUrl(data._id)),
+            j: "9e31f644-3-" + i0 + ",9e31f644-0",
+            k: common_vendor.p({
               options: codeopt,
-              value: "https://h5.uvui.cn"
+              value: "data._id"
             }),
-            r: "9e31f644-4-" + i0 + ",9e31f644-0",
-            s: common_vendor.p({
-              date: data.start,
-              format: "yyyy-MM-dd"
+            l: common_vendor.t(common_vendor.unref(codeActive).desc),
+            m: common_vendor.s(`color: ${common_vendor.unref(codeActive).color}`),
+            n: info.load,
+            o: info.disabled,
+            p: common_vendor.o(resetBtn),
+            q: "9e31f644-4-" + i0 + ",9e31f644-0",
+            r: common_vendor.p({
+              type: "right",
+              size: "15"
             }),
-            t: "9e31f644-5-" + i0 + ",9e31f644-0",
-            v: common_vendor.p({
-              date: data.start,
-              format: "hh:mm"
+            s: "9e31f644-5-" + i0 + ",9e31f644-0",
+            t: common_vendor.p({
+              type: "list",
+              size: "40"
             }),
-            w: "9e31f644-6-" + i0 + ",9e31f644-0",
-            x: common_vendor.p({
-              date: data.end,
-              format: "hh:mm"
+            v: "9e31f644-6-" + i0 + ",9e31f644-0",
+            w: common_vendor.p({
+              type: "list",
+              size: "40"
+            }),
+            x: "9e31f644-7-" + i0 + ",9e31f644-0",
+            y: common_vendor.p({
+              type: "list",
+              size: "40"
             })
-          } : data.end < Date.now() ? {} : {}, {
-            y: data.end < Date.now()
-          }) : {}, {
-            z: data.state === 0
-          }, data.state === 0 ? {} : {}, {
-            A: data.state === 2
-          }, data.state === 2 ? {} : {}) : {}), {
-            B: i0,
-            C: s0
+          } : {}, {
+            z: i0,
+            A: s0
           });
         }, {
           name: "d",
@@ -111,7 +165,8 @@ const _sfc_main = {
         }),
         c: common_vendor.p({
           collection: "web-order",
-          where: `uid == $cloudEnv_uid && _id == '${id.value}'`,
+          loadtime: "manual",
+          where: `uid == $cloudEnv_uid && _id == '${info.id}'`,
           getone: true
         })
       };

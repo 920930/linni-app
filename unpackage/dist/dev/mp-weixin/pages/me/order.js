@@ -28,7 +28,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onReady(() => {
       common_vendor.index.setNavigationBarColor({
         frontColor: "#ffffff",
-        backgroundColor: "#0cc0b0"
+        backgroundColor: "#1576df"
       });
     });
     common_vendor.onPullDownRefresh(() => {

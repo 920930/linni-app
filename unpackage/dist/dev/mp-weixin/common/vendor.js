@@ -7251,6 +7251,12 @@ const pages = [
     }
   },
   {
+    path: "pages/me/check",
+    style: {
+      navigationBarTitleText: "核查验证"
+    }
+  },
+  {
     path: "pages/yuyue/send",
     style: {
       navigationBarTitleText: "发货申请"

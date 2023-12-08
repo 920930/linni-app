@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "核查验证",
+  "usingComponents": {
+    "unicloud-db": "../../node-modules/@dcloudio/uni-components/lib/unicloud-db/unicloud-db"
+  }
+}

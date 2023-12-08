@@ -74,9 +74,8 @@ const code = reactive({
 onReady(() => {
 	uni.setNavigationBarColor({
 		frontColor: '#ffffff',
-		backgroundColor: '#0cc0b0',
+		backgroundColor: '#1576df',
 	})
-	
 })
 onPullDownRefresh(() => {
 	orderRef.value.loadData({clear: true}, () => {
@@ -97,7 +96,7 @@ const navito = (_id: string) => {
 
 <style lang="scss" scoped>
 .top{
-	background-color: #0cc0b0;
+	background-color: #1576df;
 	height: 100rpx;
 	position: relative;
 	border-bottom-left-radius: 20rpx;
@@ -157,8 +156,9 @@ const navito = (_id: string) => {
 		padding-bottom: 10rpx;
 	}
 	&-active{
-		border-bottom: 4rpx solid #0cc0b0;
-		color: #0cc0b0;
+		border-bottom: 6rpx solid #1576df;
+		color: #1576df;
+		font-weight: bold;
 	}
 }
 .or{

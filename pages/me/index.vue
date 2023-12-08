@@ -31,7 +31,7 @@
 			</uni-collapse>
 		</uni-list>
 		<uni-list v-else>
-			<uni-list-item class="item" title="扫码" link @click="codeBtn" />
+			<uni-list-item class="item" title="扫码" link @click="codeNavigate" />
 		</uni-list>
 		{{code}}
 		<!-- #ifndef MP -->
@@ -89,7 +89,6 @@
 				hasPwd: false,
 				showLoginManage: true ,//通过页面传参隐藏登录&退出登录按钮
 				setNicknameIng:false,
-				code: '',
 			}
 		},
 		async onShow() {
@@ -271,15 +270,10 @@
 					url: '/pages/me/order'
 				})
 			},
-			codeBtn(){
-				uni.scanCode({
-					onlyFromCamera: true,
-					success (res) {
-						this.code = res.result;
-						console.log('条码类型：' + res.scanType);
-						console.log('条码内容：' + res.result);
-					}
-				});
+			codeNavigate(){
+				uni.navigateTo({
+					url: '/pages/me/check'
+				})
 			},
 		}
 	}

@@ -11,6 +11,7 @@ if (!Math) {
   "./pages/me/index.js";
   "./pages/me/order.js";
   "./pages/me/oritem.js";
+  "./pages/me/check.js";
   "./pages/yuyue/send.js";
   "./pages/yuyue/take.js";
   "./uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate.js";

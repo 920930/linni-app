@@ -3,163 +3,260 @@
 		ref='dbRef'
 		v-slot:default="{data, loading, error}"
 		collection="web-order"
-		:where="`uid == $cloudEnv_uid && _id == '${id}'`"
+		loadtime="manual"
+		:where="`uid == $cloudEnv_uid && _id == '${info.id}'`"
 		:getone="true"
 	>
-		<view v-if="loading">loading...</view>
-		<template v-else>
-			<view v-if="error">出错了。。。</view>
-			<template v-if="data">
-				<navigator url='http://www.zcfsjt.com'>h5页面</navigator>
-				<view class="item">
-					<view class="item-title">订单详情</view>
-					<view class="item-main">
-						<view>
-							<text class="item-main-black">订单编号：</text><text>{{data._id}}</text>
-						</view>
-						<view>
-							<text class="item-main-black">公司名称：</text><text>{{store.userInfo.nickname}}</text>
-						</view>
-						<view>
-							<text class="item-main-black">联系电话：</text><text>{{store.userInfo.mobile}}</text>
-						</view>
-					</view>
+		<!-- <view v-if="loading">loading...</view> -->
+		<view v-if="data" class="bg">
+			<view class="main">
+				<view class="main-header">
+					<view class="main-header-title">{{store.userInfo.nickname}}</view>
+					<text class="main-header-desc">编号：{{data._id}}</text>
 				</view>
-				<view class="bg" />
-				<view class="item">
-					<view class="item-title">预约信息</view>
-					<view class="item-main">
-						<view>
-							<text class="item-main-black">入园时段：</text>
-							<uni-dateformat :date="data.start" format="yyyy-MM-dd hh:mm" class="or-black" />-<uni-dateformat :date="data.end" class="or-black" format="hh:mm" />
-						</view>
-						<view>
-							<text class="item-main-black">车辆信息：</text><text>{{data.car}}</text>
-						</view>
-						<view>
-							<text class="item-main-black">货品类型：</text>
-							<text v-for="item in data.genre" :key="item">{{item}} </text>
-						</view>
-					</view>
+				<view class="main-time">
+					<uni-dateformat :date="data.start" format="yyyy-MM-dd hh:mm" class="or-black" />-<uni-dateformat :date="data.end" class="or-black" format="hh:mm" />
 				</view>
-				<view class="bg" />
-				<view style="padding: 20rpx;">
-					<view class="item-title">凭证核销入园</view>
-					<template v-if="data.state === 1">
-						<view class="code" v-if="data.start < Date.now() && data.end > Date.now()">
-							<uv-qrcode ref="qrcode" :options="codeopt" value="https://h5.uvui.cn" />
-							<view class="code-info">
-								<uni-dateformat :date="data.start" format="yyyy-MM-dd" style="margin-right: 8rpx;" />
-								<uni-dateformat :date="data.start" class="code-info-color" format="hh:mm" />-<uni-dateformat :date="data.end" class="code-info-color" format="hh:mm" />
-							</view>
-							<text class="code-text">请向管理员出示核销码</text>
-						</view>
-						<view class="code" v-else-if="data.end < Date.now()">
-							<text class="code-text">已过期，请重新预约</text>
-						</view>
-						<view class="code" v-else>
-							<text class="code-text">未到核销时间</text>
-						</view>
-					</template>
-					<template v-if="data.state === 0">
-						<view class="code">
-							<text class="code-text">您已取消本次预约</text>
-						</view>
-					</template>
-					<template v-if="data.state === 2">
-						<view class="code">
-							<text class="code-text">您已完成本次预约</text>
-						</view>
-					</template>
+				<view class="main-code">
+					<uv-qrcode ref="qrcode" :options="codeopt" value="data._id" @tap="toUrl(data._id)" />
 				</view>
-			</template>
-		</template>
+				<view class="main-text" :style="`color: ${codeActive.color}`">{{codeActive.desc}}</view>
+				<view style="text-align: center;">
+					<button class="main-btn" hover-class="main-btn-hover" :loading="info.load" :disabled="info.disabled" @tap="resetBtn">刷新状态</button>
+				</view>
+			</view>
+			<view class="more">
+				<view class="more-title">
+					<text>最新预约</text>
+					<uni-icons type="right" size="15" />
+				</view>
+				<text class="more-desc">返回查询最近的预约历史记录</text>
+				<uni-icons type="list" size="40" class="more-bg" />
+			</view>
+			<view class="yy">
+				<view class="yy-item">
+					<view class="yy-item-title">立即预约</view>
+					<text class="yy-item-desc">预约新的入园申请</text>
+					<uni-icons type="list" size="40" class="yy-item-bg" />
+				</view>
+				<view class="yy-item">
+					<view class="yy-item-title">取消预约</view>
+					<text class="yy-item-desc">取消本次预约</text>
+					<uni-icons type="list" size="40" class="yy-item-bg" />
+				</view>
+			</view>
+		</view>
 	</unicloud-db>
+	<view class="" style="height: 1800rpx;">
+		
+	</view>
 </template>
 
 <script setup>
 import { onReady, onLoad } from '@dcloudio/uni-app';
 import { computed, reactive, ref } from 'vue';
 import {store} from '@/uni_modules/uni-id-pages/common/store.js';
-
-const id = ref('');
 // db前端ref
 const dbRef = ref();
 // 二维码ref
 const qrcode = ref();
-const where = ref(`_id == '${id}' && uid == $cloudEnv_uid`)
-const avatar = computed(() => store.userInfo.avatar_file.url || 'https://www.uvui.cn/common/logo.png')
+const avatar = computed(() => store.userInfo.avatar_file.url || 'https://www.uvui.cn/common/logo.png');
+const info = reactive({
+	id: '',
+	load: false,
+	disabled: false,
+});
+const code = ref({
+	current: 0,
+	value: '',
+})
+const codeInfo = [
+	{color: '#86909c', desc: '过期：请刷新二维码'},
+	{color: '#27a468', desc: '绿码：请扫码核实进入园区'},
+	{color: '#ffb400', desc: '黄码：未到预约时间 请等待'},
+	{color: '#f53f3f', desc: '红码：预约已过期 请重新预约'},
+	{color: '#b71de8', desc: '紫码：您已完成预约'},
+	{color: '#165dff', desc: '蓝码：您已取消本次预约'},
+];
+const codeActive = computed(() => codeInfo[code.current]);
 const codeopt = reactive({
+	data: 'https://www.zcfsjt.com',
 	size: 200,
+	// 二维码颜色
+	foregroundColor: '#27a468',
+	// 二维码背景 后景色
+	// areaColor: 'rgba(0, 0, 0, 0.1)',
+	margin: 10,
+	// 二维码背景 前景色
+	backgroundColor: 'white',
 	foregroundImageSrc: avatar,
 	foregroundImageBorderRadius: 10,
 })
 
-onLoad(e => {
-	id.value = e.id;
-});
-// onReady(() => {
-// 	dbRef.value.loadData()
-// });
+onLoad(e => info.id = e.id);
+onReady(() => {
+	uni.setNavigationBarColor({
+		frontColor: '#ffffff',
+		backgroundColor: '#1576df',
+	})
+	resetBtn()
+})
+const toUrl = (id) => {
+	uni.navigateTo({
+		url: '/pages/me/check?id='+id
+	})
+}
+// 获取数据更新
+const resetBtn = async () => {
+	info.load = true;
+	dbRef.value.loadData({}, (datav) => {
+		info.load = false;
+		console.log(datav)
+		if(datav.state == 1){
+			const now = Date.now();
+			if(now < datav.start) {
+				code.current = 2;
+			} else if (now > datav.start && now < datav.end) {
+				code.current = 1;
+				setTimeout(() => resetTime(), 10000)
+			} else {
+				code.current = 3;
+			}
+		}else if(datav.state == 0){
+			// 取消预约
+			code.current = 5;
+		}else{
+			// 完成的预约
+			code.current = 4;
+		}
+		code.value = `${datav._id},${code.current}`;
+		resetTime(codeInfo[code.current].color, 100);
+	});
+}
+// 过期重置数据
+const resetTime = (color = '#86909c', t = 10000) => {
+	setTimeout(() => {
+		codeopt.foregroundColor = color;
+	}, t)
+}
 </script>
 
 <style lang="scss" scoped>
-.bg{
-	background-color: rgba(0, 0, 0, 0.05);
-	height: 20rpx;
+.bg {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(to bottom, rgb(21, 118, 223) 30%, white);
+	z-index: -2;
 }
-.item{
-	padding: 20rpx;
-	border-radius: 6rpx;
-	&-title{
-		border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
-		padding-bottom: 10rpx;
-		padding-left: 16rpx;
-		position: relative;
-		font-size: $uni-font-size-base;
-		&:before{
-			content: '';
-			position: absolute;
-			left: 0;
-			top: 17%;
-			width: 6rpx;
-			height: 50%;
-			background-color: #0cc0b0;
-			display: inline-block;
-			border-radius: 5rpx;
-		}
-	}
-	&-main{
-		background-color: white;
-		padding-top: 20rpx;
+.main{
+	background-color: white;
+	margin: 30rpx 3% 0;
+	border-radius: 20rpx;
+	padding: 25rpx;
+	font-size: $uni-font-size-base;
+	&-header{
+		border-bottom: 1rpx solid rgba(0,0,0,0.1);
 		font-size: $uni-font-size-sm;
-		display: flex;
-		flex-direction: column;
-		gap: 10rpx;
-		color: $uni-text-color-grey;
-		&-black{
-			color: $uni-text-color;
+		padding-bottom: 12rpx;
+		&-title{
+			margin-bottom: 10rpx;
+			font-weight: bold;
+			font-size: $uni-font-size-base;
+		}
+		&-desc{
+			color: $uni-text-color-grey;
 		}
 	}
-}
-.code{
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	margin-top: 30rpx;
-	&-info{
-		background-color: rgba(0, 0, 0, 0.1);
-		margin: 20rpx 0;
-		padding: 4rpx 20rpx;
-		border-radius: 50rpx;
-		font-size: $uni-font-size-base;
-		&-color{
-			color: $uni-color-primary;
-		}
+	&-time{
+		margin-top: 20rpx;
+		text-align: center;
+		font-weight: bold;
+		font-size: $uni-font-size-lg;
+	}
+	&-code{
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	&-text{
+		text-align: center;
+		color: #27a468;
+		font-weight: bold;
+	}
+	&-btn{
+		display: inline-block;
+		text-align: center;
+		width: 180px;
+		margin-top: 20rpx;
+		font-size: 36rpx;
+		border-radius: 50rpx;
+		background: linear-gradient(to right, #7f96f3, #3757ec);
+		color: white;
+		border: 5rpx solid #6572e7;
+	}
+	&-btn-hover{
+		transition: all 0.3s;
+		background: linear-gradient(to right, #168cff, #165dff);
+	}
+}
+.more{
+	margin: 1rpx 3% 30rpx;
+	background-color: white;
+	border-radius: 20rpx;
+	padding: 25rpx;
+	font-size: $uni-font-size-base;
+	position: relative;
+	box-shadow: 0 1rpx 10rpx 3rpx rgba(0,0,0,0.05);
+	&-title{
+		font-weight: bold;
+		margin-bottom: 6rpx;
+		display: flex;
+		align-items: center;
+		gap: 6rpx;
+	}
+	&-desc{
 		font-size: $uni-font-size-sm;
-		color: $uni-text-color;
+		color: $uni-text-color-grey;
+	}
+	&-bg{
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		color: #fff;
+	}
+}
+.yy{
+	display: flex;
+	gap: 30rpx;
+	margin: 30rpx 3%;
+	&-item{
+		flex: 1;
+		background-color: white;
+		border-radius: 20rpx;
+		box-shadow: 0 1rpx 10rpx 5rpx rgba(0,0,0,0.05);
+		padding: 25rpx;
+		font-size: $uni-font-size-base;
+		position: relative;
+		&-title{
+			font-weight: bold;
+			margin-bottom: 6rpx;
+			display: flex;
+			align-items: center;
+			gap: 6rpx;
+		}
+		&-desc{
+			font-size: $uni-font-size-sm;
+			color: $uni-text-color-grey;
+		}
+		&-bg{
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			color: #fff;
+		}
 	}
 }
 </style>

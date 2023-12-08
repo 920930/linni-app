@@ -33,8 +33,7 @@ const _sfc_main = {
       hasPwd: false,
       showLoginManage: true,
       //通过页面传参隐藏登录&退出登录按钮
-      setNicknameIng: false,
-      code: ""
+      setNicknameIng: false
     };
   },
   async onShow() {
@@ -192,14 +191,9 @@ const _sfc_main = {
         url: "/pages/me/order"
       });
     },
-    codeBtn() {
-      common_vendor.index.scanCode({
-        onlyFromCamera: true,
-        success(res) {
-          this.code = res.result;
-          console.log("条码类型：" + res.scanType);
-          console.log("条码内容：" + res.result);
-        }
+    codeNavigate() {
+      common_vendor.index.navigateTo({
+        url: "/pages/me/check"
       });
     }
   }
@@ -309,13 +303,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       accordion: true
     })
   } : {
-    x: common_vendor.o($options.codeBtn),
+    x: common_vendor.o($options.codeNavigate),
     y: common_vendor.p({
       title: "扫码",
       link: true
     })
   }, {
-    z: common_vendor.t($data.code),
+    z: common_vendor.t(_ctx.code),
     A: common_vendor.o($options.setNickname),
     B: common_vendor.p({
       mode: "input",
