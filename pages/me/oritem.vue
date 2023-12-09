@@ -22,7 +22,7 @@
 				</view>
 				<view class="main-text" :style="`color: ${codeActive.color}`">{{codeActive.desc}}</view>
 				<view style="text-align: center;">
-					<button class="main-btn" hover-class="main-btn-hover" :loading="info.load" :disabled="info.disabled" @tap="resetBtn">刷新状态</button>
+					<button class="main-btn" hover-class="main-btn-hover" :loading="info.load" @tap="resetBtn">刷新状态~</button>
 				</view>
 			</view>
 			<view class="more">
@@ -47,9 +47,6 @@
 			</view>
 		</view>
 	</unicloud-db>
-	<view class="" style="height: 1800rpx;">
-		
-	</view>
 </template>
 
 <script setup>
@@ -108,6 +105,7 @@ const toUrl = (id) => {
 }
 // 获取数据更新
 const resetBtn = async () => {
+	console.log(222)
 	info.load = true;
 	dbRef.value.loadData({}, (datav) => {
 		info.load = false;
@@ -149,7 +147,7 @@ const resetTime = (color = '#86909c', t = 10000) => {
 	left: 0;
 	right: 0;
 	background: linear-gradient(to bottom, rgb(21, 118, 223) 30%, white);
-	z-index: -2;
+	z-index: -100;
 }
 .main{
 	background-color: white;
@@ -196,6 +194,7 @@ const resetTime = (color = '#86909c', t = 10000) => {
 		background: linear-gradient(to right, #7f96f3, #3757ec);
 		color: white;
 		border: 5rpx solid #6572e7;
+		box-sizing: border-box;
 	}
 	&-btn-hover{
 		transition: all 0.3s;

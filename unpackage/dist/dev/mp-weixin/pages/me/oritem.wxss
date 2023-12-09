@@ -30,7 +30,7 @@
   left: 0;
   right: 0;
   background: linear-gradient(to bottom, #1576df 30%, white);
-  z-index: -2;
+  z-index: -100;
 }
 .main.data-v-9e31f644 {
   background-color: white;
@@ -78,6 +78,7 @@
   background: linear-gradient(to right, #7f96f3, #3757ec);
   color: white;
   border: 5rpx solid #6572e7;
+  box-sizing: border-box;
 }
 .main-btn-hover.data-v-9e31f644 {
   transition: all 0.3s;

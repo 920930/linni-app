@@ -67,6 +67,7 @@ const _sfc_main = {
       });
     };
     const resetBtn = async () => {
+      console.log(222);
       info.load = true;
       dbRef.value.loadData({}, (datav) => {
         info.load = false;
@@ -129,31 +130,30 @@ const _sfc_main = {
             l: common_vendor.t(common_vendor.unref(codeActive).desc),
             m: common_vendor.s(`color: ${common_vendor.unref(codeActive).color}`),
             n: info.load,
-            o: info.disabled,
-            p: common_vendor.o(resetBtn),
-            q: "9e31f644-4-" + i0 + ",9e31f644-0",
-            r: common_vendor.p({
+            o: common_vendor.o(resetBtn),
+            p: "9e31f644-4-" + i0 + ",9e31f644-0",
+            q: common_vendor.p({
               type: "right",
               size: "15"
             }),
-            s: "9e31f644-5-" + i0 + ",9e31f644-0",
-            t: common_vendor.p({
+            r: "9e31f644-5-" + i0 + ",9e31f644-0",
+            s: common_vendor.p({
               type: "list",
               size: "40"
             }),
-            v: "9e31f644-6-" + i0 + ",9e31f644-0",
-            w: common_vendor.p({
+            t: "9e31f644-6-" + i0 + ",9e31f644-0",
+            v: common_vendor.p({
               type: "list",
               size: "40"
             }),
-            x: "9e31f644-7-" + i0 + ",9e31f644-0",
-            y: common_vendor.p({
+            w: "9e31f644-7-" + i0 + ",9e31f644-0",
+            x: common_vendor.p({
               type: "list",
               size: "40"
             })
           } : {}, {
-            z: i0,
-            A: s0
+            y: i0,
+            z: s0
           });
         }, {
           name: "d",
