@@ -25,7 +25,7 @@
 					<button class="main-btn" hover-class="main-btn-hover" :loading="info.load" @tap="resetBtn">刷新状态~</button>
 				</view>
 			</view>
-			<view class="more">
+			<view class="more" @tap="backBtn">
 				<view class="more-title">
 					<text>最新预约</text>
 					<uni-icons type="right" size="15" />
@@ -34,12 +34,12 @@
 				<uni-icons type="list" size="40" class="more-bg" />
 			</view>
 			<view class="yy">
-				<view class="yy-item">
+				<view class="yy-item" @tap="newyuyueBtn">
 					<view class="yy-item-title">立即预约</view>
 					<text class="yy-item-desc">预约新的入园申请</text>
 					<uni-icons type="list" size="40" class="yy-item-bg" />
 				</view>
-				<view class="yy-item">
+				<view class="yy-item" @tap="updateOrderBtn">
 					<view class="yy-item-title">取消预约</view>
 					<text class="yy-item-desc">取消本次预约</text>
 					<uni-icons type="list" size="40" class="yy-item-bg" />
@@ -63,17 +63,18 @@ const info = reactive({
 	load: false,
 	disabled: false,
 });
+// current 0表示5分钟显示过期了，1参考codeInfo
 const code = ref({
 	current: 0,
 	value: '',
 })
 const codeInfo = [
-	{color: '#86909c', desc: '过期：请刷新二维码'},
-	{color: '#27a468', desc: '绿码：请扫码核实进入园区'},
-	{color: '#ffb400', desc: '黄码：未到预约时间 请等待'},
-	{color: '#f53f3f', desc: '红码：预约已过期 请重新预约'},
-	{color: '#b71de8', desc: '紫码：您已完成预约'},
-	{color: '#165dff', desc: '蓝码：您已取消本次预约'},
+	{id: 0, color: '#86909c', desc: '过期：请刷新二维码'},
+	{id: 1, color: '#27a468', desc: '绿码：请扫码核实进入园区'},
+	{id: 2, color: '#ffb400', desc: '黄码：未到预约时间 请等待'},
+	{id: 3, color: '#f53f3f', desc: '红码：预约已过期 请重新预约'},
+	{id: 4, color: '#b71de8', desc: '紫码：您已完成预约'},
+	{id: 5, color: '#165dff', desc: '蓝码：您已取消本次预约'},
 ];
 const codeActive = computed(() => codeInfo[code.current]);
 const codeopt = reactive({
@@ -105,7 +106,6 @@ const toUrl = (id) => {
 }
 // 获取数据更新
 const resetBtn = async () => {
-	console.log(222)
 	info.load = true;
 	dbRef.value.loadData({}, (datav) => {
 		info.load = false;
@@ -136,6 +136,27 @@ const resetTime = (color = '#86909c', t = 10000) => {
 	setTimeout(() => {
 		codeopt.foregroundColor = color;
 	}, t)
+}
+const backBtn = () => uni.navigateBack();
+const newyuyueBtn = () => {
+	uni.redirectTo({
+		url: 'pages/yuyue/send',
+	})
+}
+const updateOrderBtn = () => {
+	if(![0, 1, 2, 5].includes(code.current)){
+		return uni.showToast({
+			title: '已过期/完成',
+			icon: 'none'
+		})
+	}
+	dbRef.value.update(info.id, { state: 0 }, {
+		toastTitle: '修改成功',
+		success(res) { // 更新成功后的回调
+			console.log(res)
+			resetBtn()
+		},
+	})
 }
 </script>
 

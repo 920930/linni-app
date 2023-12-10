@@ -32,12 +32,12 @@ const _sfc_main = {
       value: ""
     });
     const codeInfo = [
-      { color: "#86909c", desc: "过期：请刷新二维码" },
-      { color: "#27a468", desc: "绿码：请扫码核实进入园区" },
-      { color: "#ffb400", desc: "黄码：未到预约时间 请等待" },
-      { color: "#f53f3f", desc: "红码：预约已过期 请重新预约" },
-      { color: "#b71de8", desc: "紫码：您已完成预约" },
-      { color: "#165dff", desc: "蓝码：您已取消本次预约" }
+      { id: 0, color: "#86909c", desc: "过期：请刷新二维码" },
+      { id: 1, color: "#27a468", desc: "绿码：请扫码核实进入园区" },
+      { id: 2, color: "#ffb400", desc: "黄码：未到预约时间 请等待" },
+      { id: 3, color: "#f53f3f", desc: "红码：预约已过期 请重新预约" },
+      { id: 4, color: "#b71de8", desc: "紫码：您已完成预约" },
+      { id: 5, color: "#165dff", desc: "蓝码：您已取消本次预约" }
     ];
     const codeActive = common_vendor.computed(() => codeInfo[code.current]);
     const codeopt = common_vendor.reactive({
@@ -67,7 +67,6 @@ const _sfc_main = {
       });
     };
     const resetBtn = async () => {
-      console.log(222);
       info.load = true;
       dbRef.value.loadData({}, (datav) => {
         info.load = false;
@@ -95,6 +94,27 @@ const _sfc_main = {
       setTimeout(() => {
         codeopt.foregroundColor = color;
       }, t);
+    };
+    const backBtn = () => common_vendor.index.navigateBack();
+    const newyuyueBtn = () => {
+      common_vendor.index.redirectTo({
+        url: "pages/yuyue/send"
+      });
+    };
+    const updateOrderBtn = () => {
+      if (![0, 1, 2, 5].includes(code.current)) {
+        return common_vendor.index.showToast({
+          title: "已过期/完成",
+          icon: "none"
+        });
+      }
+      dbRef.value.update(info.id, { state: 0 }, {
+        toastTitle: "修改成功",
+        success(res) {
+          console.log(res);
+          resetBtn();
+        }
+      });
     };
     return (_ctx, _cache) => {
       return {
@@ -141,19 +161,22 @@ const _sfc_main = {
               type: "list",
               size: "40"
             }),
-            t: "9e31f644-6-" + i0 + ",9e31f644-0",
-            v: common_vendor.p({
+            t: common_vendor.o(backBtn),
+            v: "9e31f644-6-" + i0 + ",9e31f644-0",
+            w: common_vendor.p({
               type: "list",
               size: "40"
             }),
-            w: "9e31f644-7-" + i0 + ",9e31f644-0",
-            x: common_vendor.p({
+            x: common_vendor.o(newyuyueBtn),
+            y: "9e31f644-7-" + i0 + ",9e31f644-0",
+            z: common_vendor.p({
               type: "list",
               size: "40"
-            })
+            }),
+            A: common_vendor.o(updateOrderBtn)
           } : {}, {
-            y: i0,
-            z: s0
+            B: i0,
+            C: s0
           });
         }, {
           name: "d",
