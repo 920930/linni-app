@@ -75,7 +75,7 @@ module.exports = {
 		const orders = await this.orderDb.where(`start >= ${start} && end <= ${end}`).get();
 		// 查询当前用户是否已经预约
 		// const one = await this.orderDb.where(`uid == $cloudEnv_uid && start >= ${start} && end <= ${end}`).get({getOne: true});
-		const one = orders.data.find(or => or.uid == this.authInfo.uid);
+		const one = orders.data.find(or => or.uid == this.authInfo.uid && or.state !== 0);
 		if(one) {
 			return {
 				errCode: "error 213",

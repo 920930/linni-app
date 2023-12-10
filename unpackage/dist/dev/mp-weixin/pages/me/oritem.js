@@ -22,14 +22,11 @@ const _sfc_main = {
     const dbRef = common_vendor.ref();
     const qrcode = common_vendor.ref();
     const avatar = common_vendor.computed(() => uni_modules_uniIdPages_common_store.store.userInfo.avatar_file.url || "https://www.uvui.cn/common/logo.png");
-    const info = common_vendor.reactive({
+    const code = common_vendor.reactive({
       id: "",
-      load: false,
-      disabled: false
-    });
-    const code = common_vendor.ref({
       current: 0,
-      value: ""
+      value: "",
+      load: false
     });
     const codeInfo = [
       { id: 0, color: "#86909c", desc: "过期：请刷新二维码" },
@@ -53,7 +50,7 @@ const _sfc_main = {
       foregroundImageSrc: avatar,
       foregroundImageBorderRadius: 10
     });
-    common_vendor.onLoad((e) => info.id = e.id);
+    common_vendor.onLoad((e) => code.id = e.id);
     common_vendor.onReady(() => {
       common_vendor.index.setNavigationBarColor({
         frontColor: "#ffffff",
@@ -67,9 +64,9 @@ const _sfc_main = {
       });
     };
     const resetBtn = async () => {
-      info.load = true;
+      code.load = true;
       dbRef.value.loadData({}, (datav) => {
-        info.load = false;
+        code.load = false;
         console.log(datav);
         if (datav.state == 1) {
           const now = Date.now();
@@ -91,27 +88,24 @@ const _sfc_main = {
       });
     };
     const resetTime = (color = "#86909c", t = 1e4) => {
-      setTimeout(() => {
-        codeopt.foregroundColor = color;
-      }, t);
+      setTimeout(() => codeopt.foregroundColor = color, t);
     };
     const backBtn = () => common_vendor.index.navigateBack();
     const newyuyueBtn = () => {
       common_vendor.index.redirectTo({
-        url: "pages/yuyue/send"
+        url: "/pages/yuyue/send"
       });
     };
     const updateOrderBtn = () => {
-      if (![0, 1, 2, 5].includes(code.current)) {
+      if ([3, 4, 5].includes(code.current)) {
         return common_vendor.index.showToast({
-          title: "已过期/完成",
+          title: "已过期/已完成",
           icon: "none"
         });
       }
-      dbRef.value.update(info.id, { state: 0 }, {
+      dbRef.value.update(code.id, { state: 0 }, {
         toastTitle: "修改成功",
         success(res) {
-          console.log(res);
           resetBtn();
         }
       });
@@ -149,7 +143,7 @@ const _sfc_main = {
             }),
             l: common_vendor.t(common_vendor.unref(codeActive).desc),
             m: common_vendor.s(`color: ${common_vendor.unref(codeActive).color}`),
-            n: info.load,
+            n: code.load,
             o: common_vendor.o(resetBtn),
             p: "9e31f644-4-" + i0 + ",9e31f644-0",
             q: common_vendor.p({
@@ -189,7 +183,7 @@ const _sfc_main = {
         c: common_vendor.p({
           collection: "web-order",
           loadtime: "manual",
-          where: `uid == $cloudEnv_uid && _id == '${info.id}'`,
+          where: `uid == $cloudEnv_uid && _id == '${code.id}'`,
           getone: true
         })
       };

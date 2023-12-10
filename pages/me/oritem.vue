@@ -4,7 +4,7 @@
 		v-slot:default="{data, loading, error}"
 		collection="web-order"
 		loadtime="manual"
-		:where="`uid == $cloudEnv_uid && _id == '${info.id}'`"
+		:where="`uid == $cloudEnv_uid && _id == '${code.id}'`"
 		:getone="true"
 	>
 		<!-- <view v-if="loading">loading...</view> -->
@@ -22,7 +22,7 @@
 				</view>
 				<view class="main-text" :style="`color: ${codeActive.color}`">{{codeActive.desc}}</view>
 				<view style="text-align: center;">
-					<button class="main-btn" hover-class="main-btn-hover" :loading="info.load" @tap="resetBtn">刷新状态~</button>
+					<button class="main-btn" hover-class="main-btn-hover" :loading="code.load" @tap="resetBtn">刷新状态~</button>
 				</view>
 			</view>
 			<view class="more" @tap="backBtn">
@@ -58,15 +58,12 @@ const dbRef = ref();
 // 二维码ref
 const qrcode = ref();
 const avatar = computed(() => store.userInfo.avatar_file.url || 'https://www.uvui.cn/common/logo.png');
-const info = reactive({
+// id为当前order的_id current 0表示5分钟显示过期了，1参考codeInfo
+const code = reactive({
 	id: '',
-	load: false,
-	disabled: false,
-});
-// current 0表示5分钟显示过期了，1参考codeInfo
-const code = ref({
 	current: 0,
 	value: '',
+	load: false,
 })
 const codeInfo = [
 	{id: 0, color: '#86909c', desc: '过期：请刷新二维码'},
@@ -91,7 +88,7 @@ const codeopt = reactive({
 	foregroundImageBorderRadius: 10,
 })
 
-onLoad(e => info.id = e.id);
+onLoad(e => code.id = e.id);
 onReady(() => {
 	uni.setNavigationBarColor({
 		frontColor: '#ffffff',
@@ -106,26 +103,24 @@ const toUrl = (id) => {
 }
 // 获取数据更新
 const resetBtn = async () => {
-	info.load = true;
+	code.load = true;
 	dbRef.value.loadData({}, (datav) => {
-		info.load = false;
+		code.load = false;
 		console.log(datav)
 		if(datav.state == 1){
 			const now = Date.now();
 			if(now < datav.start) {
-				code.current = 2;
+				code.current = 2; // 未到时间
 			} else if (now > datav.start && now < datav.end) {
-				code.current = 1;
+				code.current = 1; // 正当时
 				setTimeout(() => resetTime(), 10000)
 			} else {
-				code.current = 3;
+				code.current = 3; // 未入园，已过期
 			}
 		}else if(datav.state == 0){
-			// 取消预约
-			code.current = 5;
+			code.current = 5;// 取消预约
 		}else{
-			// 完成的预约
-			code.current = 4;
+			code.current = 4;// 完成的预约
 		}
 		code.value = `${datav._id},${code.current}`;
 		resetTime(codeInfo[code.current].color, 100);
@@ -133,27 +128,24 @@ const resetBtn = async () => {
 }
 // 过期重置数据
 const resetTime = (color = '#86909c', t = 10000) => {
-	setTimeout(() => {
-		codeopt.foregroundColor = color;
-	}, t)
+	setTimeout(() => codeopt.foregroundColor = color, t)
 }
 const backBtn = () => uni.navigateBack();
 const newyuyueBtn = () => {
 	uni.redirectTo({
-		url: 'pages/yuyue/send',
+		url: '/pages/yuyue/send',
 	})
 }
 const updateOrderBtn = () => {
-	if(![0, 1, 2, 5].includes(code.current)){
+	if([3,4,5].includes(code.current)){
 		return uni.showToast({
-			title: '已过期/完成',
+			title: '已过期/已完成',
 			icon: 'none'
 		})
 	}
-	dbRef.value.update(info.id, { state: 0 }, {
+	dbRef.value.update(code.id, { state: 0 }, {
 		toastTitle: '修改成功',
 		success(res) { // 更新成功后的回调
-			console.log(res)
 			resetBtn()
 		},
 	})
