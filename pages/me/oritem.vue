@@ -98,7 +98,7 @@ onReady(() => {
 })
 const toUrl = (id) => {
 	uni.navigateTo({
-		url: '/pages/me/check?id='+id
+		url: '/pages/me/check?id='+code.value
 	})
 }
 // 获取数据更新

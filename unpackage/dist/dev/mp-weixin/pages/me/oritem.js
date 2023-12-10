@@ -60,7 +60,7 @@ const _sfc_main = {
     });
     const toUrl = (id) => {
       common_vendor.index.navigateTo({
-        url: "/pages/me/check?id=" + id
+        url: "/pages/me/check?id=" + code.value
       });
     };
     const resetBtn = async () => {

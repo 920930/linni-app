@@ -29,9 +29,24 @@
   margin: 20rpx 3%;
 }
 .user-img.data-v-cfc884da {
-  width: 200rpx;
+  width: 160rpx;
+  border-radius: 10rpx;
 }
 .user-info.data-v-cfc884da {
   flex: 1;
   font-size: 14px;
+}
+.user-info-item.data-v-cfc884da {
+  margin-bottom: 15rpx;
+  color: #808080;
+}
+.user-info-item-title.data-v-cfc884da {
+  font-weight: bold;
+  color: #333;
+}
+.btn.data-v-cfc884da {
+  margin: 0 3% 30rpx;
+}
+.msg.data-v-cfc884da {
+  text-align: center;
 }
