@@ -50,3 +50,10 @@
 .msg.data-v-cfc884da {
   text-align: center;
 }
+.info.data-v-cfc884da {
+  margin: 30rpx 3%;
+}
+.info-item.data-v-cfc884da {
+  display: flex;
+  align-items: center;
+}

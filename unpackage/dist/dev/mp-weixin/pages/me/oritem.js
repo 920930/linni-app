@@ -58,11 +58,6 @@ const _sfc_main = {
       });
       resetBtn();
     });
-    const toUrl = (id) => {
-      common_vendor.index.navigateTo({
-        url: "/pages/me/check?id=" + code.value
-      });
-    };
     const resetBtn = async () => {
       code.load = true;
       dbRef.value.loadData({}, (datav) => {
@@ -135,42 +130,41 @@ const _sfc_main = {
             h: common_vendor.sr(qrcode, "9e31f644-3-" + i0 + ",9e31f644-0", {
               "k": "qrcode"
             }),
-            i: common_vendor.o(($event) => toUrl(data._id)),
-            j: "9e31f644-3-" + i0 + ",9e31f644-0",
-            k: common_vendor.p({
+            i: "9e31f644-3-" + i0 + ",9e31f644-0",
+            j: common_vendor.p({
               options: codeopt,
-              value: "data._id"
+              value: code.value
             }),
-            l: common_vendor.t(common_vendor.unref(codeActive).desc),
-            m: common_vendor.s(`color: ${common_vendor.unref(codeActive).color}`),
-            n: code.load,
-            o: common_vendor.o(resetBtn),
-            p: "9e31f644-4-" + i0 + ",9e31f644-0",
-            q: common_vendor.p({
+            k: common_vendor.t(common_vendor.unref(codeActive).desc),
+            l: common_vendor.s(`color: ${common_vendor.unref(codeActive).color}`),
+            m: code.load,
+            n: common_vendor.o(resetBtn),
+            o: "9e31f644-4-" + i0 + ",9e31f644-0",
+            p: common_vendor.p({
               type: "right",
               size: "15"
             }),
-            r: "9e31f644-5-" + i0 + ",9e31f644-0",
-            s: common_vendor.p({
+            q: "9e31f644-5-" + i0 + ",9e31f644-0",
+            r: common_vendor.p({
               type: "list",
               size: "40"
             }),
-            t: common_vendor.o(backBtn),
-            v: "9e31f644-6-" + i0 + ",9e31f644-0",
-            w: common_vendor.p({
+            s: common_vendor.o(backBtn),
+            t: "9e31f644-6-" + i0 + ",9e31f644-0",
+            v: common_vendor.p({
               type: "list",
               size: "40"
             }),
-            x: common_vendor.o(newyuyueBtn),
-            y: "9e31f644-7-" + i0 + ",9e31f644-0",
-            z: common_vendor.p({
+            w: common_vendor.o(newyuyueBtn),
+            x: "9e31f644-7-" + i0 + ",9e31f644-0",
+            y: common_vendor.p({
               type: "list",
               size: "40"
             }),
-            A: common_vendor.o(updateOrderBtn)
+            z: common_vendor.o(updateOrderBtn)
           } : {}, {
-            B: i0,
-            C: s0
+            A: i0,
+            B: s0
           });
         }, {
           name: "d",

@@ -33,9 +33,9 @@ const _sfc_main = {
         url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
       });
     };
-    const yuyueBtn = () => {
+    const yuyueBtn = (number) => {
       common_vendor.index.navigateTo({
-        url: hasLogin.value ? "/pages/yuyue/send" : "/pages/login/login"
+        url: hasLogin.value ? number === 0 ? "/pages/yuyue/send" : "/pages/me/check" : "/pages/login/login"
       });
     };
     return (_ctx, _cache) => {
@@ -73,14 +73,14 @@ const _sfc_main = {
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        j: common_vendor.o(yuyueBtn)
+        j: common_vendor.o(($event) => yuyueBtn(1))
       } : {
         k: common_vendor.p({
           type: "right",
           size: "20",
           color: "rgba(0, 0, 0, 0.4)"
         }),
-        l: common_vendor.o(yuyueBtn),
+        l: common_vendor.o(($event) => yuyueBtn(0)),
         m: common_vendor.p({
           type: "right",
           size: "20",

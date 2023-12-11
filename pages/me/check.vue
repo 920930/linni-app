@@ -1,4 +1,5 @@
 <template>
+	<view class="">您好，开启新的一听吧</view>
 	<view class="user">
 		<image class="user-img" mode="widthFix" :src="store.userInfo.avatar_file.url" />
 		<view class="user-info">
@@ -16,15 +17,18 @@
 			</view>
 		</view>
 	</view>
-	<button class="btn" type="warn" @tap="checkBtn" v-if="store.userInfo.role.includes('supplier')">扫码核验</button>
-	<view class="" v-if="code.current == 1">
-		
-	</view>
-	<view class="msg" v-else>{{codeMsg}}</view>
+	<button class="btn" type="warn" @tap="checkBtn" v-if="store.userInfo.role.includes('member')">扫码核验</button>
 	<unicloud-db ref='orderRef' v-slot:default="{data, loading, error}" loadtime="manual" collection="web-order" :getone="true" :where="`_id=='${code._id}'`">
-		<view v-if="loading">loading...</view>
-		{{ data }}
-		{{ error }}
+		<template v-if="loading">loading...</template>
+		<view class="info" v-if="data">
+			<view class="info-item">预约编号：{{data._id}}</view>
+			<view class="info-item">可入车辆：{{data.car}}</view>
+			<view class="info-item">货品类型：{{data.genre}}</view>
+			<view class="info-item">入园时间：
+				<uni-dateformat :date="data.start" format="yyyy-MM-dd hh:mm" class="or-black" />-<uni-dateformat :date="data.end" class="or-black" format="hh:mm" />
+			</view>
+			<button class="btn" type="primary" @tap="updateOrder">核验入场</button>
+		</view>
 	</unicloud-db>
 </template>
 
@@ -50,43 +54,53 @@ const msg = [
 const codeMsg = computed(() => msg[code.current]);
 const companyStore = useCompanyStore();
 const orderRef = ref();
-onLoad(e => {
-	if(!store.hasLogin || !store.userInfo.role.includes('supplier')){
+onLoad(() => {
+	if(!store.hasLogin || !store.userInfo.role.includes('member')){
 		uni.navigateBack()
 	}
-	const val = e.id.split(',');
-	code._id = val[0];
-	code.current = val[1];
 });
 
 const checkBtn = () => {
-	if(code.current === 1){
-		orderRef.value.loadData({clear: true}, datav => {
-			console.log(datav)
-		})
-	} else {
-		orderRef.value.loadData({clear: true}, datav => {
-			console.log(datav)
-		})
-		uni.showToast({
-			title: msg[code.current],
-			icon: 'none'
-		})
-	}
 	// 只允许通过相机扫码
-	// uni.scanCode({
-	// 	onlyFromCamera: true,
-	// 	success (res) {
-	// 		const val = res.result;
-	// 		code._id = val[0];
-	// 		code.current = val[1];
-	// 		if(code.current === 1){
-	// 			orderRef.value.loadData({clear: true}, datav => {
-	// 				console.log(datav)
-	// 			})
-	// 		}
-	// 	}
-	// });
+	uni.scanCode({
+		onlyFromCamera: true,
+		success (res) {
+			const val = res.result;
+			code._id = val[0];
+			code.current = val[1];
+			if(code.current === 1){
+				orderRef.value.loadData({clear: true})
+			} else {
+				orderRef.value.loadData({clear: true}, v=>{
+					uni.showToast({
+						title: v.car,
+						icon: 'none',
+						duration: 5000
+					})
+				})
+				uni.showToast({
+					title: msg[code.current],
+					icon: 'none',
+					duration: 3000
+				})
+			}
+		}
+	});
+}
+
+const updateOrder = () => {
+	// if(code.current !== 1){
+	// 	return uni.showToast({
+	// 		title: '车辆不在正确时间',
+	// 		icon: 'none'
+	// 	})
+	// }
+	orderRef.value.update(code._id, { state: 2 }, {
+		toastTitle: '修改成功',
+		success(res) { // 更新成功后的回调
+			code.showData = false;
+		},
+	})
 }
 </script>
 
@@ -117,5 +131,12 @@ const checkBtn = () => {
 }
 .msg{
 	text-align: center;
+}
+.info{
+	margin: 30rpx 3%;
+	&-item{
+		display: flex;
+		align-items: center;
+	}
 }
 </style>

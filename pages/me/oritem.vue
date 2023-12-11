@@ -18,7 +18,7 @@
 					<uni-dateformat :date="data.start" format="yyyy-MM-dd hh:mm" class="or-black" />-<uni-dateformat :date="data.end" class="or-black" format="hh:mm" />
 				</view>
 				<view class="main-code">
-					<uv-qrcode ref="qrcode" :options="codeopt" value="data._id" @tap="toUrl(data._id)" />
+					<uv-qrcode ref="qrcode" :options="codeopt" :value="code.value" />
 				</view>
 				<view class="main-text" :style="`color: ${codeActive.color}`">{{codeActive.desc}}</view>
 				<view style="text-align: center;">
@@ -96,11 +96,6 @@ onReady(() => {
 	})
 	resetBtn()
 })
-const toUrl = (id) => {
-	uni.navigateTo({
-		url: '/pages/me/check?id='+code.value
-	})
-}
 // 获取数据更新
 const resetBtn = async () => {
 	code.load = true;

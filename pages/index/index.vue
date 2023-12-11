@@ -34,7 +34,7 @@
 				<uni-icons type="right" size="20" color="rgba(0, 0, 0, 0.4)" />
 			</view>
 			<template v-if="hasLogin && userInfo.role && userInfo.role.includes('member')">
-				<view class="main-ul-li" @tap="yuyueBtn">
+				<view class="main-ul-li" @tap="yuyueBtn(1)">
 					<image src="../../static/index/index-code.png" class="main-ul-li-left" />
 					<view class="main-ul-li-center">
 						<text class="main-ul-li-center-t">扫码入场</text>
@@ -44,7 +44,7 @@
 				</view>
 			</template>
 			<template v-else>
-				<view class="main-ul-li" @tap="yuyueBtn">
+				<view class="main-ul-li" @tap="yuyueBtn(0)">
 					<image src="../../static/index/index-yy.png" class="main-ul-li-left" />
 					<view class="main-ul-li-center">
 						<text class="main-ul-li-center-t">电子提单</text>
@@ -110,9 +110,9 @@
 			url: "/uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile"
 		})
 	}
-	const yuyueBtn = () => {
+	const yuyueBtn = (number) => {
 		uni.navigateTo({
-			url: hasLogin.value ? '/pages/yuyue/send' : "/pages/login/login"
+			url: hasLogin.value ? number === 0 ? '/pages/yuyue/send' : '/pages/me/check' : "/pages/login/login"
 		})
 	}
 </script>
